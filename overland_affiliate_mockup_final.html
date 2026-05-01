@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overland Collective — Affiliate Integration Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --earth: #1c1a16;
+    --earth-mid: #2e2b24;
+    --earth-light: #3d3930;
+    --sand: #c9b99a;
+    --sand-light: #e8ddd0;
+    --dust: #f5f0e8;
+    --rust: #b84c1e;
+    --rust-light: #d4602a;
+    --moss: #4a5c3a;
+    --moss-light: #6b7f58;
+    --gold: #c9973a;
+    --gold-light: #e8b84a;
+    --white: #faf8f4;
+    --text-body: #2a2720;
+    --text-secondary: #6b6560;
+    --text-muted: #9a9590;
+    --border: rgba(0,0,0,0.12);
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Source Sans 3', sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--dust);
+    color: var(--text-body);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  .site-nav {
+    background: var(--earth);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-logo-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--rust);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+  .nav-brand-text {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sand-light);
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sand);
+    text-decoration: none;
+    opacity: 0.75;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-sub {
+    font-size: 11px;
+    color: var(--sand);
+    opacity: 0.45;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── TABS ── */
+  .view-tabs {
+    background: var(--earth-mid);
+    padding: 0 24px;
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .view-tab {
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sand);
+    opacity: 0.5;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    letter-spacing: 0.04em;
+    transition: all 0.15s;
+  }
+  .view-tab.active {
+    opacity: 1;
+    border-bottom-color: var(--rust);
+    color: var(--sand-light);
+  }
+  .view-tab-label {
+    font-size: 10px;
+    color: var(--rust-light);
+    margin-left: 6px;
+    background: rgba(184,76,30,0.2);
+    padding: 1px 6px;
+    border-radius: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+
+  /* ── ARTICLE HERO ── */
+  .article-hero {
+    background: var(--earth);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-img-placeholder {
+    width: 100%;
+    height: 420px;
+    background: linear-gradient(160deg, #1a2a1a 0%, #2e1e10 50%, #1c1a16 100%);
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-terrain {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 60% 40% at 30% 60%, rgba(74,92,58,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 70% 40%, rgba(184,76,30,0.2) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 30% at 50% 90%, rgba(0,0,0,0.6) 0%, transparent 60%);
+  }
+  .hero-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(201,183,154,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,183,154,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 32px 40px 36px;
+    max-width: 780px;
+  }
+  .hero-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--rust-light);
+    margin-bottom: 14px;
+  }
+  .hero-category::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--rust-light);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    max-width: 600px;
+  }
+  .hero-subtitle {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    color: var(--sand);
+    line-height: 1.55;
+    max-width: 520px;
+    margin-bottom: 20px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--sand);
+    opacity: 0.6;
+  }
+  .hero-meta span::after { content: '·'; margin-left: 16px; }
+  .hero-meta span:last-child::after { content: ''; }
+
+  /* ── ARTICLE LAYOUT ── */
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  @media (max-width: 800px) { .article-layout { grid-template-columns: 1fr; } }
+
+  /* ── ARTICLE BODY ── */
+  .article-body { min-width: 0; }
+  .article-lede {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--text-body);
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-text {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.75;
+    color: #3a3630;
+    margin-bottom: 20px;
+  }
+  .article-text strong {
+    font-weight: 600;
+    color: var(--text-body);
+  }
+  .section-head {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-body);
+    margin: 32px 0 14px;
+  }
+
+  /* ── INLINE AFFILIATE GEAR CARD ── */
+  .inline-gear-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rust);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin: 24px 0;
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    gap: 14px;
+    align-items: center;
+    position: relative;
+  }
+  .igc-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .igc-label {
+    position: absolute;
+    top: -9px;
+    left: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--rust);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .igc-brand {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .igc-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-body);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .igc-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .igc-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .igc-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-body);
+    margin-bottom: 8px;
+  }
+  .igc-btn {
+    display: block;
+    background: var(--rust);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: none;
+  }
+  .igc-commission {
+    font-size: 10px;
+    color: var(--moss-light);
+    margin-top: 5px;
+    text-align: center;
+  }
+
+  /* ── GEAR IN THIS BUILD MODULE ── */
+  .gear-build-module {
+    background: var(--earth);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 32px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .gbm-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(184,76,30,0.15), transparent 60%);
+  }
+  .gbm-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .gbm-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .gbm-subtitle {
+    font-size: 12px;
+    color: var(--sand);
+    opacity: 0.55;
+  }
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  @media (max-width: 600px) { .gear-grid { grid-template-columns: 1fr 1fr; } }
+  .gear-item {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 7px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .gear-item:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(184,76,30,0.5);
+  }
+  .gear-item-icon { font-size: 22px; margin-bottom: 7px; }
+  .gear-item-brand {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--rust-light);
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  .gear-item-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sand-light);
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+  .gear-item-price {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .gear-item-link {
+    font-size: 10px;
+    color: var(--sand);
+    opacity: 0.5;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* ── INLINE QUOTE / AFFILIATE NOTE ── */
+  .affiliate-callout {
+    background: linear-gradient(135deg, #f0ece3 0%, #e8ddd0 100%);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 28px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .ac-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ac-text {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-body);
+    font-style: italic;
+  }
+  .ac-text em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--rust);
+  }
+  .ac-disclosure {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-style: normal;
+    font-family: var(--font-body);
+  }
+
+  /* ── SIDEBAR ── */
+  .article-sidebar { }
+  .sidebar-widget {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .sw-header {
+    background: var(--earth-mid);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sw-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sand);
+  }
+  .sw-badge {
+    font-size: 9px;
+    background: var(--rust);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 8px;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .sw-body { padding: 12px; }
+  .sidebar-product {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    cursor: pointer;
+  }
+  .sidebar-product:last-child { border-bottom: none; padding-bottom: 0; }
+  .sp-img {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    background: var(--dust);
+  }
+  .sp-brand {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .sp-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-body);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .sp-price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sp-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-body);
+  }
+  .sp-commission-badge {
+    font-size: 9px;
+    background: #edf4e6;
+    color: var(--moss);
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  /* ── NEWSLETTER WIDGET ── */
+  .nl-widget {
+    background: linear-gradient(145deg, var(--earth) 0%, var(--earth-light) 100%);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .nl-bg {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(184,76,30,0.3), transparent 70%);
+  }
+  .nl-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--rust-light);
+    margin-bottom: 8px;
+  }
+  .nl-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .nl-desc {
+    font-size: 12px;
+    color: var(--sand);
+    opacity: 0.7;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .nl-input {
+    width: 100%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 5px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 8px;
+    outline: none;
+    font-family: var(--font-body);
+  }
+  .nl-input::placeholder { color: rgba(255,255,255,0.35); }
+  .nl-btn {
+    width: 100%;
+    background: var(--rust);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .nl-fine {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* ── PARTNER STRIP ── */
+  .partner-strip {
+    background: var(--earth-mid);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    overflow-x: auto;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .ps-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sand);
+    opacity: 0.4;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ps-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .ps-brand {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sand);
+    opacity: 0.55;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    text-transform: uppercase;
+  }
+  .ps-brand:hover { opacity: 0.9; background: rgba(255,255,255,0.06); }
+  .ps-brand.active { opacity: 1; color: var(--gold); }
+
+  /* ── PROGRAM VIEW ── */
+  .program-view {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+  .pv-header {
+    margin-bottom: 32px;
+  }
+  .pv-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-body);
+    margin-bottom: 6px;
+  }
+  .pv-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+
+  .program-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 700px) { .program-grid { grid-template-columns: 1fr; } }
+
+  .program-card {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .pc-head {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pc-property {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+    margin-bottom: 4px;
+  }
+  .pc-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-body);
+    margin-bottom: 2px;
+  }
+  .pc-desc { font-size: 12px; color: var(--text-secondary); }
+  .pc-body { padding: 12px 16px; }
+  .pc-stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .pc-stat-row:last-child { border-bottom: none; }
+  .pc-stat-label { color: var(--text-secondary); }
+  .pc-stat-value { font-weight: 600; color: var(--text-body); }
+  .pc-stat-value.green { color: var(--moss); }
+  .pc-stat-value.gold { color: var(--gold); }
+  .pc-stat-value.rust { color: var(--rust); }
+
+  .partner-table {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .pt-header {
+    background: var(--earth-mid);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pt-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sand-light);
+  }
+  .pt-count {
+    font-size: 10px;
+    background: rgba(255,255,255,0.1);
+    color: var(--sand);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .pt-grid-head {
+    display: grid;
+    grid-template-columns: 180px 1fr 90px 90px 90px 110px;
+    gap: 0;
+    padding: 8px 20px;
+    background: var(--dust);
+    border-bottom: 1px solid var(--border);
+  }
+  .pt-col-head {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .pt-row {
+    display: grid;
+    grid-template-columns: 180px 1fr 90px 90px 90px 110px;
+    gap: 0;
+    padding: 11px 20px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.1s;
+  }
+  .pt-row:last-child { border-bottom: none; }
+  .pt-row:hover { background: var(--dust); }
+  .pt-brand-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pt-brand-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    background: var(--dust);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .pt-brand-name { font-size: 13px; font-weight: 600; color: var(--text-body); }
+  .pt-cat { font-size: 10px; color: var(--text-muted); }
+  .pt-cell { font-size: 13px; color: var(--text-secondary); }
+  .pt-cell.bold { color: var(--text-body); font-weight: 600; }
+  .pt-cell.green { color: var(--moss); font-weight: 600; }
+  .pt-cell.gold { color: var(--gold); font-weight: 600; }
+  .pt-tier {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.04em;
+  }
+  .tier-gold { background: rgba(201,151,58,0.15); color: #a07020; }
+  .tier-silver { background: rgba(120,120,130,0.12); color: #606070; }
+  .tier-bronze { background: rgba(160,100,60,0.12); color: #8a5030; }
+
+  .rev-model {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 700px) { .rev-model { grid-template-columns: 1fr 1fr; } }
+  .rm-card {
+    background: var(--white);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .rm-icon { font-size: 22px; margin-bottom: 8px; }
+  .rm-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .rm-value {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-body);
+    margin-bottom: 2px;
+  }
+  .rm-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* ── DISCLOSURE BANNER ── */
+  .disclosure-banner {
+    background: rgba(74,92,58,0.08);
+    border-top: 1px solid rgba(74,92,58,0.15);
+    padding: 10px 24px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .db-icon { font-size: 13px; }
+
+  /* ── ANNOTATION LAYER ── */
+  .annotation {
+    position: relative;
+    display: inline-block;
+  }
+  .ann-marker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: var(--rust);
+    color: white;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: middle;
+    cursor: help;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .empty-state-note {
+    background: rgba(184,76,30,0.06);
+    border: 1px dashed rgba(184,76,30,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    color: var(--rust);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-brand">
+    <div class="nav-logo-mark">OC</div>
+    <span class="nav-brand-text">Overland Collective</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">Expedition Portal</a></li>
+    <li><a href="#">XOVERLAND</a></li>
+    <li><a href="#">Journal</a></li>
+    <li><a href="#">Gear</a></li>
+    <li><a href="#">Community</a></li>
+  </ul>
+  <span class="nav-sub">Affiliate Overview · May 2026</span>
+</nav>
+
+<!-- VIEW TABS -->
+<div class="view-tabs">
+  <button class="view-tab active" onclick="switchView('editorial')">
+    Editorial View <span class="view-tab-label">Reader</span>
+  </button>
+  <button class="view-tab" onclick="switchView('audience')">
+    Audience Profile <span class="view-tab-label">Insight</span>
+  </button>
+  <button class="view-tab" onclick="switchView('program')">
+    Program View <span class="view-tab-label">Framework</span>
+  </button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     VIEW 1: EDITORIAL
+════════════════════════════════════════════════ -->
+<div id="view-editorial" class="view-panel active">
+
+  <!-- Article Hero -->
+  <div class="article-hero">
+    <div class="hero-img-placeholder">
+      <div class="hero-terrain"></div>
+      <div class="hero-grid-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-category">Gear Review · Expedition Portal</div>
+        <h1 class="hero-title">Building the Ultimate 4-Day Overland Rig for Under $8K</h1>
+        <p class="hero-subtitle">Our editors spec out a full truck build — fridge to rooftop — using the same gear we've tested across 170 countries.</p>
+        <div class="hero-meta">
+          <span>By Scott Brady</span>
+          <span>Expedition Portal</span>
+          <span>12 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partner Strip -->
+  <div class="partner-strip">
+    <span class="ps-label">Partners in this build</span>
+    <div class="ps-divider"></div>
+    <span class="ps-brand active">ARB</span>
+    <span class="ps-brand">Dometic</span>
+    <span class="ps-brand">REDARC</span>
+    <span class="ps-brand">iKamper</span>
+    <span class="ps-brand">Goal Zero</span>
+    <span class="ps-brand">Garmin</span>
+    <span class="ps-brand">Yakima</span>
+  </div>
+
+  <!-- Article Body + Sidebar -->
+  <div class="article-layout">
+
+    <!-- BODY -->
+    <div class="article-body">
+
+      <div class="disclosure-banner" style="margin: 0 0 24px; border-radius: 7px; border: 1px solid rgba(74,92,58,0.15);">
+        <span class="db-icon">🔗</span>
+        <span>Some links in this article are affiliate links. Expedition Portal earns a commission at no cost to you — and we only link to gear we've actually used in the field.</span>
+      </div>
+
+      <p class="article-lede">After running six build configurations across the Africa long-axis, the Japan Ittekimasu series, and two Alaska crossings, our editorial team landed on a core kit that consistently outperformed everything else on durability, weight, and field-repairability.</p>
+
+      <p class="article-text">The mistake most first-time builders make is starting with the roof. The roof tent is the headline item — easy to photograph, easy to talk about — but it's the last thing you should spec. <strong>Start with power, then cooling, then sleep.</strong> Everything else is weight you're choosing to carry.</p>
+
+      <div class="section-head">Power: The Foundation of Everything Else</div>
+
+      <p class="article-text">We've run every major dual-battery system available, and nothing has matched the REDARC BCDC in reliability across temperature extremes. In the Sahara crossing, it held charging efficiency at 42°C ambient. In Norway, it performed cleanly down to -18°C.</p>
+
+      <!-- INLINE GEAR CARD #1 -->
+      <div class="inline-gear-card">
+        <span class="igc-label">Editor's Pick</span>
+        <div class="igc-img" style="background: #eaf0f7;">🔋</div>
+        <div>
+          <div class="igc-brand">REDARC</div>
+          <div class="igc-name">BCDC 1225D Dual Battery Charger</div>
+          <div class="igc-desc">40A in-vehicle charger with solar input. The one we've run on three Africa crossings without a single failure.</div>
+        </div>
+        <div class="igc-right">
+          <div class="igc-price">$429</div>
+          <button class="igc-btn">Shop REDARC →</button>
+          <div class="igc-commission">✓ Affiliate link · 8% commission</div>
+        </div>
+      </div>
+
+      <p class="article-text">Pair the BCDC with a 100Ah lithium (we use Renogy on budget builds, Battle Born when weight matters), and you have enough reserve to run a Dometic 50L fridge for 36+ hours without charging. That's the spec that changed how we approach multi-day desert crossings.</p>
+
+      <div class="affiliate-callout">
+        <span class="ac-icon">🧊</span>
+        <div>
+          <div class="ac-text">"The <em>Dometic CFX3 55</em> has been in our kit since the 2022 Nordic series. It's lighter than the Engel, cools faster than the ARB, and the app integration is the one feature we actually use in the field."</div>
+          <div class="ac-disclosure">— Scott Brady, Editorial Director · Affiliate link below</div>
+        </div>
+      </div>
+
+      <!-- INLINE GEAR CARD #2 -->
+      <div class="inline-gear-card">
+        <span class="igc-label">Field Tested</span>
+        <div class="igc-img" style="background: #e8f4ee;">❄️</div>
+        <div>
+          <div class="igc-brand">Dometic</div>
+          <div class="igc-name">CFX3 55 Powered Cooler</div>
+          <div class="igc-desc">55L portable fridge-freezer. WiFi-connected, runs to -22°F. Used in 12 consecutive OC expeditions.</div>
+        </div>
+        <div class="igc-right">
+          <div class="igc-price">$1,099</div>
+          <button class="igc-btn">Shop Dometic →</button>
+          <div class="igc-commission">✓ Affiliate link · 6% commission</div>
+        </div>
+      </div>
+
+      <div class="section-head">Gear in This Build</div>
+      <p class="article-text">Every item below was used in the field on at least two expeditions. Links are affiliate — click them and you help fund the next season.</p>
+
+      <!-- GEAR IN THIS BUILD MODULE -->
+      <div class="gear-build-module">
+        <div class="gbm-bg"></div>
+        <div class="gbm-header">
+          <div class="gbm-title">Complete Build List</div>
+          <div class="gbm-subtitle">7 items · All field-tested · Affiliate links active</div>
+        </div>
+        <div class="gear-grid">
+          <div class="gear-item">
+            <div class="gear-item-icon">🔋</div>
+            <div class="gear-item-brand">REDARC</div>
+            <div class="gear-item-name">BCDC 1225D Charger</div>
+            <div class="gear-item-price">$429</div>
+            <div class="gear-item-link">Shop → ARB 4x4</div>
+          </div>
+          <div class="gear-item">
+            <div class="gear-item-icon">❄️</div>
+            <div class="gear-item-brand">Dometic</div>
+            <div class="gear-item-name">CFX3 55 Fridge</div>
+            <div class="gear-item-price">$1,099</div>
+            <div class="gear-item-link">Shop → Dometic</div>
+          </div>
+          <div class="gear-item">
+            <div class="gear-item-icon">⛺</div>
+            <div class="gear-item-brand">iKamper</div>
+            <div class="gear-item-name">Skycamp 3.0 RTT</div>
+            <div class="gear-item-price">$3,299</div>
+            <div class="gear-item-link">Shop → iKamper</div>
+          </div>
+          <div class="gear-item">
+            <div class="gear-item-icon">🛡️</div>
+            <div class="gear-item-brand">ARB</div>
+            <div class="gear-item-name">Summit Bull Bar</div>
+            <div class="gear-item-price">$1,190</div>
+            <div class="gear-item-link">Shop → ARB 4x4</div>
+          </div>
+          <div class="gear-item">
+            <div class="gear-item-icon">🌞</div>
+            <div class="gear-item-brand">Goal Zero</div>
+            <div class="gear-item-name">Ranger 300 Panel</div>
+            <div class="gear-item-price">$399</div>
+            <div class="gear-item-link">Shop → Goal Zero</div>
+          </div>
+          <div class="gear-item">
+            <div class="gear-item-icon">🗺️</div>
+            <div class="gear-item-brand">Garmin</div>
+            <div class="gear-item-name">inReach Mini 2</div>
+            <div class="gear-item-price">$349</div>
+            <div class="gear-item-link">Shop → Garmin</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+
+      <!-- EDITOR'S PICKS WIDGET -->
+      <div class="sidebar-widget">
+        <div class="sw-header">
+          <span class="sw-title">Editor's Top Picks</span>
+          <span class="sw-badge">Affiliate</span>
+        </div>
+        <div class="sw-body">
+          <div class="sidebar-product">
+            <div class="sp-img">🛡️</div>
+            <div>
+              <div class="sp-brand">ARB</div>
+              <div class="sp-name">Air Locker Locking Differential</div>
+              <div class="sp-price-row">
+                <span class="sp-price">$699</span>
+                <span class="sp-commission-badge">10% comm.</span>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-product">
+            <div class="sp-img">⚡</div>
+            <div>
+              <div class="sp-brand">REDARC</div>
+              <div class="sp-name">Manager30 System</div>
+              <div class="sp-price-row">
+                <span class="sp-price">$589</span>
+                <span class="sp-commission-badge">8% comm.</span>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-product">
+            <div class="sp-img">🏕️</div>
+            <div>
+              <div class="sp-brand">23Zero</div>
+              <div class="sp-name">Walkabout 62" Awning</div>
+              <div class="sp-price-row">
+                <span class="sp-price">$549</span>
+                <span class="sp-commission-badge">7% comm.</span>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-product">
+            <div class="sp-img">🌞</div>
+            <div>
+              <div class="sp-brand">Goal Zero</div>
+              <div class="sp-name">Yeti 1000X Power Station</div>
+              <div class="sp-price-row">
+                <span class="sp-price">$999</span>
+                <span class="sp-commission-badge">5% comm.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEWSLETTER WIDGET -->
+      <div class="nl-widget">
+        <div class="nl-bg"></div>
+        <div class="nl-label">The Expedition Debrief</div>
+        <div class="nl-title">Gear picks. Field notes. Expedition updates.</div>
+        <div class="nl-desc">256,000 readers get our weekly edit of what's worth buying before the next adventure.</div>
+        <input class="nl-input" type="email" placeholder="your@email.com">
+        <button class="nl-btn">Join the Debrief →</button>
+        <div class="nl-fine">No ads. No spam. Affiliate links disclosed. Unsubscribe any time.</div>
+      </div>
+
+      <!-- BRAND SPOTLIGHT WIDGET -->
+      <div class="sidebar-widget">
+        <div class="sw-header">
+          <span class="sw-title">Brand Spotlight</span>
+        </div>
+        <div class="sw-body" style="padding: 14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <div style="width:40px;height:40px;background:#e8f0f8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">🛡️</div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--text-body);">ARB 4x4 Accessories</div>
+              <div style="font-size:11px;color:var(--text-muted);">Official OC Partner · 12 years</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.55;margin-bottom:12px;">ARB has outfitted every XOVERLAND expedition vehicle since Season 1. They're an OC partner because the gear earns its place — not because of the deal.</div>
+          <button class="igc-btn" style="width:100%;display:block;">Shop ARB Gear →</button>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <div class="disclosure-banner">
+    <span class="db-icon">ℹ️</span>
+    <span>Expedition Portal participates in affiliate programs. When you purchase through our links, we may earn a commission. This does not affect our editorial recommendations — we only link gear we've tested in the field.</span>
+  </div>
+
+</div><!-- end editorial view -->
+
+<!-- ══════════════════════════════════════════════
+     VIEW 2: AUDIENCE PROFILE
+════════════════════════════════════════════════ -->
+<div id="view-audience" class="view-panel">
+<div class="program-view">
+
+  <div class="pv-header">
+    <div class="pv-title">Who This Audience Is — and Why It Converts</div>
+    <div class="pv-subtitle">Overland's audience is not broad outdoor traffic. It is a concentrated, vehicle-based adventure community that researches before it buys.</div>
+  </div>
+
+  <!-- AUDIENCE STAT CARDS -->
+  <div class="section-label">Reach Across the Ecosystem</div>
+  <div class="rev-model">
+    <div class="rm-card">
+      <div class="rm-icon">🧭</div>
+      <div class="rm-label">Monthly Unique Visitors</div>
+      <div class="rm-value">600K+</div>
+      <div class="rm-desc">Expedition Portal. Avg 6:30 on site, 7 pages per visit — well above outdoor media norms</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">💬</div>
+      <div class="rm-label">Forum Community</div>
+      <div class="rm-value">180K+</div>
+      <div class="rm-desc">Registered members · 157K threads · 2.5M posts · 25K+ monthly forum interactions</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">📡</div>
+      <div class="rm-label">Monthly Ecosystem Reach</div>
+      <div class="rm-value">4.3M</div>
+      <div class="rm-desc">Engagements across digital, print, email, podcast, video, events, and social combined</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">📬</div>
+      <div class="rm-label">Email Subscribers</div>
+      <div class="rm-value">256K</div>
+      <div class="rm-desc">Opted-in, gear-focused, high-intent — the strongest affiliate surface in the portfolio</div>
+    </div>
+  </div>
+
+  <!-- WHY THIS AUDIENCE -->
+  <div class="section-label">Why This Audience Is Commercially Attractive</div>
+  <div class="program-grid" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Research Behavior</div>
+        <div class="pc-title">They buy after doing homework</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Avg. time on site</span><span class="pc-stat-value green">6 min 30 sec</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Pages per visit</span><span class="pc-stat-value green">7 pages</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Signal</span><span class="pc-stat-value">Deliberate research, not passive scrolling</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate implication</span><span class="pc-stat-value">High conversion on technical, field-tested recommendations</span></div>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Community Validation</div>
+        <div class="pc-title">Peer trust drives purchase decisions</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Forum posts total</span><span class="pc-stat-value">2.5M</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Monthly interactions</span><span class="pc-stat-value">25K+</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Signal</span><span class="pc-stat-value">Audience cross-checks editorial in the forum before buying</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate implication</span><span class="pc-stat-value">Editorial + forum together close the loop on considered purchases</span></div>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Premium Category Spend</div>
+        <div class="pc-title">High AOV, low impulse</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Typical gear spend range</span><span class="pc-stat-value">$300 – $4,000+</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Top categories</span><span class="pc-stat-value">Recovery, power, shelter, nav</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Signal</span><span class="pc-stat-value">Buyers are comparing specs, not hunting discounts</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate implication</span><span class="pc-stat-value">Higher commission per conversion even at standard rates</span></div>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Credibility Sensitivity</div>
+        <div class="pc-title">They trust field-use over press releases</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">OJ zero advertorial policy</span><span class="pc-stat-value rust">Non-negotiable</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Audience tolerance for ads</span><span class="pc-stat-value">Low — but high for field-proven gear</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Signal</span><span class="pc-stat-value">Trust is the product — affiliate works when it's editorial-native</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate implication</span><span class="pc-stat-value">Links inside honest reviews outperform banner placements</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANNELS + CONTENT TYPES -->
+  <div class="section-label">Where Affiliate Lives — Channels and Content Formats</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;">
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">Expedition Portal · Articles</div>
+        <div class="pc-title">Highest Volume Surface</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Field-tested reviews</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Buyer's guides</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Build lists / "rig specs"</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Gift guides</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">News / event coverage</span><span class="pc-stat-value gold">Selective</span></div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">Overland Journal · Newsletter</div>
+        <div class="pc-title">Highest Intent Surface</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Gear of the issue feature</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Field-tested picks</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Expedition gear summaries</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Branded editorial placement</span><span class="pc-stat-value rust">Not permitted</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Volume</span><span class="pc-stat-value gold">Selective · High-trust only</span></div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">XOVERLAND · YouTube / Amazon</div>
+        <div class="pc-title">Largest Untapped Surface</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Episode gear pages</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Video description links</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Pinned comment gear lists</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Season build recaps</span><span class="pc-stat-value gold">Opportunity</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Current affiliate activity</span><span class="pc-stat-value rust">Largely absent</span></div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">Expedition Portal · Forum</div>
+        <div class="pc-title">Community Conversion Layer</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Gear comparison threads</span><span class="pc-stat-value green">✓ Natural fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">"What I run" style posts</span><span class="pc-stat-value green">✓ Natural fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Build advice threads</span><span class="pc-stat-value green">✓ Natural fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Approach</span><span class="pc-stat-value gold">Links in context, not promotion</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Sensitivity</span><span class="pc-stat-value rust">Community-first, commercial-second</span></div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">Overland Journal · Podcast</div>
+        <div class="pc-title">Trust + Attribution Layer</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Sponsor mention + link</span><span class="pc-stat-value green">✓ Standard fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Show notes gear links</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Promo codes</span><span class="pc-stat-value gold">Trackable alternative</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Attribution method</span><span class="pc-stat-value gold">Promo code or vanity URL</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Volume</span><span class="pc-stat-value">Moderate · recurring</span></div>
+      </div>
+    </div>
+
+    <div class="program-card">
+      <div class="pc-head" style="background:rgba(74,92,58,0.08);">
+        <div class="pc-property" style="color:var(--moss-light);">Events · Overland Ranch</div>
+        <div class="pc-title">Physical + Digital Bridge</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Event sponsor → affiliate</span><span class="pc-stat-value green">✓ Natural extension</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Post-event gear recaps</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">On-site demo → link</span><span class="pc-stat-value gold">Opportunity</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Coverage article links</span><span class="pc-stat-value green">✓ Best fit</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Volume</span><span class="pc-stat-value">Seasonal · event-driven</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BEST-FIT CATEGORIES -->
+  <div class="section-label">Best-Fit Affiliate Categories for This Audience</div>
+  <div style="background:var(--earth-mid);border-radius:10px;padding:20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--rust-light);margin-bottom:10px;">Strong Fit</div>
+      <div style="font-size:12px;color:var(--sand);line-height:2.1;">Recovery & protection<br>Dual-battery & power systems<br>Rooftop tents & shelters<br>Navigation & satellite comms<br>Camp power & lighting<br>Drawer & storage systems</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold-light);margin-bottom:10px;">Moderate Fit</div>
+      <div style="font-size:12px;color:var(--sand);line-height:2.1;">Premium apparel & footwear<br>Adventure maps & route tools<br>Coolers & drinkware<br>Racks & transport<br>Knives & EDC tools<br>Portable cooking systems</div>
+    </div>
+    <div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:10px;">Weaker Fit</div>
+      <div style="font-size:12px;color:var(--sand);opacity:.55;line-height:2.1;">Commodity outdoor gear<br>Impulse / low-consideration items<br>Generic lifestyle products<br>Vehicle OEM direct purchases<br>Tire brands (sponsorship track)<br>Mass-market retail categories</div>
+    </div>
+  </div>
+
+</div>
+</div><!-- end audience view -->
+
+<!-- ══════════════════════════════════════════════
+     VIEW 3: PROGRAM (FRAMEWORK)
+════════════════════════════════════════════════ -->
+<div id="view-program" class="view-panel">
+<div class="program-view">
+
+  <div class="pv-header">
+    <div class="pv-title">Affiliate Program — Framework Overview</div>
+    <div class="pv-subtitle">Property breakdown, partner tiers, revenue model, and what the program looks like once built.</div>
+  </div>
+
+  <div class="empty-state-note">
+    <span>📋</span>
+    <span>This framework is based on an initial landscape review of Expedition Portal content and publicly available audience data. Confirmed partner relationships, network access, and current revenue baselines would sharpen every number here.</span>
+  </div>
+
+  <!-- REVENUE MODEL CARDS -->
+  <div class="section-label">Audience & Reach at a Glance</div>
+  <div class="rev-model">
+    <div class="rm-card">
+      <div class="rm-icon">🔗</div>
+      <div class="rm-label">Affiliate Penetration Today</div>
+      <div class="rm-value">10.5%</div>
+      <div class="rm-desc">371 of 3,500+ outbound merchant links currently carry affiliate tracking — significant upside in the existing archive</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">📧</div>
+      <div class="rm-label">Email Subscribers</div>
+      <div class="rm-value">256K</div>
+      <div class="rm-desc">Highest-intent affiliate surface across all properties — curated, opted-in, gear-focused audience</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">👁️</div>
+      <div class="rm-label">Monthly Pageviews</div>
+      <div class="rm-value">2.9M</div>
+      <div class="rm-desc">Expedition Portal alone. Avg 6:30 on site, 7 pages/visit — research behavior, not casual browsing</div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-icon">📺</div>
+      <div class="rm-label">Video Minutes Watched</div>
+      <div class="rm-value">258M</div>
+      <div class="rm-desc">YouTube + 74M+ on Amazon Prime. Video description links and episode gear pages are an underutilized affiliate surface</div>
+    </div>
+  </div>
+
+  <!-- PROPERTY BREAKDOWN -->
+  <div class="section-label">Property Breakdown</div>
+  <div class="program-grid">
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Expedition Portal</div>
+        <div class="pc-title">Articles + Forum + Sidebar</div>
+        <div class="pc-desc">Primary affiliate surface — gear reviews, build guides, buyer content, and an active forum community</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Unique visitors/month</span><span class="pc-stat-value">600K+</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Monthly pageviews</span><span class="pc-stat-value">2.9M</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Forum members</span><span class="pc-stat-value">180K+ registered</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Best format</span><span class="pc-stat-value green">Inline gear cards + build lists</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate opportunity</span><span class="pc-stat-value gold">High — 7,000+ articles</span></div>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">XOVERLAND</div>
+        <div class="pc-title">YouTube + Amazon Prime</div>
+        <div class="pc-desc">Episode gear lists, video descriptions, and pinned links — mid-funnel, aspirational audience</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">YouTube minutes watched</span><span class="pc-stat-value">258M</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Amazon Prime minutes</span><span class="pc-stat-value">74M+</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Best format</span><span class="pc-stat-value green">Episode gear page</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Conversion profile</span><span class="pc-stat-value">Mid-funnel / aspirational</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate opportunity</span><span class="pc-stat-value rust">Largely untapped</span></div>
+      </div>
+    </div>
+    <div class="program-card">
+      <div class="pc-head">
+        <div class="pc-property">Overland Journal</div>
+        <div class="pc-title">Print + Digital + Newsletter</div>
+        <div class="pc-desc">Highest-credibility property. Zero advertorial policy and 30% ad cap shape how affiliate integrates here.</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-stat-row"><span class="pc-stat-label">Published</span><span class="pc-stat-value">5x/year · 136 pages</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Email subscribers</span><span class="pc-stat-value">256K</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Best format</span><span class="pc-stat-value green">Field-tested · Gear of the issue</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Zero advertorial policy</span><span class="pc-stat-value rust">Editorial-native only</span></div>
+        <div class="pc-stat-row"><span class="pc-stat-label">Affiliate approach</span><span class="pc-stat-value">Selective · High-fit brands only</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTNER TABLE -->
+  <div class="section-label">Brand Partner Tiers</div>
+  <div class="partner-table">
+    <div class="pt-header">
+      <span class="pt-title">Affiliate Partner List</span>
+      <span class="pt-count">9 partners shown</span>
+    </div>
+    <div class="pt-grid-head">
+      <div class="pt-col-head">Brand</div>
+      <div class="pt-col-head">Category</div>
+      <div class="pt-col-head">Commission</div>
+      <div class="pt-col-head">AOV Est.</div>
+      <div class="pt-col-head">Platform</div>
+      <div class="pt-col-head">Tier</div>
+    </div>
+    <!-- Rows -->
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🛡️</div><div><div class="pt-brand-name">ARB</div></div></div>
+      <div class="pt-cell">Recovery / Protection</div>
+      <div class="pt-cell green">10%</div>
+      <div class="pt-cell bold">$850</div>
+      <div class="pt-cell">AvantLink</div>
+      <div class="pt-cell"><span class="pt-tier tier-gold">Gold</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">❄️</div><div><div class="pt-brand-name">Dometic</div></div></div>
+      <div class="pt-cell">Fridge / Camp</div>
+      <div class="pt-cell green">6%</div>
+      <div class="pt-cell bold">$1,100</div>
+      <div class="pt-cell">AvantLink</div>
+      <div class="pt-cell"><span class="pt-tier tier-gold">Gold</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">⚡</div><div><div class="pt-brand-name">REDARC</div></div></div>
+      <div class="pt-cell">Power Systems</div>
+      <div class="pt-cell green">8%</div>
+      <div class="pt-cell bold">$480</div>
+      <div class="pt-cell">Impact</div>
+      <div class="pt-cell"><span class="pt-tier tier-gold">Gold</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">⛺</div><div><div class="pt-brand-name">iKamper</div></div></div>
+      <div class="pt-cell">Rooftop Tents</div>
+      <div class="pt-cell green">7%</div>
+      <div class="pt-cell bold">$3,200</div>
+      <div class="pt-cell">AvantLink</div>
+      <div class="pt-cell"><span class="pt-tier tier-silver">Silver</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🌞</div><div><div class="pt-brand-name">Goal Zero</div></div></div>
+      <div class="pt-cell">Solar / Power</div>
+      <div class="pt-cell green">5%</div>
+      <div class="pt-cell bold">$780</div>
+      <div class="pt-cell">ShareASale</div>
+      <div class="pt-cell"><span class="pt-tier tier-silver">Silver</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🗺️</div><div><div class="pt-brand-name">Garmin</div></div></div>
+      <div class="pt-cell">Navigation / Safety</div>
+      <div class="pt-cell">4%</div>
+      <div class="pt-cell bold">$420</div>
+      <div class="pt-cell">AvantLink</div>
+      <div class="pt-cell"><span class="pt-tier tier-silver">Silver</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🔥</div><div><div class="pt-brand-name">BioLite</div></div></div>
+      <div class="pt-cell">Camp Power / Lighting / Stoves</div>
+      <div class="pt-cell green">8%</div>
+      <div class="pt-cell bold">$80</div>
+      <div class="pt-cell">Partnerize</div>
+      <div class="pt-cell"><span class="pt-tier tier-silver">Silver</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🏕️</div><div><div class="pt-brand-name">23Zero</div></div></div>
+      <div class="pt-cell">Camping Systems</div>
+      <div class="pt-cell">7%</div>
+      <div class="pt-cell bold">$620</div>
+      <div class="pt-cell">Avantlink</div>
+      <div class="pt-cell"><span class="pt-tier tier-bronze">Bronze</span></div>
+    </div>
+    <div class="pt-row">
+      <div class="pt-brand-cell"><div class="pt-brand-icon">🔧</div><div><div class="pt-brand-name">Yakima</div></div></div>
+      <div class="pt-cell">Rack Systems</div>
+      <div class="pt-cell">6%</div>
+      <div class="pt-cell bold">$340</div>
+      <div class="pt-cell">CJ Affiliate</div>
+      <div class="pt-cell"><span class="pt-tier tier-bronze">Bronze</span></div>
+    </div>
+  </div>
+
+</div>
+</div><!-- end program view -->
+
+<script>
+function switchView(id) {
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
