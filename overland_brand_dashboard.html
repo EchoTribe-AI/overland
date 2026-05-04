@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overland Collective — Brand Partner Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --earth: #1a1712; --earth-2: #252118; --earth-3: #302c22; --earth-4: #3e392e;
+  --sand: #c4b49a; --sand-2: #ddd0bc; --sand-3: #f0e8db;
+  --dust: #f7f3ec; --rust: #b84820; --rust-2: #d05528; --rust-3: #e8703f;
+  --moss: #3a5230; --moss-2: #4f6e43; --moss-3: #6a8e5c;
+  --gold: #b08020; --gold-2: #c99830; --gold-3: #e0b840;
+  --ink: #1a1814; --ink-2: #3a3630; --ink-3: #6a6460; --ink-4: #9a9490;
+  --white: #faf8f4; --border: rgba(26,23,18,0.10); --border-2: rgba(26,23,18,0.06);
+  --f-display: 'Playfair Display', Georgia, serif;
+  --f-body: 'DM Sans', sans-serif; --f-mono: 'DM Mono', monospace;
+  --sidebar-w: 220px; --header-h: 52px;
+}
+body { font-family: var(--f-body); background: var(--dust); color: var(--ink); font-size: 13px; line-height: 1.5; min-height: 100vh; }
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar { width: var(--sidebar-w); background: var(--earth); display: flex; flex-direction: column; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.04); }
+.sidebar-logo { padding: 18px 16px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.logo-mark { display: flex; align-items: center; gap: 8px; }
+.logo-icon { width: 28px; height: 28px; background: var(--rust); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-family: var(--f-display); font-weight: 700; font-size: 13px; color: white; }
+.logo-text { font-family: var(--f-display); font-size: 14px; font-weight: 600; color: var(--sand-2); }
+.logo-sub { font-size: 9px; color: var(--sand); opacity: 0.4; margin-top: 1px; letter-spacing: 0.08em; text-transform: uppercase; }
+.sidebar-section { padding: 14px 10px 6px; }
+.sidebar-section-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--sand); opacity: 0.35; padding: 0 8px; margin-bottom: 4px; }
+.nav-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; cursor: pointer; color: var(--sand); opacity: 0.55; font-size: 12px; font-weight: 500; transition: all 0.15s; margin-bottom: 1px; }
+.nav-item:hover { opacity: 0.85; background: rgba(255,255,255,0.04); }
+.nav-item.active { opacity: 1; background: rgba(184,72,32,0.2); color: var(--sand-2); }
+.nav-icon { font-size: 14px; width: 16px; text-align: center; flex-shrink: 0; }
+.nav-badge { margin-left: auto; font-size: 9px; font-family: var(--f-mono); background: rgba(184,72,32,0.25); color: var(--rust-3); padding: 1px 5px; border-radius: 8px; }
+.nav-badge.green { background: rgba(58,82,48,0.3); color: var(--moss-3); }
+.sidebar-bottom { margin-top: auto; padding: 12px 10px 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+.user-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 6px; }
+.user-avatar { width: 26px; height: 26px; background: var(--rust); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: white; flex-shrink: 0; }
+.user-name { font-size: 12px; font-weight: 500; color: var(--sand); opacity: 0.7; }
+.user-role { font-size: 10px; color: var(--sand); opacity: 0.35; }
+
+/* MAIN */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { height: var(--header-h); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 14px; flex-shrink: 0; }
+.page-title { font-family: var(--f-display); font-size: 16px; font-weight: 600; color: var(--ink); }
+.page-sub { font-size: 11px; color: var(--ink-3); }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; font-family: var(--f-body); transition: all 0.15s; }
+.btn-ghost { background: transparent; color: var(--ink-3); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--sand-3); color: var(--ink); }
+.btn-primary { background: var(--rust); color: white; }
+.btn-primary:hover { background: var(--rust-2); }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* KPI STRIP */
+.kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
+.kpi-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 13px 15px; position: relative; overflow: hidden; }
+.kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+.kpi-card.rust::before { background: var(--rust); }
+.kpi-card.moss::before { background: var(--moss-2); }
+.kpi-card.gold::before { background: var(--gold-2); }
+.kpi-card.sand::before { background: var(--sand); }
+.kpi-card.earth::before { background: var(--earth-4); }
+.kpi-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-4); margin-bottom: 5px; }
+.kpi-value { font-family: var(--f-display); font-size: 22px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 3px; line-height: 1; }
+.kpi-delta { font-size: 10px; font-family: var(--f-mono); }
+.kpi-delta.up { color: var(--moss-2); }
+.kpi-delta.neutral { color: var(--ink-4); }
+
+/* SEARCH */
+.search-bar-wrap { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search-input-wrap { display: flex; align-items: center; gap: 8px; background: var(--dust); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; min-width: 280px; }
+.search-input { border: none; background: none; outline: none; font-family: var(--f-body); font-size: 13px; color: var(--ink); flex: 1; }
+.search-input::placeholder { color: var(--ink-4); }
+.filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-pill { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: var(--ink-3); transition: all 0.15s; white-space: nowrap; }
+.filter-pill:hover, .filter-pill.active { background: var(--earth); color: var(--sand-2); border-color: var(--earth); }
+
+/* BRAND GRID */
+.brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.brand-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: all 0.15s; }
+.brand-card:hover { border-color: var(--rust); box-shadow: 0 2px 12px rgba(184,72,32,0.1); transform: translateY(-1px); }
+.brand-card.selected { border-color: var(--rust); box-shadow: 0 0 0 2px rgba(184,72,32,0.15); }
+.bc-top { padding: 12px 14px 10px; border-bottom: 1px solid var(--border-2); display: flex; align-items: flex-start; gap: 10px; }
+.bc-icon { width: 36px; height: 36px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: var(--sand-3); }
+.bc-name { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 2px; line-height: 1.2; }
+.bc-cat { font-size: 10px; color: var(--ink-4); font-family: var(--f-mono); }
+.bc-status { margin-left: auto; flex-shrink: 0; }
+.status-dot { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 10px; }
+.status-dot::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+.status-dot.active { background: rgba(58,82,48,0.1); color: var(--moss-2); }
+.status-dot.active::before { background: var(--moss-2); }
+.status-dot.prospect { background: rgba(184,72,32,0.08); color: var(--rust-2); }
+.status-dot.prospect::before { background: var(--rust-2); }
+.bc-stats { padding: 10px 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.bc-stat-val { font-size: 14px; font-weight: 700; color: var(--ink); font-family: var(--f-mono); letter-spacing: -0.02em; }
+.bc-stat-label { font-size: 9px; color: var(--ink-4); text-transform: uppercase; letter-spacing: 0.06em; }
+.bc-footer { padding: 8px 14px; background: var(--dust); display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-2); }
+.bc-commission { font-size: 11px; color: var(--moss-2); font-weight: 600; font-family: var(--f-mono); }
+.bc-network { font-size: 10px; color: var(--ink-4); }
+
+/* INSIGHT STRIP */
+.insight-strip { background: linear-gradient(135deg, var(--earth-3), var(--earth-2)); border-radius: 8px; padding: 12px 16px; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+.insight-icon { font-size: 18px; flex-shrink: 0; }
+.insight-text { font-size: 12px; color: var(--sand); line-height: 1.55; }
+.insight-text strong { color: var(--sand-2); }
+
+/* PROPOSAL LAYOUT */
+.proposal-layout { display: grid; grid-template-columns: 1fr 360px; gap: 16px; }
+.section-head { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rust); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 14px; }
+.card-body { padding: 14px 16px; }
+
+/* PLACEMENTS */
+.placement-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+.placement-tile { border: 1px solid var(--border); border-radius: 7px; padding: 12px 14px; cursor: pointer; transition: all 0.15s; position: relative; }
+.placement-tile:hover { border-color: var(--rust); background: rgba(184,72,32,0.02); }
+.placement-tile.selected { border-color: var(--rust); background: rgba(184,72,32,0.04); }
+.placement-tile.selected::after { content: '✓'; position: absolute; top: 8px; right: 10px; font-size: 11px; color: var(--rust); font-weight: 700; }
+.pt-icon { font-size: 18px; margin-bottom: 6px; }
+.pt-name { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.pt-desc { font-size: 11px; color: var(--ink-4); line-height: 1.4; }
+.pt-price { font-size: 11px; font-family: var(--f-mono); color: var(--moss-2); margin-top: 5px; font-weight: 500; }
+
+/* FORM */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.form-group { margin-bottom: 10px; }
+.form-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-bottom: 5px; display: block; }
+.form-input, .form-select { width: 100%; background: var(--dust); border: 1px solid var(--border); border-radius: 5px; padding: 8px 10px; font-size: 12px; color: var(--ink); font-family: var(--f-body); outline: none; }
+.form-input:focus, .form-select:focus { border-color: var(--rust); }
+.form-range { width: 100%; accent-color: var(--rust); margin-top: 6px; }
+.range-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-4); font-family: var(--f-mono); }
+
+/* SUMMARY CARD */
+.summary-card { background: var(--earth); border-radius: 10px; padding: 18px; position: relative; overflow: hidden; }
+.summary-card::before { content: ''; position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(184,72,32,0.3), transparent 65%); }
+.summary-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; position: relative; z-index: 1; }
+.summary-brand-icon { width: 34px; height: 34px; background: var(--rust); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.summary-brand-name { font-family: var(--f-display); font-size: 16px; font-weight: 600; color: var(--white); }
+.summary-brand-cat { font-size: 11px; color: var(--sand); opacity: 0.55; }
+.summary-items { position: relative; z-index: 1; }
+.summary-line { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; }
+.summary-line:last-child { border-bottom: none; }
+.summary-line-label { color: var(--sand); opacity: 0.6; }
+.summary-line-value { color: var(--sand-2); font-weight: 500; font-family: var(--f-mono); }
+.summary-line-value.green { color: #7ab870; }
+.summary-total { background: rgba(255,255,255,0.06); border-radius: 6px; padding: 10px 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+.summary-total-label { font-size: 11px; color: var(--sand); opacity: 0.6; text-transform: uppercase; letter-spacing: 0.08em; }
+.summary-total-value { font-family: var(--f-display); font-size: 22px; font-weight: 700; color: var(--white); }
+
+/* DEALS TABLE */
+.deals-table { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px; }
+.dt-header { background: var(--earth-2); padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+.dt-header-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sand); }
+.dt-count { font-size: 10px; background: rgba(255,255,255,0.08); color: var(--sand); opacity: 0.6; padding: 1px 7px; border-radius: 8px; font-family: var(--f-mono); }
+.dt-cols { display: grid; grid-template-columns: 165px 120px 75px 90px 110px 90px 80px 80px; padding: 7px 16px; background: var(--sand-3); border-bottom: 1px solid var(--border); }
+.dt-col { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-4); }
+.dt-row { display: grid; grid-template-columns: 165px 120px 75px 90px 110px 90px 80px 80px; padding: 11px 16px; border-bottom: 1px solid var(--border-2); align-items: center; transition: background 0.1s; }
+.dt-row:last-child { border-bottom: none; }
+.dt-row:hover { background: var(--dust); }
+.dt-cell { font-size: 12px; color: var(--ink-3); }
+.dt-cell.bold { font-weight: 600; color: var(--ink); }
+.dt-cell.green { color: var(--moss-2); font-weight: 600; font-family: var(--f-mono); }
+.dt-cell.gold { color: var(--gold-2); font-weight: 600; font-family: var(--f-mono); }
+.dt-cell.mono { font-family: var(--f-mono); }
+.dt-brand-cell { display: flex; align-items: center; gap: 7px; }
+.dt-brand-icon { width: 24px; height: 24px; border-radius: 5px; background: var(--sand-3); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+
+/* PERF BAR */
+.perf-bar-wrap { display: flex; align-items: center; gap: 5px; }
+.perf-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.perf-bar-fill { height: 100%; border-radius: 3px; background: var(--moss-2); }
+.perf-bar-fill.gold { background: var(--gold-2); }
+.perf-bar-fill.rust { background: var(--rust); }
+.perf-pct { font-size: 10px; font-family: var(--f-mono); color: var(--ink-4); width: 36px; text-align: right; }
+
+/* PERF GRID */
+.perf-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+.perf-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+.perf-card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-4); margin-bottom: 12px; }
+.spark-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.spark-bar-label { font-size: 11px; color: var(--ink-3); width: 130px; flex-shrink: 0; }
+.spark-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.spark-bar-fill { height: 100%; border-radius: 3px; }
+.spark-bar-val { font-size: 10px; font-family: var(--f-mono); color: var(--ink-4); width: 48px; text-align: right; flex-shrink: 0; }
+
+/* TIMELINE */
+.timeline-row { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-2); align-items: flex-start; }
+.timeline-row:last-child { border-bottom: none; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.tl-dot.active { background: var(--moss-2); }
+.tl-dot.pending { background: var(--gold-2); }
+.tl-dot.ended { background: var(--ink-4); }
+.tl-content { flex: 1; }
+.tl-label { font-size: 12px; font-weight: 500; color: var(--ink); }
+.tl-meta { font-size: 11px; color: var(--ink-4); margin-top: 1px; }
+.tl-right { text-align: right; flex-shrink: 0; }
+.tl-amount { font-size: 12px; font-weight: 600; color: var(--ink); font-family: var(--f-mono); }
+.tl-status { font-size: 10px; color: var(--ink-4); }
+
+/* TAGS */
+.tag { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 10px; font-size: 9px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.tag-blue { background: rgba(30,70,160,0.1); color: #2850b0; }
+.tag-rust { background: rgba(184,72,32,0.1); color: var(--rust-2); }
+.tag-moss { background: rgba(58,82,48,0.1); color: var(--moss-2); }
+.tag-gold { background: rgba(176,128,32,0.1); color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">OC</div>
+      <div>
+        <div class="logo-text">Overland Collective</div>
+        <div class="logo-sub">Brand Partner Portal</div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Brands</div>
+    <div class="nav-item active" onclick="showPanel('discover',this)"><span class="nav-icon">🔍</span> Discover Brands<span class="nav-badge">124</span></div>
+    <div class="nav-item" onclick="showPanel('proposal',this)"><span class="nav-icon">📋</span> Build Proposal</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Programs</div>
+    <div class="nav-item" onclick="showPanel('active',this)"><span class="nav-icon">✅</span> Active Deals<span class="nav-badge green">8</span></div>
+    <div class="nav-item" onclick="showPanel('performance',this)"><span class="nav-icon">📈</span> Performance</div>
+    <div class="nav-item" onclick="showPanel('pipeline',this)"><span class="nav-icon">🔄</span> Pipeline<span class="nav-badge">3</span></div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Settings</div>
+    <div class="nav-item"><span class="nav-icon">⚙️</span> Commission Rules</div>
+    <div class="nav-item"><span class="nav-icon">🔗</span> Network Connections</div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="user-row">
+      <div class="user-avatar">KH</div>
+      <div><div class="user-name">Kelly Hagen</div><div class="user-role">Program Manager</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="topbar-title">Brand Discovery</div>
+      <div class="page-sub" id="topbar-sub">Search and evaluate brand partners across the Overland Collective network</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost btn-sm">↓ Export</button>
+      <button class="btn btn-primary btn-sm" onclick="showPanel('proposal',null)">+ New Proposal</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+  <!-- DISCOVER -->
+  <div class="panel active" id="panel-discover">
+    <div class="kpi-strip">
+      <div class="kpi-card rust"><div class="kpi-label">Merchant Domains</div><div class="kpi-value">1,264</div><div class="kpi-delta neutral">across 681 articles</div></div>
+      <div class="kpi-card moss"><div class="kpi-label">Affiliate Active</div><div class="kpi-value">85</div><div class="kpi-delta up">↑ 10.5% penetration</div></div>
+      <div class="kpi-card gold"><div class="kpi-label">Untapped Brands</div><div class="kpi-value">47</div><div class="kpi-delta neutral">high-freq, no affiliate</div></div>
+      <div class="kpi-card sand"><div class="kpi-label">Outbound Ref Links</div><div class="kpi-value">3,523</div><div class="kpi-delta neutral">total merchant links</div></div>
+      <div class="kpi-card earth"><div class="kpi-label">Monthly Pageviews</div><div class="kpi-value">2.9M</div><div class="kpi-delta neutral">Expedition Portal</div></div>
+    </div>
+    <div class="insight-strip">
+      <span class="insight-icon">💡</span>
+      <div class="insight-text"><strong>Quick win identified:</strong> 12 high-frequency brands already have some affiliate links but are inconsistently tracked. Normalizing these represents the fastest near-term revenue lift — no new partnerships required.</div>
+    </div>
+    <div class="search-bar-wrap">
+      <div class="search-input-wrap">
+        <span style="color:var(--ink-4);">🔍</span>
+        <input class="search-input" type="text" placeholder="Search by brand, category…">
+      </div>
+      <div class="filter-pills">
+        <span class="filter-pill active" onclick="togglePill(this)">All</span>
+        <span class="filter-pill" onclick="togglePill(this)">🛡️ Recovery</span>
+        <span class="filter-pill" onclick="togglePill(this)">⚡ Power</span>
+        <span class="filter-pill" onclick="togglePill(this)">⛺ Shelter</span>
+        <span class="filter-pill" onclick="togglePill(this)">🗺️ Navigation</span>
+        <span class="filter-pill" onclick="togglePill(this)">🍳 Camp Kitchen</span>
+        <span class="filter-pill" onclick="togglePill(this)">👕 Apparel</span>
+      </div>
+    </div>
+    <div class="section-head">High-Priority Brand Opportunities</div>
+    <div class="brand-grid">
+
+      <div class="brand-card" onclick="openProposal(this,'REDARC Electronics','⚡','Power Systems','13','4,820','$480','0% → est. 8%','Direct program')">
+        <div class="bc-top"><div class="bc-icon">⚡</div><div><div class="bc-name">REDARC Electronics</div><div class="bc-cat">POWER SYSTEMS</div></div><div class="bc-status"><span class="status-dot prospect">Prospect</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">13</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">4,820</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$480</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">0% → est. 8% available</span><span class="bc-network">Direct program</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'Garmin','🗺️','Navigation · Safety','8','3,210','$420','0% → est. 4%','AvantLink')">
+        <div class="bc-top"><div class="bc-icon">🗺️</div><div><div class="bc-name">Garmin</div><div class="bc-cat">NAVIGATION · SAFETY</div></div><div class="bc-status"><span class="status-dot prospect">Prospect</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">8</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">3,210</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$420</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">0% → est. 4% via AvantLink</span><span class="bc-network">AvantLink</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'Dometic','❄️','Fridge · Camp Systems','18','6,440','$1,100','Currently 6%','AvantLink')">
+        <div class="bc-top"><div class="bc-icon">❄️</div><div><div class="bc-name">Dometic</div><div class="bc-cat">FRIDGE · CAMP SYSTEMS</div></div><div class="bc-status"><span class="status-dot active">Active</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">18</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">6,440</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$1,100</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">Currently 6% · room to negotiate</span><span class="bc-network">AvantLink</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'onX Maps','📍','Mapping · Route Planning','40','12,800','$29','Mixed: 17/40 tracked','AvantLink')">
+        <div class="bc-top"><div class="bc-icon">📍</div><div><div class="bc-name">onX Maps</div><div class="bc-cat">MAPPING · ROUTE PLANNING</div></div><div class="bc-status"><span class="status-dot active">Active</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">40</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">12,800</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$29</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">Mixed: 17/40 links tracked</span><span class="bc-network">AvantLink · fix gap</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'iKamper','⛺','Rooftop Tents','7','5,890','$3,200','Currently 7%','AvantLink')">
+        <div class="bc-top"><div class="bc-icon">⛺</div><div><div class="bc-name">iKamper</div><div class="bc-cat">ROOFTOP TENTS</div></div><div class="bc-status"><span class="status-dot active">Active</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">7</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">5,890</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$3,200</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">Currently 7%</span><span class="bc-network">AvantLink</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'BioLite','🔥','Camp Power · Lighting · Stoves','9','2,100','$80','0% → est. 8%','Partnerize')">
+        <div class="bc-top"><div class="bc-icon">🔥</div><div><div class="bc-name">BioLite</div><div class="bc-cat">CAMP POWER · LIGHTING · STOVES</div></div><div class="bc-status"><span class="status-dot prospect">Prospect</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">9</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">2,100</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$80</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">0% → est. 8% via Partnerize</span><span class="bc-network">Partnerize</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'ARB 4x4 Accessories','🛡️','Recovery · Protection','22','9,340','$850','Currently 10%','Direct')">
+        <div class="bc-top"><div class="bc-icon">🛡️</div><div><div class="bc-name">ARB 4x4 Accessories</div><div class="bc-cat">RECOVERY · PROTECTION</div></div><div class="bc-status"><span class="status-dot active">Active</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">22</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">9,340</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$850</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">Currently 10%</span><span class="bc-network">Direct</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'Blue Ridge Overland Gear','🎒','Storage · Organization','12','3,670','$220','0% → est. 7%','ShareASale')">
+        <div class="bc-top"><div class="bc-icon">🎒</div><div><div class="bc-name">Blue Ridge Overland Gear</div><div class="bc-cat">STORAGE · ORGANIZATION</div></div><div class="bc-status"><span class="status-dot prospect">Prospect</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">12</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">3,670</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$220</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">0% → est. 7% available</span><span class="bc-network">Direct / ShareASale</span></div>
+      </div>
+
+      <div class="brand-card" onclick="openProposal(this,'Front Runner','🔩','Racks · Vehicle Storage','7','2,890','$580','Mixed: 2/7 tracked','AvantLink')">
+        <div class="bc-top"><div class="bc-icon">🔩</div><div><div class="bc-name">Front Runner</div><div class="bc-cat">RACKS · VEHICLE STORAGE</div></div><div class="bc-status"><span class="status-dot active">Active</span></div></div>
+        <div class="bc-stats"><div><div class="bc-stat-val">7</div><div class="bc-stat-label">Articles</div></div><div><div class="bc-stat-val">2,890</div><div class="bc-stat-label">Ref Clicks</div></div><div><div class="bc-stat-val">$580</div><div class="bc-stat-label">Avg AOV</div></div></div>
+        <div class="bc-footer"><span class="bc-commission">Mixed: 2/7 links tracked</span><span class="bc-network">Fix gap → AvantLink</span></div>
+      </div>
+
+    </div>
+  </div><!-- end discover -->
+
+  <!-- PROPOSAL BUILDER -->
+  <div class="panel" id="panel-proposal">
+    <div class="proposal-layout">
+      <div>
+        <div class="section-head">01 — Brand Selected</div>
+        <div class="card" style="margin-bottom:14px;">
+          <div class="card-body" style="display:flex;gap:10px;align-items:center;">
+            <div id="prop-icon" style="width:42px;height:42px;background:var(--rust);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">⚡</div>
+            <div><div id="prop-name" style="font-size:14px;font-weight:600;color:var(--ink);">REDARC Electronics</div><div id="prop-meta" style="font-size:11px;color:var(--ink-4);">Power Systems · 13 articles · 4,820 ref clicks · $480 avg AOV</div></div>
+            <button class="btn btn-ghost btn-sm" style="margin-left:auto;" onclick="showPanel('discover',null)">Change Brand</button>
+          </div>
+        </div>
+
+        <div class="section-head">02 — Choose Placements</div>
+        <div class="placement-grid">
+          <div class="placement-tile selected" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">📄</div><div class="pt-name">Inline Editorial Placement</div>
+            <div class="pt-desc">Product card embedded in existing gear review or build article</div>
+            <div class="pt-price">$500–$1,500 / placement · or commission-only</div>
+          </div>
+          <div class="placement-tile selected" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">📧</div><div class="pt-name">Newsletter Feature</div>
+            <div class="pt-desc">Dedicated mention in The Expedition Debrief (256K subscribers)</div>
+            <div class="pt-price">$800–$2,000 / send</div>
+          </div>
+          <div class="placement-tile" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">🎬</div><div class="pt-name">XOVERLAND Video</div>
+            <div class="pt-desc">Episode gear list, video description, and pinned comment link</div>
+            <div class="pt-price">$1,200–$3,500 / episode</div>
+          </div>
+          <div class="placement-tile" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">🏆</div><div class="pt-name">Commission Rate Increase</div>
+            <div class="pt-desc">Elevated rate in exchange for exclusive or priority placement</div>
+            <div class="pt-price">e.g. 8% → 12% for 90-day exclusive</div>
+          </div>
+          <div class="placement-tile" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">🏷️</div><div class="pt-name">Exclusive Offer / Promo Code</div>
+            <div class="pt-desc">Reader-only discount available only through Overland Collective</div>
+            <div class="pt-price">Drives conversion lift · brand funds discount</div>
+          </div>
+          <div class="placement-tile" onclick="this.classList.toggle('selected')">
+            <div class="pt-icon">🌐</div><div class="pt-name">Forum Spotlight</div>
+            <div class="pt-desc">Editor-endorsed gear post in Expedition Portal forum (180K members)</div>
+            <div class="pt-price">$300–$600 / month</div>
+          </div>
+        </div>
+
+        <div class="section-head">03 — Set Terms & Dates</div>
+        <div class="card">
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Campaign Start Date</label><input class="form-input" type="date" value="2026-05-19"></div>
+              <div class="form-group"><label class="form-label">Campaign End Date</label><input class="form-input" type="date" value="2026-08-19"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Commission Rate</label><input class="form-input" type="text" value="8%"></div>
+              <div class="form-group"><label class="form-label">Network / Platform</label>
+                <select class="form-select"><option>Direct Program</option><option>AvantLink</option><option>ShareASale</option><option>CJ Affiliate</option><option>Impact</option><option>Partnerize</option></select>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Exclusive Offer / Promo Code (optional)</label><input class="form-input" type="text" placeholder="e.g. OVERLAND15 for 15% off"></div>
+            <div class="form-group">
+              <label class="form-label">Monthly Media Investment</label>
+              <input class="form-range" type="range" min="500" max="10000" step="250" value="2500" oninput="updateRange(this)">
+              <div class="range-labels"><span>$500</span><span id="range-val" style="color:var(--rust);font-weight:600;">$2,500 / mo</span><span>$10,000</span></div>
+            </div>
+            <div class="form-group"><label class="form-label">Notes</label><input class="form-input" type="text" placeholder="e.g. Priority placement in electrical & power content for Q2 season push"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY SIDEBAR -->
+      <div>
+        <div class="section-head">Proposal Summary</div>
+        <div class="summary-card">
+          <div class="summary-brand-row">
+            <div class="summary-brand-icon" id="sum-icon">⚡</div>
+            <div><div class="summary-brand-name" id="sum-name">REDARC Electronics</div><div class="summary-brand-cat" id="sum-cat">Power Systems</div></div>
+          </div>
+          <div class="summary-items">
+            <div class="summary-line"><span class="summary-line-label">Placements selected</span><span class="summary-line-value">2 of 6</span></div>
+            <div class="summary-line"><span class="summary-line-label">Inline Editorial</span><span class="summary-line-value green">✓ Included</span></div>
+            <div class="summary-line"><span class="summary-line-label">Newsletter Feature</span><span class="summary-line-value green">✓ Included</span></div>
+            <div class="summary-line"><span class="summary-line-label">Commission rate</span><span class="summary-line-value">8%</span></div>
+            <div class="summary-line"><span class="summary-line-label">Campaign dates</span><span class="summary-line-value">May 19 – Aug 19</span></div>
+            <div class="summary-line"><span class="summary-line-label">Duration</span><span class="summary-line-value">90 days</span></div>
+            <div class="summary-line"><span class="summary-line-label">Platform</span><span class="summary-line-value">Direct</span></div>
+          </div>
+          <div class="summary-total">
+            <span class="summary-total-label">Media / Mo</span>
+            <span class="summary-total-value">$2,500<span style="font-size:12px;font-family:var(--f-body);font-weight:400;opacity:0.5;">/mo</span></span>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div class="section-head">Est. Performance</div>
+          <div class="card">
+            <div class="card-body">
+              <div class="spark-bar-row"><span class="spark-bar-label">Monthly Impressions</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:70%;background:var(--rust-3);"></div></div><span class="spark-bar-val">~84K</span></div>
+              <div class="spark-bar-row"><span class="spark-bar-label">Est. Ref Clicks</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:55%;background:var(--gold-2);"></div></div><span class="spark-bar-val">~1,200</span></div>
+              <div class="spark-bar-row"><span class="spark-bar-label">Est. Conversions</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:35%;background:var(--moss-2);"></div></div><span class="spark-bar-val">~36</span></div>
+              <div class="spark-bar-row"><span class="spark-bar-label">Est. GMV</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:60%;background:var(--moss-3);"></div></div><span class="spark-bar-val">~$17K</span></div>
+              <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-2);display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:11px;color:var(--ink-4);">Est. monthly commission</span>
+                <span style="font-size:15px;font-weight:700;color:var(--moss-2);font-family:var(--f-mono);">~$1,360</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;">
+          <button class="btn btn-primary" style="width:100%;justify-content:center;">Send Proposal to Brand →</button>
+          <button class="btn btn-ghost" style="width:100%;justify-content:center;">Save Draft</button>
+        </div>
+      </div>
+    </div>
+  </div><!-- end proposal -->
+
+  <!-- ACTIVE DEALS -->
+  <div class="panel" id="panel-active">
+    <div class="kpi-strip">
+      <div class="kpi-card moss"><div class="kpi-label">Active Deals</div><div class="kpi-value">8</div><div class="kpi-delta up">↑ 2 from last quarter</div></div>
+      <div class="kpi-card gold"><div class="kpi-label">Monthly Run Rate</div><div class="kpi-value">$11.2K</div><div class="kpi-delta up">↑ 34% vs prior period</div></div>
+      <div class="kpi-card rust"><div class="kpi-label">GMV (Month to Date)</div><div class="kpi-value">$148K</div><div class="kpi-delta neutral">across all placements</div></div>
+      <div class="kpi-card sand"><div class="kpi-label">Avg Commission Rate</div><div class="kpi-value">7.4%</div><div class="kpi-delta up">↑ 0.8pts negotiated</div></div>
+      <div class="kpi-card earth"><div class="kpi-label">Deals Expiring 30d</div><div class="kpi-value">3</div><div class="kpi-delta neutral">renewal required</div></div>
+    </div>
+    <div class="section-head">Live Placements</div>
+    <div class="deals-table">
+      <div class="dt-header"><span class="dt-header-title">Active Deals</span><span class="dt-count">8 active</span><span style="margin-left:auto;"><button class="btn btn-ghost btn-sm">Filter</button></span></div>
+      <div class="dt-cols"><div class="dt-col">Brand</div><div class="dt-col">Placement</div><div class="dt-col">Rate</div><div class="dt-col">Period</div><div class="dt-col">MTD Clicks</div><div class="dt-col">MTD GMV</div><div class="dt-col">Earnings</div><div class="dt-col">Status</div></div>
+
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">🛡️</div>ARB 4x4</div></div>
+        <div class="dt-cell"><span class="tag tag-blue">Editorial + NL</span></div>
+        <div class="dt-cell green">10%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Mar–Sep 26</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill" style="width:82%;"></div></div><span class="perf-pct">1,840</span></div></div>
+        <div class="dt-cell gold">$38,200</div>
+        <div class="dt-cell green">$3,820</div>
+        <div class="dt-cell"><span class="status-dot active">Live</span></div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">❄️</div>Dometic</div></div>
+        <div class="dt-cell"><span class="tag tag-moss">Editorial</span></div>
+        <div class="dt-cell green">6%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Jan–Jun 26</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill" style="width:68%;"></div></div><span class="perf-pct">1,210</span></div></div>
+        <div class="dt-cell gold">$28,600</div>
+        <div class="dt-cell green">$1,716</div>
+        <div class="dt-cell"><span class="status-dot active">Live</span></div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">⛺</div>iKamper</div></div>
+        <div class="dt-cell"><span class="tag tag-rust">Video + Editorial</span></div>
+        <div class="dt-cell green">7%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Apr–Jul 26</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill gold" style="width:45%;"></div></div><span class="perf-pct">820</span></div></div>
+        <div class="dt-cell gold">$41,600</div>
+        <div class="dt-cell green">$2,912</div>
+        <div class="dt-cell"><span class="status-dot active">Live</span></div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">📍</div>onX Maps</div></div>
+        <div class="dt-cell"><span class="tag tag-blue">Editorial + NL</span></div>
+        <div class="dt-cell green">15%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Jan–Dec 26</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill" style="width:90%;"></div></div><span class="perf-pct">3,100</span></div></div>
+        <div class="dt-cell gold">$12,090</div>
+        <div class="dt-cell green">$1,814</div>
+        <div class="dt-cell"><span class="status-dot active">Live</span></div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">🌞</div>Goal Zero</div></div>
+        <div class="dt-cell"><span class="tag tag-gold">Newsletter</span></div>
+        <div class="dt-cell">5%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Feb–May 26</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill rust" style="width:30%;"></div></div><span class="perf-pct">540</span></div></div>
+        <div class="dt-cell gold">$12,480</div>
+        <div class="dt-cell green">$624</div>
+        <div class="dt-cell"><span class="status-dot" style="background:rgba(176,128,32,0.1);color:var(--gold);">⏱ Expiring</span></div>
+      </div>
+      <div class="dt-row">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">🔦</div>Black Diamond</div></div>
+        <div class="dt-cell"><span class="tag tag-moss">Editorial</span></div>
+        <div class="dt-cell green">8%</div>
+        <div class="dt-cell mono" style="font-size:10px;">Evergreen</div>
+        <div class="dt-cell"><div class="perf-bar-wrap"><div class="perf-bar"><div class="perf-bar-fill" style="width:40%;"></div></div><span class="perf-pct">420</span></div></div>
+        <div class="dt-cell gold">$8,400</div>
+        <div class="dt-cell green">$672</div>
+        <div class="dt-cell"><span class="status-dot active">Live</span></div>
+      </div>
+      <div class="dt-row" style="opacity:0.65;">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">🗺️</div>Garmin</div></div>
+        <div class="dt-cell"><span class="tag tag-rust">Proposal Sent</span></div>
+        <div class="dt-cell" style="color:var(--ink-4);">TBD</div>
+        <div class="dt-cell" style="color:var(--ink-4);font-size:11px;">Pending</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell"><span class="status-dot prospect">Awaiting</span></div>
+      </div>
+      <div class="dt-row" style="opacity:0.65;">
+        <div class="dt-cell bold"><div class="dt-brand-cell"><div class="dt-brand-icon">⚡</div>REDARC</div></div>
+        <div class="dt-cell"><span class="tag tag-rust">Proposal Sent</span></div>
+        <div class="dt-cell" style="color:var(--ink-4);">TBD</div>
+        <div class="dt-cell" style="color:var(--ink-4);font-size:11px;">Pending</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell" style="color:var(--ink-4);">—</div>
+        <div class="dt-cell"><span class="status-dot prospect">Awaiting</span></div>
+      </div>
+    </div>
+  </div><!-- end active -->
+
+  <!-- PERFORMANCE -->
+  <div class="panel" id="panel-performance">
+    <div class="kpi-strip">
+      <div class="kpi-card moss"><div class="kpi-label">Total Earnings YTD</div><div class="kpi-value">$38.4K</div><div class="kpi-delta up">↑ 112% vs prior YTD</div></div>
+      <div class="kpi-card rust"><div class="kpi-label">Total GMV YTD</div><div class="kpi-value">$518K</div><div class="kpi-delta up">↑ 89% vs prior period</div></div>
+      <div class="kpi-card gold"><div class="kpi-label">Total Clicks YTD</div><div class="kpi-value">74.2K</div><div class="kpi-delta up">↑ 3.4% CVR</div></div>
+      <div class="kpi-card sand"><div class="kpi-label">Top Property</div><div class="kpi-value" style="font-size:14px;margin-top:4px;">Exp. Portal</div><div class="kpi-delta neutral">82% of earnings</div></div>
+      <div class="kpi-card earth"><div class="kpi-label">Newsletter CVR</div><div class="kpi-value">6.2%</div><div class="kpi-delta up">↑ vs 3.4% site avg</div></div>
+    </div>
+    <div class="perf-grid">
+      <div class="perf-card">
+        <div class="perf-card-title">Earnings by Property</div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Expedition Portal</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:82%;background:var(--rust-3);"></div></div><span class="spark-bar-val">$31.5K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Newsletter (OJ)</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:12%;background:var(--gold-2);"></div></div><span class="spark-bar-val">$4.6K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">XOVERLAND Video</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:6%;background:var(--moss-2);"></div></div><span class="spark-bar-val">$2.3K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Forum / Other</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:1%;background:var(--sand);"></div></div><span class="spark-bar-val">$0</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-card-title">Earnings by Category</div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Recovery / Protection</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:38%;background:var(--rust-3);"></div></div><span class="spark-bar-val">$14.6K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Camp / Shelter</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:28%;background:var(--gold-2);"></div></div><span class="spark-bar-val">$10.8K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Navigation / Safety</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:20%;background:var(--moss-2);"></div></div><span class="spark-bar-val">$7.7K</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Power Systems</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:14%;background:var(--sand);"></div></div><span class="spark-bar-val">$5.4K</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-card-title">Top Articles by Earnings</div>
+        <div class="spark-bar-row"><span class="spark-bar-label" style="font-size:10px;">Best Overland Fridges 2026</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:85%;background:var(--rust-3);"></div></div><span class="spark-bar-val">$4,820</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label" style="font-size:10px;">Ultimate Recovery Kit Guide</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:72%;background:var(--rust-3);"></div></div><span class="spark-bar-val">$4,080</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label" style="font-size:10px;">Rooftop Tent Comparison</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:65%;background:var(--gold-2);"></div></div><span class="spark-bar-val">$3,680</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label" style="font-size:10px;">Budget Overland Build $8K</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:50%;background:var(--moss-2);"></div></div><span class="spark-bar-val">$2,840</span></div>
+      </div>
+      <div class="perf-card">
+        <div class="perf-card-title">Conversion Rate by Channel</div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Newsletter</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:90%;background:var(--moss-2);"></div></div><span class="spark-bar-val">6.2%</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Forum</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:68%;background:var(--moss-3);"></div></div><span class="spark-bar-val">4.7%</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">Article (inline)</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:49%;background:var(--gold-2);"></div></div><span class="spark-bar-val">3.4%</span></div>
+        <div class="spark-bar-row"><span class="spark-bar-label">XOVERLAND Video</span><div class="spark-bar-track"><div class="spark-bar-fill" style="width:22%;background:var(--rust-3);"></div></div><span class="spark-bar-val">1.5%</span></div>
+      </div>
+    </div>
+    <div class="section-head">Recent Activity</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="timeline-row"><div class="tl-dot active"></div><div class="tl-content"><div class="tl-label">ARB 4x4 — Inline placement live on "Best Recovery Gear 2026"</div><div class="tl-meta">Expedition Portal · May 2, 2026 · 142 clicks today</div></div><div class="tl-right"><div class="tl-amount">+$420 today</div><div class="tl-status">Active</div></div></div>
+        <div class="timeline-row"><div class="tl-dot active"></div><div class="tl-content"><div class="tl-label">Dometic — Newsletter mention sent to 256K subscribers</div><div class="tl-meta">The Expedition Debrief · Apr 29, 2026 · 4.8% CTR</div></div><div class="tl-right"><div class="tl-amount">$1,240</div><div class="tl-status">Sent</div></div></div>
+        <div class="timeline-row"><div class="tl-dot pending"></div><div class="tl-content"><div class="tl-label">Garmin — Proposal awaiting brand approval</div><div class="tl-meta">Sent Apr 26, 2026 · Editorial + newsletter package · $1,800/mo</div></div><div class="tl-right"><div class="tl-amount">$1,800/mo</div><div class="tl-status" style="color:var(--gold);">Pending</div></div></div>
+        <div class="timeline-row"><div class="tl-dot pending"></div><div class="tl-content"><div class="tl-label">Goal Zero — Deal expires May 31, renewal needed</div><div class="tl-meta">Currently 5% · Recommend renegotiating to 7%</div></div><div class="tl-right"><div class="tl-amount">Renew →</div><div class="tl-status" style="color:var(--gold);">Expiring</div></div></div>
+        <div class="timeline-row"><div class="tl-dot ended"></div><div class="tl-content"><div class="tl-label">iKamper — XOVERLAND Season 4 gear page launched</div><div class="tl-meta">YouTube description + episode gear page · Apr 18, 2026</div></div><div class="tl-right"><div class="tl-amount">$2,912</div><div class="tl-status">Live</div></div></div>
+      </div>
+    </div>
+  </div><!-- end performance -->
+
+  <!-- PIPELINE -->
+  <div class="panel" id="panel-pipeline">
+    <div class="insight-strip">
+      <span class="insight-icon">🔄</span>
+      <div class="insight-text"><strong>3 proposals in motion.</strong> REDARC and Garmin are the highest-priority activations — both have existing editorial coverage with zero affiliate tracking. BioLite is a clean new activation via Partnerize.</div>
+    </div>
+    <div class="section-head">Proposals in Progress</div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-body">
+        <div class="timeline-row" style="padding:12px 0;">
+          <div class="tl-dot pending"></div>
+          <div class="tl-content">
+            <div class="tl-label" style="font-size:13px;font-weight:600;">REDARC Electronics — Awaiting brand response</div>
+            <div class="tl-meta" style="margin-top:4px;">Inline Editorial + Newsletter · 8% commission · $2,500/mo media · Sent May 1, 2026</div>
+            <div style="margin-top:8px;display:flex;gap:6px;"><span class="tag tag-rust">Editorial</span><span class="tag tag-gold">Newsletter</span><span class="tag tag-moss">Direct program</span></div>
+          </div>
+          <div class="tl-right"><div class="tl-amount" style="font-size:14px;">$2,500/mo</div><div class="tl-status" style="color:var(--gold);">Awaiting</div></div>
+        </div>
+        <div class="timeline-row" style="padding:12px 0;">
+          <div class="tl-dot pending"></div>
+          <div class="tl-content">
+            <div class="tl-label" style="font-size:13px;font-weight:600;">Garmin — Proposal under review</div>
+            <div class="tl-meta" style="margin-top:4px;">Editorial + Newsletter · 4% standard + exclusive promo code · Sent Apr 26, 2026</div>
+            <div style="margin-top:8px;display:flex;gap:6px;"><span class="tag tag-rust">Editorial</span><span class="tag tag-gold">Newsletter</span><span class="tag tag-blue">Promo Code</span></div>
+          </div>
+          <div class="tl-right"><div class="tl-amount" style="font-size:14px;">$1,800/mo</div><div class="tl-status" style="color:var(--gold);">Under review</div></div>
+        </div>
+        <div class="timeline-row" style="padding:12px 0;border-bottom:none;">
+          <div class="tl-dot pending"></div>
+          <div class="tl-content">
+            <div class="tl-label" style="font-size:13px;font-weight:600;">BioLite — New activation via Partnerize</div>
+            <div class="tl-meta" style="margin-top:4px;">Editorial product mentions + gift guide placement · 8% commission · Draft in progress</div>
+            <div style="margin-top:8px;display:flex;gap:6px;"><span class="tag tag-rust">Editorial</span><span class="tag tag-blue">Partnerize</span></div>
+          </div>
+          <div class="tl-right"><div class="tl-amount" style="font-size:14px;">Draft</div><div class="tl-status" style="color:var(--rust);">In progress</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="section-head">Next Activations — Shortlist</div>
+    <div class="card">
+      <div class="card-body">
+        <div class="timeline-row"><div class="tl-dot" style="background:var(--sand);"></div><div class="tl-content"><div class="tl-label">Blue Ridge Overland Gear — 12 articles, 0 affiliate links</div><div class="tl-meta">Storage & organization · est. 7% · Direct or ShareASale</div></div><div class="tl-right"><div class="tl-status">Q3 target</div></div></div>
+        <div class="timeline-row"><div class="tl-dot" style="background:var(--sand);"></div><div class="tl-content"><div class="tl-label">YETI — 5 articles, 12 links, no tracking</div><div class="tl-meta">Coolers & drinkware · est. 5–8% · AvantLink</div></div><div class="tl-right"><div class="tl-status">Q3 target</div></div></div>
+        <div class="timeline-row" style="border-bottom:none;"><div class="tl-dot" style="background:var(--sand);"></div><div class="tl-content"><div class="tl-label">Front Runner — 7 articles, 2/7 links tracked</div><div class="tl-meta">Racks & storage · normalize existing · AvantLink</div></div><div class="tl-right"><div class="tl-status">Normalize first</div></div></div>
+      </div>
+    </div>
+  </div><!-- end pipeline -->
+
+  </div><!-- end content -->
+</div><!-- end main -->
+</div><!-- end app -->
+
+<script>
+const meta = {
+  discover: ['Brand Discovery','Search and evaluate brand partners across the Overland Collective network'],
+  proposal: ['Proposal Builder','Configure placements, set terms, and send to brand partners'],
+  active: ['Active Deals','Monitor live placements and approved partnerships'],
+  performance: ['Performance Dashboard','Revenue, GMV, and conversion data across all properties'],
+  pipeline: ['Pipeline','Proposals in progress and next activation targets']
+};
+
+function showPanel(id, navEl) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  document.getElementById('topbar-title').textContent = meta[id][0];
+  document.getElementById('topbar-sub').textContent = meta[id][1];
+}
+
+function togglePill(el) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function openProposal(card, name, icon, cat, articles, clicks, aov, commission, network) {
+  document.querySelectorAll('.brand-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  setTimeout(() => {
+    // Update proposal panel with brand data
+    document.getElementById('prop-icon').textContent = icon;
+    document.getElementById('prop-name').textContent = name;
+    document.getElementById('prop-meta').textContent = cat + ' · ' + articles + ' articles · ' + clicks + ' ref clicks · ' + aov + ' avg AOV';
+    document.getElementById('sum-icon').textContent = icon;
+    document.getElementById('sum-name').textContent = name;
+    document.getElementById('sum-cat').textContent = cat;
+    // Navigate
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('panel-proposal').classList.add('active');
+    document.getElementById('topbar-title').textContent = meta.proposal[0];
+    document.getElementById('topbar-sub').textContent = meta.proposal[1];
+  }, 100);
+}
+
+function updateRange(el) {
+  const val = parseInt(el.value).toLocaleString();
+  document.getElementById('range-val').textContent = '$' + val + ' / mo';
+}
+</script>
+</body>
+</html>
