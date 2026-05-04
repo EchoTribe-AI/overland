@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overland Collective — Affiliate Landscape Review</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --earth: #1c1a16;
+    --earth-mid: #2e2b24;
+    --earth-light: #3d3930;
+    --sand: #c9b99a;
+    --sand-light: #e8ddd0;
+    --dust: #f5f0e8;
+    --dust-light: #faf8f4;
+    --rust: #b84c1e;
+    --rust-light: #d4602a;
+    --moss: #3e5430;
+    --moss-light: #597545;
+    --gold: #b8882a;
+    --gold-light: #d4a440;
+    --amber: #7a4f10;
+    --white: #faf8f4;
+    --text-body: #242018;
+    --text-secondary: #6b6157;
+    --text-muted: #9a9080;
+    --border: rgba(0,0,0,0.10);
+    --border-strong: rgba(0,0,0,0.18);
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Mono', 'Menlo', monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--dust);
+    color: var(--text-body);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background: var(--earth);
+    padding: 32px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dh-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 90% 50%, rgba(184,76,30,0.18), transparent 55%);
+    pointer-events: none;
+  }
+  .dh-inner { position: relative; z-index: 1; max-width: 960px; }
+  .dh-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--rust-light);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dh-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--rust-light); }
+  .dh-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .dh-sub {
+    font-size: 14px;
+    color: var(--sand);
+    opacity: 0.7;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .dh-meta-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .dh-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .dh-meta-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sand);
+    opacity: 0.45;
+  }
+  .dh-meta-value {
+    font-size: 12px;
+    color: var(--sand-light);
+    opacity: 0.8;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    background: var(--earth-mid);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 11px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--sand);
+    opacity: 0.5;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    transition: opacity 0.15s;
+  }
+  .tab-btn.active { opacity: 1; border-bottom-color: var(--rust); }
+  .tab-btn:hover { opacity: 0.8; }
+
+  /* ── PAGE LAYOUT ── */
+  .page-body { max-width: 960px; margin: 0 auto; padding: 32px 40px 60px; }
+  @media (max-width: 700px) { .page-body { padding: 24px 20px 48px; } }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── SECTION ── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--rust);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .intro-graf {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 700px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .sc-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .sc-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-body);
+    letter-spacing: -0.02em;
+    margin-bottom: 3px;
+    line-height: 1;
+  }
+  .sc-value.rust { color: var(--rust); }
+  .sc-value.moss { color: var(--moss); }
+  .sc-value.gold { color: var(--gold); }
+  .sc-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; }
+
+  /* ── SUMMARY BOX ── */
+  .summary-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--rust);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 28px;
+  }
+  .sb-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-body);
+    margin-bottom: 8px;
+  }
+  .sb-body {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .sb-body strong { color: var(--text-body); font-weight: 600; }
+
+  /* ── TABLES ── */
+  .data-table {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .dt-head-row {
+    display: grid;
+    padding: 8px 16px;
+    background: var(--earth-mid);
+  }
+  .dt-head-cell {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sand);
+    opacity: 0.65;
+  }
+  .dt-row {
+    display: grid;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .dt-row:last-child { border-bottom: none; }
+  .dt-row:hover { background: var(--dust); }
+  .dt-cell { font-size: 13px; color: var(--text-secondary); }
+  .dt-cell.bold { font-weight: 600; color: var(--text-body); }
+  .dt-cell.green { color: var(--moss); font-weight: 600; }
+  .dt-cell.rust { color: var(--rust); font-weight: 600; }
+  .dt-cell.gold { color: var(--gold); font-weight: 600; }
+  .dt-cell.muted { color: var(--text-muted); font-size: 12px; }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .badge-green { background: rgba(62,84,48,0.12); color: var(--moss); }
+  .badge-amber { background: rgba(122,79,16,0.12); color: var(--amber); }
+  .badge-rust { background: rgba(184,76,30,0.12); color: var(--rust); }
+  .badge-gray { background: rgba(0,0,0,0.06); color: var(--text-muted); }
+  .badge-gold { background: rgba(184,136,42,0.12); color: var(--gold); }
+
+  /* ── BUCKET CARDS ── */
+  .bucket-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 700px) { .bucket-grid { grid-template-columns: 1fr; } }
+  .bucket-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .bc-head {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .bc-num { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+  .bc-title { font-size: 13px; font-weight: 600; color: var(--text-body); margin-bottom: 2px; }
+  .bc-sub { font-size: 11px; color: var(--text-secondary); }
+  .bc-body { padding: 10px 14px 12px; }
+  .bc-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .bc-item:last-child { border-bottom: none; }
+  .bc-item-name { color: var(--text-body); font-weight: 500; }
+  .bc-count { font-size: 11px; font-family: var(--font-mono); }
+
+  /* ── OPPORTUNITY CARDS ── */
+  .opp-list { margin-bottom: 28px; }
+  .opp-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 700px) { .opp-card { grid-template-columns: 1fr; gap: 10px; } }
+  .oc-brand { font-size: 13px; font-weight: 700; color: var(--text-body); margin-bottom: 4px; }
+  .oc-category { font-size: 11px; color: var(--text-muted); }
+  .oc-why { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+  .oc-where {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+  }
+  .oc-where strong { color: var(--text-body); }
+  .oc-meta { text-align: right; white-space: nowrap; }
+
+  /* ── TIER LAYOUT ── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 700px) { .tier-grid { grid-template-columns: 1fr; } }
+  .tier-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .tc-head {
+    padding: 10px 14px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tc-tier { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .tc-title { font-size: 12px; font-weight: 600; color: var(--text-body); }
+  .tc-body { padding: 10px 14px 12px; }
+  .tc-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 3px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.4;
+  }
+  .tc-item:last-child { border-bottom: none; }
+
+  /* ── 30/60/90 ── */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 700px) { .plan-grid { grid-template-columns: 1fr; } }
+  .plan-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .pc-phase {
+    padding: 12px 14px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pc-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .pc-title { font-size: 13px; font-weight: 600; color: var(--text-body); margin-bottom: 2px; }
+  .pc-theme { font-size: 11px; color: var(--text-secondary); }
+  .pc-body { padding: 10px 14px 12px; }
+  .pc-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+  }
+  .pc-item:last-child { border-bottom: none; }
+  .pc-bullet { color: var(--rust); flex-shrink: 0; font-size: 10px; margin-top: 3px; }
+  .pc-deliverable {
+    background: var(--dust);
+    border-radius: 5px;
+    padding: 8px 10px;
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .pc-deliverable strong { color: var(--text-body); font-weight: 600; display: block; margin-bottom: 2px; }
+
+  /* ── AUDIENCE PROFILE ── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 600px) { .audience-grid { grid-template-columns: 1fr; } }
+  .aud-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .aud-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; }
+  .aud-body { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .aud-body strong { color: var(--text-body); font-weight: 600; }
+
+  .signal-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .signal-row:last-child { border-bottom: none; }
+  .signal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .signal-dot.green { background: var(--moss); }
+  .signal-dot.amber { background: var(--gold); }
+  .signal-dot.rust { background: var(--rust); }
+  .signal-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  .signal-text strong { color: var(--text-body); }
+
+  /* ── CAVEAT BLOCK ── */
+  .caveat-block {
+    background: rgba(122,79,16,0.07);
+    border: 1px solid rgba(122,79,16,0.18);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .caveat-block strong { color: var(--amber); font-weight: 600; }
+
+  /* ── BAR CHART ── */
+  .bar-section { margin-bottom: 28px; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .bar-row:last-child { border-bottom: none; }
+  .bar-brand { font-size: 12px; font-weight: 500; color: var(--text-body); width: 160px; flex-shrink: 0; }
+  .bar-track { flex: 1; background: var(--border); border-radius: 3px; height: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-fill.aff { background: var(--moss); }
+  .bar-fill.no-aff { background: var(--border-strong); }
+  .bar-count { font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); width: 100px; text-align: right; flex-shrink: 0; }
+
+  /* ── HIGHLIGHT ROW ── */
+  .hl-note {
+    background: var(--white);
+    border-left: 3px solid var(--moss);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .hl-note strong { color: var(--text-body); }
+
+  .spacer { height: 20px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="doc-header">
+  <div class="dh-bg"></div>
+  <div class="dh-inner">
+    <div class="dh-eyebrow">Affiliate Landscape Review</div>
+    <div class="dh-title">Overland Collective — Affiliate Opportunity Assessment</div>
+    <div class="dh-sub">Current-state affiliate coverage, brand partner footprint, and prioritized buildout recommendations</div>
+    <div class="dh-meta-row">
+      <div class="dh-meta-item">
+        <span class="dh-meta-label">Prepared</span>
+        <span class="dh-meta-value">April 30, 2026</span>
+      </div>
+      <div class="dh-meta-item">
+        <span class="dh-meta-label">Data Source</span>
+        <span class="dh-meta-value">Expedition Portal outbound link scrape</span>
+      </div>
+      <div class="dh-meta-item">
+        <span class="dh-meta-label">Articles Analyzed</span>
+        <span class="dh-meta-value">681 articles</span>
+      </div>
+      <div class="dh-meta-item">
+        <span class="dh-meta-label">Links Captured</span>
+        <span class="dh-meta-value">3,523 outbound merchant links</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="show('summary')">Executive Summary</button>
+  <button class="tab-btn" onclick="show('audience')">Audience Profile</button>
+  <button class="tab-btn" onclick="show('footprint')">Current Footprint</button>
+  <button class="tab-btn" onclick="show('opportunities')">Opportunities</button>
+  <button class="tab-btn" onclick="show('tiers')">Partner Tiers</button>
+  <button class="tab-btn" onclick="show('plan')">30/60/90 Plan</button>
+  <button class="tab-btn" onclick="show('methodology')">Methodology</button>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+
+<!-- ═══════════════ SUMMARY ═══════════════ -->
+<div class="tab-panel active" id="panel-summary">
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="sc-label">Affiliate Penetration</div>
+      <div class="sc-value rust">10.5%</div>
+      <div class="sc-desc">371 of 3,523 outbound merchant links detected as affiliate</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Merchant Domains Found</div>
+      <div class="sc-value">1,264</div>
+      <div class="sc-desc">Unique merchant domains across 681 articles</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Affiliate-Active Domains</div>
+      <div class="sc-value moss">85</div>
+      <div class="sc-desc">Domains with at least one detected affiliate link</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Primary Network Found</div>
+      <div class="sc-value gold" style="font-size:16px;margin-top:4px;">AvantLink</div>
+      <div class="sc-desc">Dominates detected affiliate activity. Amazon shortlinks minimal.</div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="sb-title">What this analysis found</div>
+    <div class="sb-body">
+      The data shows a commercial footprint that is <strong>broad but inconsistent.</strong> Overland Collective's editorial content already references hundreds of commercial-grade brands with real purchasing intent behind them. The problem is not a lack of brand relationships — it is that affiliate infrastructure has not been built around those relationships in a systematic way. Only 10.5% of outbound merchant links carry affiliate tracking. That number is almost certainly lower than it should be for a media property of this scale and audience quality.
+      <br><br>
+      Two parallel opportunities emerge. First, <strong>normalize affiliate coverage on mixed merchants</strong> — brands already receiving some affiliate links, but inconsistently. This is the fastest near-term revenue lift because the editorial demand is already proven. Second, <strong>activate high-frequency brands with zero affiliate signal</strong> — brands appearing repeatedly across content with no tracking in place at all. REDARC, Blue Ridge Overland Gear, Garmin, Butler Maps, and BioLite are the clearest examples.
+    </div>
+  </div>
+
+  <div class="section-title">Key signals from the data</div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:24px;">
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>AvantLink is already the active network.</strong> Nearly all detected affiliate links route through AvantLink. This means infrastructure exists — the opportunity is to build on it, not start from scratch.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>High-intent brands dominate the content.</strong> The most frequently cited merchant domains — navigation, power, shelter, recovery, camp systems — are exactly the categories where affiliate conversion rates run highest in the outdoor vertical.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot amber"></div>
+      <div class="signal-text"><strong>Mixed merchants are the fastest win.</strong> At least a dozen brands already have some affiliate links in the content but also have plain, non-affiliate links in other instances. Standardizing these is revenue left on the table right now.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot amber"></div>
+      <div class="signal-text"><strong>REDARC, Garmin, and Blue Ridge Overland Gear are clean affiliate opportunities.</strong> Repeated editorial presence, zero affiliate signal detected, and strong product-category fit for a researching, high-intent audience.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot rust"></div>
+      <div class="signal-text"><strong>Hankook and OEM-adjacent brands are not standard affiliate plays.</strong> Hankook shows 61 links across 54 articles with no affiliate detected — but this looks like a sponsorship or media partnership relationship, not a missed affiliate activation. It should be treated as a separate conversation from the standard affiliate buildout.</div>
+    </div>
+  </div>
+
+  <div class="section-title">The core recommendation</div>
+  <div class="intro-graf">
+    Do not approach this as a partner acquisition problem. The editorial coverage and brand relationships already exist. The work is building the commercial layer underneath them — consistent link governance, a merchant decision framework (direct program vs. network vs. media/sponsorship), and a small set of repeatable content templates that affiliate links can live inside reliably. The 30/60/90 plan section outlines the sequencing.
+  </div>
+
+</div>
+
+<!-- ═══════════════ AUDIENCE ═══════════════ -->
+<div class="tab-panel" id="panel-audience">
+
+  <p class="intro-graf">Overland's audience is not broad outdoor traffic. It is a concentrated vehicle-based adventure audience made up of gear researchers, trip planners, and enthusiast owners. The commercial case for affiliate rests on audience behavior and intent, not raw scale.</p>
+
+  <div class="section-title">Reach across the ecosystem</div>
+  <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="stat-card">
+      <div class="sc-label">Expedition Portal</div>
+      <div class="sc-value">600K+</div>
+      <div class="sc-desc">Unique visitors per month across the largest overlanding community online</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Monthly Sessions</div>
+      <div class="sc-value">~1M</div>
+      <div class="sc-desc">2.9M pageviews/month; avg 6:30 time on site and 7 pages per visit</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Forum Community</div>
+      <div class="sc-value">180K+</div>
+      <div class="sc-desc">Registered forum members; 157K threads, 2.5M posts, 25K monthly interactions</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Ecosystem Reach</div>
+      <div class="sc-value">4.3M</div>
+      <div class="sc-desc">Monthly audience engagements across digital, print, email, podcast, video, events, and social</div>
+    </div>
+  </div>
+
+  <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: -16px;">
+    <div class="stat-card">
+      <div class="sc-label">Overland Journal</div>
+      <div class="sc-value">136 pp</div>
+      <div class="sc-desc">Perfect-bound, 5x/year; 30% advertising cap; zero advertorial policy</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">XOVERLAND Watch Time</div>
+      <div class="sc-value">258M</div>
+      <div class="sc-desc">Minutes watched on YouTube; 74M+ minutes streamed on Amazon Prime</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Email Subscribers</div>
+      <div class="sc-value">256K</div>
+      <div class="sc-desc">Highest-intent surface across all properties for affiliate placement</div>
+    </div>
+  </div>
+
+  <div class="section-title">Why this audience converts differently</div>
+  <div class="audience-grid">
+    <div class="aud-card">
+      <div class="aud-label">Research behavior, not casual browsing</div>
+      <div class="aud-body">A 6:30 average time on site and 7 pages per visit is strong evidence of deliberate research, not passive scrolling. Readers are actively comparing products, reading build specs, and evaluating gear before spending. <strong>This is the behavioral profile that produces above-average affiliate conversion rates.</strong></div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-label">Community-driven validation</div>
+      <div class="aud-body">180,000+ registered forum members generating 25,000+ monthly interactions means this audience does not just consume editorial — it validates purchases through peer conversation. <strong>Community audiences convert on trusted recommendations, not promotional language.</strong></div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-label">Premium gear, high AOV categories</div>
+      <div class="aud-body">The brands that appear most frequently in content — recovery systems, rooftop tents, dual-battery power, satellite navigation — carry $400–$4,000+ average order values. <strong>Higher AOV products generate more commission per conversion even at standard affiliate rates.</strong></div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-label">Multi-surface exposure</div>
+      <div class="aud-body">The same audience is reachable across articles, the forum, the newsletter, the podcast, YouTube descriptions, and Amazon Prime viewing sessions. <strong>Repeated exposure across trusted surfaces is how considered-purchase affiliate content actually drives conversions.</strong></div>
+    </div>
+  </div>
+
+  <div class="section-title">Best-fit affiliate categories</div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:24px;">
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Recovery and protection:</strong> High AOV, technical purchase decisions, and strong editorial authority already established</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Camp systems and storage:</strong> Frequent editorial treatment, specific product reviews, and repeatable seasonal demand</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Rooftop tents and sleep systems:</strong> High-consideration, high-AOV products where editorial authority drives conversion</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Navigation, communication, and power:</strong> Subscription-adjacent products with recurring revenue potential; strong technical fit</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot amber"></div>
+      <div class="signal-text"><strong>Apparel and accessories:</strong> Moderate fit; works well in roundups and gift guides but not the core of the audience's spending behavior</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot rust"></div>
+      <div class="signal-text"><strong>Commodity gear and impulse products:</strong> Poor fit; this audience buys through trust and field proof, not price or convenience</div>
+    </div>
+  </div>
+
+  <div class="summary-box" style="border-left-color: var(--moss);">
+    <div class="sb-title">One-line commercial case</div>
+    <div class="sb-body">Overland's audience is smaller than mass outdoor media, but far more commercially valuable for premium gear — because it behaves like a <strong>research-driven enthusiast community</strong>, not casual content traffic. The weak spot is not audience quality. It is whether a consistent commercial system has been built around that audience yet.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ FOOTPRINT ═══════════════ -->
+<div class="tab-panel" id="panel-footprint">
+
+  <p class="intro-graf">The 3,523 outbound merchant links across 681 articles break into three distinct buckets. Each requires a different approach to monetization.</p>
+
+  <div class="bucket-grid">
+    <div class="bucket-card">
+      <div class="bc-head" style="background:rgba(62,84,48,0.07);">
+        <div class="bc-num">Bucket 1</div>
+        <div class="bc-title">Affiliate-active merchants</div>
+        <div class="bc-sub">Affiliate links already present — focus is consistency</div>
+      </div>
+      <div class="bc-body">
+        <div class="bc-item"><span class="bc-item-name">Black Diamond</span><span class="bc-count badge badge-green">10/10 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">NEMO Equipment</span><span class="bc-count badge badge-green">8/10 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Midland USA</span><span class="bc-count badge badge-green">7/8 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Sea to Summit</span><span class="bc-count badge badge-green">7/8 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Dometic</span><span class="bc-count badge badge-amber">5/7 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Helinox</span><span class="bc-count badge badge-green">5/6 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Gerber Gear</span><span class="bc-count badge badge-green">5/5 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">REI</span><span class="bc-count badge badge-amber">6/17 aff.</span></div>
+      </div>
+    </div>
+    <div class="bucket-card">
+      <div class="bc-head" style="background:rgba(122,79,16,0.07);">
+        <div class="bc-num">Bucket 2</div>
+        <div class="bc-title">Mixed merchants</div>
+        <div class="bc-sub">Some affiliate links exist — fastest optimization win</div>
+      </div>
+      <div class="bc-body">
+        <div class="bc-item"><span class="bc-item-name">onX Maps</span><span class="bc-count badge badge-amber">17/40 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">RealTruck</span><span class="bc-count badge badge-amber">3/12 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">iKamper</span><span class="bc-count badge badge-amber">4/7 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Front Runner</span><span class="bc-count badge badge-amber">2/7 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">KC HiLites</span><span class="bc-count badge badge-amber">3/7 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Snow Peak</span><span class="bc-count badge badge-amber">4/4 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Gaia GPS</span><span class="bc-count badge badge-amber">mixed</span></div>
+        <div class="bc-item"><span class="bc-item-name">Baja Designs</span><span class="bc-count badge badge-amber">3/8 aff.</span></div>
+      </div>
+    </div>
+    <div class="bucket-card">
+      <div class="bc-head" style="background:rgba(184,76,30,0.07);">
+        <div class="bc-num">Bucket 3</div>
+        <div class="bc-title">No affiliate detected</div>
+        <div class="bc-sub">Recurring editorial presence with zero tracking</div>
+      </div>
+      <div class="bc-body">
+        <div class="bc-item"><span class="bc-item-name">REDARC Electronics</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Garmin</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Blue Ridge Overland</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">BioLite</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Butler Maps</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">YETI</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Danner / Helly Hansen</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+        <div class="bc-item"><span class="bc-item-name">Kuat Racks</span><span class="bc-count badge badge-rust">0 aff.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Affiliate vs. non-affiliate by top active merchant</div>
+  <div class="bar-section" style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px 18px;">
+
+    <div style="display:flex;gap:16px;margin-bottom:12px;font-size:11px;color:var(--text-muted);">
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--moss);display:inline-block;"></span>Affiliate links</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:2px;background:var(--border-strong);display:inline-block;"></span>Non-affiliate links</span>
+    </div>
+
+    <div class="bar-row">
+      <span class="bar-brand">Helinox</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:86%;"></div></div>
+      <span class="bar-count">19 aff / 3 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">Black Diamond</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:100%;"></div></div>
+      <span class="bar-count">10 aff / 0 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">Gerber Gear</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:100%;"></div></div>
+      <span class="bar-count">12 aff / 0 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">NEMO Equipment</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:87%;"></div></div>
+      <span class="bar-count">8 aff / 2 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">Sea to Summit</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:48%;"></div></div>
+      <span class="bar-count">13 aff / 14 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">onX Maps</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:43%;"></div></div>
+      <span class="bar-count">17 aff / 23 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">Dometic</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:55%;"></div></div>
+      <span class="bar-count">8 aff / 4 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">RealTruck</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:25%;"></div></div>
+      <span class="bar-count">3 aff / 15 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">Front Runner</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:29%;"></div></div>
+      <span class="bar-count">2 aff / 7 non</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-brand">KC HiLites</span>
+      <div class="bar-track"><div class="bar-fill aff" style="width:38%;"></div></div>
+      <span class="bar-count">3 aff / 5 non</span>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="section-title">Sponsor vs. affiliate distinction</div>
+  <p class="intro-graf">Not every high-frequency brand is a standard affiliate opportunity. Hankook Tire appears in 54+ articles and 61+ links with zero affiliate activity — but the volume and editorial pattern suggests this is a media or sponsorship partnership, not a missed affiliate activation. The same may apply to AEV, Tredder, Warner INEOS Grenadier, and select OEM relationships. These deserve a different commercial structure, not a standard affiliate insertion.</p>
+
+</div>
+
+<!-- ═══════════════ OPPORTUNITIES ═══════════════ -->
+<div class="tab-panel" id="panel-opportunities">
+
+  <p class="intro-graf">The list below balances four factors: frequency of editorial appearance, product fit for a high-intent overlanding audience, likelihood of a direct or network affiliate program, and ease of integration into existing content patterns.</p>
+
+  <div class="section-title">High priority — activate first</div>
+  <div class="opp-list">
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">REDARC Electronics</div>
+        <div class="oc-category">Power Systems — Dual battery, charging, management</div>
+      </div>
+      <div>
+        <div class="oc-why">Repeated presence in expedition electrical and power content, clear enthusiast-audience fit, and product-led editorial coverage that should convert well in high-intent reviews and vehicle build articles. Zero affiliate signal detected in the scrape despite 10+ merchant links found.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Power systems guides, dual-battery and solar setup articles, field-tested electrical reviews, and "what's in the rig" feature content.</div>
+      </div>
+      <div class="oc-meta">
+        <span class="badge badge-rust" style="margin-bottom:6px;display:block;">0 aff. detected</span>
+        <span class="badge badge-amber">High freq.</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">Garmin</div>
+        <div class="oc-category">Navigation, Safety, Satellite — inReach, Montana, zūmo</div>
+      </div>
+      <div>
+        <div class="oc-why">High-recognition overlanding brand with 8+ articles and 13 links detected, none with affiliate tracking. Multiple product lines fit naturally across editorial categories — navigation stacks, inReach subscriptions, motorcycle GPS, and expedition safety. Garmin has an established affiliate program available through multiple networks.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Navigation and communication roundups, expedition safety content, satellite subscription gift guides, route planning features.</div>
+      </div>
+      <div class="oc-meta">
+        <span class="badge badge-rust" style="margin-bottom:6px;display:block;">0 aff. detected</span>
+        <span class="badge badge-amber">High freq.</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">Blue Ridge Overland Gear</div>
+        <div class="oc-category">Gear Organization, Storage, Camp Accessories</div>
+      </div>
+      <div>
+        <div class="oc-why">Strong category fit, clear enthusiast-audience match, and the type of mid-price accessory brand that converts well in roundup and "what I carry" style content. Appears across 12 articles with 15 links and no affiliate activity detected. More directly activatable than automotive OEM or tire brands.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Gear organization roundups, camp kitchen and storage articles, "what's in the rig" features, and budget-friendly gear guides.</div>
+      </div>
+      <div class="oc-meta">
+        <span class="badge badge-rust" style="margin-bottom:6px;display:block;">0 aff. detected</span>
+        <span class="badge badge-amber">High freq.</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">Butler Maps</div>
+        <div class="oc-category">Adventure Maps, Route Planning, ADV / Dual-Sport</div>
+      </div>
+      <div>
+        <div class="oc-why">Maps are tangible, clearly purchasable products that fit naturally inside trip-planning and route content. Butler Maps appears in 7 articles with 9 links and no affiliate activity. Price points ($30–$50) work well in gift guides and beginner-oriented content. Good fit across both overland vehicle and ADV motorcycle audiences.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Route planning articles, ADV and dual-sport content, regional travel guides, gift guides.</div>
+      </div>
+      <div class="oc-meta">
+        <span class="badge badge-rust" style="margin-bottom:6px;display:block;">0 aff. detected</span>
+        <span class="badge badge-green">Accessible AOV</span>
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">BioLite</div>
+        <div class="oc-category">Camp Power, Lighting, Portable Stoves</div>
+      </div>
+      <div>
+        <div class="oc-why">Appears across 9 articles with 11 links and no affiliate tracking. Product price points ($20–$150) are accessible and work well in gift guides, beginner gear lists, and compact kit roundups. BioLite has an affiliate program and is a brand with strong storytelling value around sustainable camping — a natural editorial fit.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Camp lighting and power roundups, gift guides, compact and weekender kit content, portable fire and stove features.</div>
+      </div>
+      <div class="oc-meta">
+        <span class="badge badge-rust" style="margin-bottom:6px;display:block;">0 aff. detected</span>
+        <span class="badge badge-green">Lower AOV / vol.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Medium priority — second wave</div>
+  <div class="opp-list">
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">YETI</div>
+        <div class="oc-category">Coolers, Drinkware, Bags</div>
+      </div>
+      <div>
+        <div class="oc-why">5 articles, 12 links, zero affiliate activity. Strong brand recognition and accessible product range for roundups. Commission rates in drinkware and cooler categories are moderate, but volume potential through evergreen content is strong.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Camp kitchen, cooler comparisons, premium gear gift guides, cold-weather setups.</div>
+      </div>
+      <div class="oc-meta"><span class="badge badge-amber">Medium</span></div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">Danner / Helly Hansen</div>
+        <div class="oc-category">Footwear, Apparel</div>
+      </div>
+      <div>
+        <div class="oc-why">Lifestyle gear brands with recurring editorial mentions and clear commerce value. Not as central to the core overland build-content as power or shelter brands, but strong for seasonal and apparel-adjacent roundups where they already appear.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Cold-weather gear guides, basecamp apparel features, seasonal gift content.</div>
+      </div>
+      <div class="oc-meta"><span class="badge badge-amber">Medium</span></div>
+    </div>
+
+    <div class="opp-card">
+      <div>
+        <div class="oc-brand">Kuat Racks / Benchmade</div>
+        <div class="oc-category">Rack Systems / Knives and EDC</div>
+      </div>
+      <div>
+        <div class="oc-why">Specialized but well-matched accessory brands. Kuat appears across bike transport and roof rack content; Benchmade across tools and EDC features. Both have affiliate programs and both appear in content where purchase intent is high — buyers are already shopping, not browsing.</div>
+        <div class="oc-where"><strong>Best insertion points:</strong> Rack and transport content (Kuat); tool, knife, and EDC roundups (Benchmade).</div>
+      </div>
+      <div class="oc-meta"><span class="badge badge-amber">Medium</span></div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Sponsorship-first, not affiliate-first</div>
+  <div class="hl-note">
+    <strong>Hankook Tire</strong> (61 links across 54 articles, zero affiliate) and likely <strong>AEV, Tredder, Warner INEOS Grenadier, Toyota</strong>, and similar brands appear to operate through sponsorship or media partnership agreements rather than standard affiliate programs. These should be structured as direct media + performance packages, not treated as missed affiliate activations.
+  </div>
+
+</div>
+
+<!-- ═══════════════ TIERS ═══════════════ -->
+<div class="tab-panel" id="panel-tiers">
+
+  <p class="intro-graf">The inferred partner tiers below are based on affiliate link signals in the scraped content. Tier A reflects brands where affiliate infrastructure is already in use. Tier B reflects brands with strong editorial presence but no affiliate signal — likely sponsor or direct relationships. Tier C reflects brands that appear intermittently and are worth evaluating in a second wave.</p>
+
+  <div class="section-title">Inferred partner tiers from outbound link data</div>
+  <div class="tier-grid">
+
+    <div class="tier-card">
+      <div class="tc-head" style="background:rgba(62,84,48,0.07);">
+        <div class="tc-tier" style="color:var(--moss);">Tier A — Affiliate Active</div>
+        <div class="tc-title">Affiliate links detected in content</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">onX Maps / onX Offroad</div>
+        <div class="tc-item">RealTruck</div>
+        <div class="tc-item">Sea to Summit</div>
+        <div class="tc-item">Snow Peak</div>
+        <div class="tc-item">NEMO Equipment</div>
+        <div class="tc-item">Dometic</div>
+        <div class="tc-item">Black Diamond</div>
+        <div class="tc-item">iKamper</div>
+        <div class="tc-item">REI</div>
+        <div class="tc-item">Helinox</div>
+        <div class="tc-item">Gerber Gear</div>
+        <div class="tc-item">Midland USA</div>
+        <div class="tc-item">Matador Equipment</div>
+        <div class="tc-item">Gaia GPS</div>
+        <div class="tc-item">LifeStraw</div>
+        <div class="tc-item">Front Runner (partial)</div>
+        <div class="tc-item">KC HiLites (partial)</div>
+        <div class="tc-item">Outdoor Research</div>
+        <div class="tc-item">Eagle Creek</div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tc-head" style="background:rgba(184,76,30,0.07);">
+        <div class="tc-tier" style="color:var(--rust);">Tier B — Sponsor / Editorial Signal</div>
+        <div class="tc-title">Strong presence, no affiliate detected</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">Hankook Tire <span style="font-size:10px;color:var(--text-muted);">(media/sponsorship)</span></div>
+        <div class="tc-item">REDARC Electronics <span style="font-size:10px;color:var(--text-muted);">(affiliate candidate)</span></div>
+        <div class="tc-item">Garmin <span style="font-size:10px;color:var(--text-muted);">(affiliate candidate)</span></div>
+        <div class="tc-item">Blue Ridge Overland Gear <span style="font-size:10px;color:var(--text-muted);">(affiliate candidate)</span></div>
+        <div class="tc-item">BioLite <span style="font-size:10px;color:var(--text-muted);">(affiliate candidate)</span></div>
+        <div class="tc-item">AEV Conversions <span style="font-size:10px;color:var(--text-muted);">(likely sponsor)</span></div>
+        <div class="tc-item">Tredder <span style="font-size:10px;color:var(--text-muted);">(media/sponsor)</span></div>
+        <div class="tc-item">Warner INEOS Grenadier <span style="font-size:10px;color:var(--text-muted);">(likely OEM)</span></div>
+        <div class="tc-item">Alu-Cab <span style="font-size:10px;color:var(--text-muted);">(expedition partner)</span></div>
+        <div class="tc-item">Toyota <span style="font-size:10px;color:var(--text-muted);">(OEM / media)</span></div>
+        <div class="tc-item">Butler Maps <span style="font-size:10px;color:var(--text-muted);">(affiliate candidate)</span></div>
+      </div>
+    </div>
+
+    <div class="tier-card">
+      <div class="tc-head" style="background:rgba(122,79,16,0.07);">
+        <div class="tc-tier" style="color:var(--amber);">Tier C — Second Wave</div>
+        <div class="tc-title">Intermittent presence, worth evaluating</div>
+      </div>
+      <div class="tc-body">
+        <div class="tc-item">YETI</div>
+        <div class="tc-item">Danner</div>
+        <div class="tc-item">Helly Hansen</div>
+        <div class="tc-item">Kuat Racks</div>
+        <div class="tc-item">Benchmade</div>
+        <div class="tc-item">Mosko Moto</div>
+        <div class="tc-item">Fjällräven</div>
+        <div class="tc-item">Goose Gear</div>
+        <div class="tc-item">Rev'It</div>
+        <div class="tc-item">Scout Campers</div>
+        <div class="tc-item">Four Wheel Campers</div>
+        <div class="tc-item">Patriot Campers</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="caveat-block">
+    <strong>Important context:</strong> Tier assignments are inferred from outbound link patterns in the scraped content, not from confirmed contractual relationships. Some brands in Tier B may have existing direct relationships or exclusivity arrangements that would affect affiliate activation. Verification of current relationship status for each brand is recommended before outreach.
+  </div>
+
+</div>
+
+<!-- ═══════════════ 30/60/90 ═══════════════ -->
+<div class="tab-panel" id="panel-plan">
+
+  <p class="intro-graf">The sequencing below prioritizes revenue-producing actions that do not require new brand relationships to start. The fastest wins are inside the existing content archive.</p>
+
+  <div class="section-title">Phase plan</div>
+  <div class="plan-grid">
+
+    <div class="plan-card">
+      <div class="pc-phase" style="background:rgba(62,84,48,0.06);">
+        <div class="pc-label" style="color:var(--moss);">Days 1–30</div>
+        <div class="pc-title">Audit and map</div>
+        <div class="pc-theme">Understand what exists before changing anything</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-item"><span class="pc-bullet">▸</span>Audit the top 50 commercially relevant merchant domains and confirm current affiliate status for each</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Map existing brand relationships: active affiliate program, no program, direct/sponsor, or undetermined</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Inventory mixed merchants (Tier A) where non-affiliate links exist alongside affiliate links — these are the first priority</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Create a tagging taxonomy: affiliate-active, non-affiliate merchant, sponsor, internal, social, reference</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Identify the 10–15 highest-traffic evergreen articles where affiliate link normalization would have the most immediate revenue impact</div>
+        <div class="pc-deliverable">
+          <strong>End of day 30 deliverable</strong>
+          Merchant master file with status confirmed per domain, and a prioritized list of articles for link normalization
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="pc-phase" style="background:rgba(122,79,16,0.06);">
+        <div class="pc-label" style="color:var(--amber);">Days 31–60</div>
+        <div class="pc-title">Normalize and templatize</div>
+        <div class="pc-theme">Fix what exists, build repeatable infrastructure</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-item"><span class="pc-bullet">▸</span>Normalize affiliate links on mixed merchants — apply tracking to all non-affiliate links for brands already in the AvantLink system</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Build 3–5 repeatable content templates for Expedition Portal commerce content: field-tested review, buyer's guide, gear roundup, build list, gift guide</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Establish affiliate link governance: rules for when links are applied, by whom, and how they are audited</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Stand up merchant-level reporting by article, merchant, and content type to measure what is driving revenue</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Begin outreach to Tier B affiliate candidates: REDARC, Garmin, Blue Ridge Overland Gear, Butler Maps, BioLite</div>
+        <div class="pc-deliverable">
+          <strong>End of day 60 deliverable</strong>
+          Normalized links live on priority articles, merchant reporting active, and at least 3 first-wave merchant programs confirmed or in process
+        </div>
+      </div>
+    </div>
+
+    <div class="plan-card">
+      <div class="pc-phase" style="background:rgba(184,76,30,0.06);">
+        <div class="pc-label" style="color:var(--rust);">Days 61–90</div>
+        <div class="pc-title">Activate and package</div>
+        <div class="pc-theme">Launch new programs, separate sponsor track</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-item"><span class="pc-bullet">▸</span>Launch first-wave affiliate activation for confirmed Tier B merchants: REDARC, Blue Ridge Overland Gear, Garmin, Butler Maps, BioLite</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Package strategic sponsor-led brands (Hankook and similar) separately as media/performance partnership proposals — not standard affiliate insertions</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Use 60-day performance data to identify which content categories and templates are producing the highest revenue per article</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Evaluate whether any high-performing categories warrant a dedicated gear hub or recurring editorial franchise (e.g., "Best of Overland Power" as a standing content format)</div>
+        <div class="pc-item"><span class="pc-bullet">▸</span>Identify Tier C second-wave candidates to add to the pipeline based on what the first 60 days showed about conversion by category</div>
+        <div class="pc-deliverable">
+          <strong>End of day 90 deliverable</strong>
+          Affiliate program operational on both normalized legacy content and new activations, with merchant-level revenue data and a second-wave roadmap
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="summary-box" style="border-left-color: var(--gold);">
+    <div class="sb-title">The governing principle behind the sequence</div>
+    <div class="sb-body">Normalize before you add. The fastest revenue comes from <strong>fixing what exists, not signing new partners</strong>. At 10.5% affiliate penetration across 3,500+ outbound merchant links, there is meaningful near-term upside in the current content archive before new brand outreach is necessary. The buildout of new merchant relationships is the second chapter, not the first.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ METHODOLOGY ═══════════════ -->
+<div class="tab-panel" id="panel-methodology">
+
+  <p class="intro-graf">Transparency on what this analysis is and is not. The data is directionally useful for strategy; it is not a final audit of contractual or operational affiliate status.</p>
+
+  <div class="section-title">Data source and scope</div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 20px;margin-bottom:20px;">
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Source:</strong> Outbound link scrape from Expedition Portal content. 3,523 merchant links captured across 681 articles and 1,264 unique merchant domains.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot green"></div>
+      <div class="signal-text"><strong>Affiliate detection method:</strong> URL pattern matching for known affiliate network tracking parameters. AvantLink is the dominant detected network. Amazon shortlinks appear minimally.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot amber"></div>
+      <div class="signal-text"><strong>What this can confirm:</strong> Whether a given outbound link uses detectable affiliate tracking at the time of the scrape. Which merchant domains appear most frequently. Relative distribution of affiliate vs. non-affiliate links by merchant.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot rust"></div>
+      <div class="signal-text"><strong>What this cannot confirm:</strong> Contractual partner status. Whether a non-affiliate link represents a formal sponsor, OEM relationship, or simple editorial mention. Server-side or redirect-based affiliate tracking that does not surface in the outbound URL. Whether relationships have changed since the scrape was collected.</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-dot rust"></div>
+      <div class="signal-text"><strong>Brand and product extraction:</strong> Heuristic. Useful for directional strategy, but not clean enough to serve as a final merchant master file without manual review and verification.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Appendix — key numbers</div>
+  <div class="data-table" style="--dt-cols: 1fr 1fr;">
+    <div class="dt-head-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-head-cell">Metric</div>
+      <div class="dt-head-cell">Value</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Unique articles in scrape</div>
+      <div class="dt-cell bold">681</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Outbound merchant links captured</div>
+      <div class="dt-cell bold">3,523</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Unique merchant domains</div>
+      <div class="dt-cell bold">1,264</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Affiliate links detected</div>
+      <div class="dt-cell bold">371</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Affiliate share of outbound links</div>
+      <div class="dt-cell rust">10.5%</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Domains with at least one affiliate link</div>
+      <div class="dt-cell bold">85</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Primary affiliate network detected</div>
+      <div class="dt-cell bold">AvantLink</div>
+    </div>
+    <div class="dt-row" style="grid-template-columns: 1fr 1fr;">
+      <div class="dt-cell">Secondary affiliate signal</div>
+      <div class="dt-cell">Amazon shortlinks (minimal)</div>
+    </div>
+  </div>
+
+  <div class="caveat-block">
+    <strong>Caveat on audience numbers:</strong> Expedition Portal and Overland Collective audience figures cited in the Audience Profile section are drawn from published media kit and press page claims. Media kit figures can reflect methodology that varies from third-party measurement. The engagement signals — time on site, pages per visit, forum participation — are consistent with the content format and community structure, and are used directionally rather than as audited figures.
+  </div>
+
+</div>
+
+</div><!-- end page-body -->
+
+<script>
+function show(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
