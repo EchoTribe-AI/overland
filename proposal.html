@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overland Collective — 30-Day Affiliate Activation Sprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F4;
+    --surface: #FFFFFF;
+    --border: #E8E6E1;
+    --text: #0F1020;
+    --text-muted: #6B6B7B;
+    --accent: #EC1A8D;
+    --accent-light: #FFF0F8;
+    --dark: #0F1020;
+    --radius: 14px;
+    --shadow: 0 2px 12px rgba(15,16,32,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .meta-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    max-width: 640px;
+  }
+
+  p strong {
+    color: var(--text);
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 20px 0 28px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .stat-number {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .stat-number.accent {
+    color: var(--accent);
+  }
+
+  .stat-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Brand table */
+  .brand-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin: 16px 0 28px;
+  }
+
+  .table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    padding: 10px 18px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .table-header span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    transition: background 0.15s;
+  }
+
+  .table-row:last-child { border-bottom: none; }
+  .table-row:hover { background: #FAFAF9; }
+
+  .brand-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .brand-cat {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  .build-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .aov {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .status-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 100px;
+    display: inline-block;
+  }
+
+  .status-none {
+    background: #FFF0F0;
+    color: #C94040;
+  }
+
+  .status-partial {
+    background: #FFF8EC;
+    color: #9B6A10;
+  }
+
+  .status-amazon {
+    background: #F0F4FF;
+    color: #3A56B0;
+  }
+
+  /* Priority builds */
+  .builds-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 28px;
+  }
+
+  .build-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .build-name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+
+  .build-vehicle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  .build-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .build-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .build-stat-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .build-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+
+  .build-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  /* Deliverables */
+  .deliverables-list {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin: 16px 0 28px;
+  }
+
+  .deliverable-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+
+  .deliverable-item:last-child { border-bottom: none; }
+
+  .d-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    flex-shrink: 0;
+    padding-top: 1px;
+    min-width: 22px;
+  }
+
+  .d-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .d-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  /* Engagement block */
+  .engagement-block {
+    background: var(--dark);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin: 16px 0 28px;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .eng-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 8px;
+  }
+
+  .eng-value {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: white;
+    line-height: 1.1;
+  }
+
+  .eng-note {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .eng-divider {
+    border: none;
+    border-left: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .eng-right {
+    border-left: 1px solid rgba(255,255,255,0.1);
+    padding-left: 32px;
+  }
+
+  /* Phase 2 */
+  .phase2-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0 28px;
+  }
+
+  .phase2-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .phase2-icon {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .phase2-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .phase2-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .footer-contact {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .footer-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 680px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .builds-grid { grid-template-columns: 1fr 1fr; }
+    .phase2-grid { grid-template-columns: 1fr; }
+    .engagement-block { grid-template-columns: 1fr; }
+    .eng-right { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 24px; }
+    .table-header, .table-row { grid-template-columns: 2fr 1fr 2fr; }
+    .aov { display: none; }
+    h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="eyebrow">30-Day Activation Sprint</div>
+    <h1>The revenue is already<br>in <em>your content.</em></h1>
+    <p style="margin-top: 12px; font-size: 16px; color: var(--text-muted); max-width: 580px;">
+      A focused audit and activation of affiliate opportunities across existing Overland Collective content — 
+      starting with the truck build pages where buying intent is highest.
+    </p>
+    <div class="header-meta">
+      <div class="meta-item">
+        <span class="meta-label">Prepared for</span>
+        <span class="meta-value">Overland Collective</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Prepared by</span>
+        <span class="meta-value">Kelly Hagen</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Engagement type</span>
+        <span class="meta-value">30-Day Sprint</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Start date</span>
+        <span class="meta-value">Upon agreement</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Gap -->
+  <div class="section">
+    <div class="section-label">01 — What the data shows</div>
+    <h2>Significant revenue sitting untagged</h2>
+    <p>A preliminary audit of the XOVERLAND truck build pages found <strong>17 active builds with outbound product links</strong> — the vast majority pointing to high-AOV brands with no affiliate attribution in place.</p>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-number">17</div>
+        <div class="stat-desc">truck builds with outbound links audited</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">320+</div>
+        <div class="stat-desc">total outbound product links across builds</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number accent">~70%</div>
+        <div class="stat-desc">of links have no affiliate attribution</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12+</div>
+        <div class="stat-desc">high-value brands appearing with no affiliate tag</div>
+      </div>
+    </div>
+
+    <p>The existing Amazon shortlinks work but capture a fraction of the opportunity. The biggest untagged brands — WARN, ARB, Rigid Industries, REDARC, ICON Vehicle Dynamics — carry average order values in the hundreds to thousands of dollars and have active affiliate programs.</p>
+  </div>
+
+  <!-- Brand Opportunity -->
+  <div class="section">
+    <div class="section-label">02 — Brand opportunity map</div>
+    <h2>Recurring brands, zero attribution</h2>
+    <p>These brands appear across multiple builds and link out directly to their websites — no affiliate tracking, no attribution, no earnings.</p>
+
+    <div class="brand-table">
+      <div class="table-header">
+        <span>Brand</span>
+        <span>Builds</span>
+        <span>Est. AOV</span>
+        <span>Affiliate Status</span>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">ICON Vehicle Dynamics</div>
+          <div class="brand-cat">Suspension / Wheels</div>
+        </div>
+        <div class="build-count">5 builds</div>
+        <div class="aov">$800–$3,000+</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">WARN</div>
+          <div class="brand-cat">Winches / Recovery</div>
+        </div>
+        <div class="build-count">5 builds</div>
+        <div class="aov">$400–$1,500</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">REDARC Electronics</div>
+          <div class="brand-cat">Power Management</div>
+        </div>
+        <div class="build-count">6 builds</div>
+        <div class="aov">$300–$1,200</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">Rigid Industries</div>
+          <div class="brand-cat">Lighting</div>
+        </div>
+        <div class="build-count">5 builds</div>
+        <div class="aov">$150–$800</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">CBI Offroad Fab</div>
+          <div class="brand-cat">Bumpers / Skid Plates</div>
+        </div>
+        <div class="build-count">6 builds</div>
+        <div class="aov">$400–$1,800</div>
+        <div><span class="status-pill status-partial">Partial (?ref=)</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">ARB</div>
+          <div class="brand-cat">Air Systems / Lockers</div>
+        </div>
+        <div class="build-count">5 builds</div>
+        <div class="aov">$200–$600</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">Battle Born Batteries</div>
+          <div class="brand-cat">Lithium Power</div>
+        </div>
+        <div class="build-count">3 builds</div>
+        <div class="aov">$600–$2,000</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">Alu-Cab</div>
+          <div class="brand-cat">Rooftop Tents / Canopies</div>
+        </div>
+        <div class="build-count">3 builds</div>
+        <div class="aov">$2,000–$5,000</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">onX Maps</div>
+          <div class="brand-cat">Navigation (Subscription)</div>
+        </div>
+        <div class="build-count">5 builds</div>
+        <div class="aov">$30–$100 / yr</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">MAXTRAX</div>
+          <div class="brand-cat">Recovery Boards</div>
+        </div>
+        <div class="build-count">3 builds</div>
+        <div class="aov">$250–$400</div>
+        <div><span class="status-pill status-none">Not tagged</span></div>
+      </div>
+
+      <div class="table-row">
+        <div>
+          <div class="brand-name">Amazon (existing)</div>
+          <div class="brand-cat">Mixed products</div>
+        </div>
+        <div class="build-count">10 builds</div>
+        <div class="aov">varies</div>
+        <div><span class="status-pill status-amazon">Tagged (shortlink)</span></div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px;">Note: CBI Offroad uses <code style="font-family:'JetBrains Mono',monospace; font-size:11px; background:#F0F0EE; padding:2px 5px; border-radius:3px;">?ref=xoverland</code> parameters — not affiliate network tracking. Revenue attribution likely not in place even where the ref tag exists.</p>
+  </div>
+
+  <!-- Priority Builds -->
+  <div class="section">
+    <div class="section-label">03 — Where to start</div>
+    <h2>Highest-value builds to activate first</h2>
+    <p>Prioritized by outbound link volume, brand AOV, and current affiliate gap. These six builds alone represent the bulk of the immediate opportunity.</p>
+
+    <div class="builds-grid">
+
+      <div class="build-card">
+        <div class="build-name">Simba</div>
+        <div class="build-vehicle">2023 Toyota Sequoia</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">26</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">1 (4%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:4%"></div></div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-name">Orion</div>
+        <div class="build-vehicle">2022 Toyota Tundra</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">33</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">3 (9%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:9%"></div></div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-name">Atigun</div>
+        <div class="build-vehicle">2021 Toyota Tacoma</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">35</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">6 (17%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:17%"></div></div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-name">Raven</div>
+        <div class="build-vehicle">2020 Toyota Tacoma</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">35</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">9 (26%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:26%"></div></div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-name">Trinity</div>
+        <div class="build-vehicle">2018 Toyota Tundra</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">10</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">0 (0%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:0%"></div></div>
+      </div>
+
+      <div class="build-card">
+        <div class="build-name">The Clone</div>
+        <div class="build-vehicle">2015 Toyota 4Runner</div>
+        <div class="build-stat">
+          <span class="build-stat-label">Outbound links</span>
+          <span class="build-stat-value">23</span>
+        </div>
+        <div class="build-stat">
+          <span class="build-stat-label">Affiliate tagged</span>
+          <span class="build-stat-value" style="color:var(--accent)">3 (13%)</span>
+        </div>
+        <div class="build-bar"><div class="build-bar-fill" style="width:13%"></div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 30-Day Plan -->
+  <div class="section">
+    <div class="section-label">04 — The 30-day plan</div>
+    <h2>What gets done, in order</h2>
+    <p>Lightweight execution. No new content required, no editorial disruption. The goal is to normalize what's already there.</p>
+
+    <div class="deliverables-list">
+
+      <div class="deliverable-item">
+        <div class="d-num">01</div>
+        <div>
+          <div class="d-text">Full affiliate opportunity audit across Expedition Portal and XOVERLAND</div>
+          <div class="d-sub">Map every outbound merchant link. Flag affiliate program status, network, and commission range for each brand.</div>
+        </div>
+      </div>
+
+      <div class="deliverable-item">
+        <div class="d-num">02</div>
+        <div>
+          <div class="d-text">Prioritize and activate truck build pages first</div>
+          <div class="d-sub">Starting with the six highest-value builds identified above. Back-tag all existing outbound links where affiliate programs are available.</div>
+        </div>
+      </div>
+
+      <div class="deliverable-item">
+        <div class="d-num">03</div>
+        <div>
+          <div class="d-text">Enroll in affiliate programs for untagged brands</div>
+          <div class="d-sub">Most brands (WARN, Rigid, REDARC, ARB, ICON) are available on AvantLink — Overland's existing network. Application, enrollment, and link generation handled in full.</div>
+        </div>
+      </div>
+
+      <div class="deliverable-item">
+        <div class="d-num">04</div>
+        <div>
+          <div class="d-text">Build and maintain a merchant tracker</div>
+          <div class="d-sub">Running doc tracking every brand, their program status, commission rate, network, and next action. Becomes the foundation for ongoing affiliate management.</div>
+        </div>
+      </div>
+
+      <div class="deliverable-item">
+        <div class="d-num">05</div>
+        <div>
+          <div class="d-text">Extend to sponsored gear pages and existing editorial where relevant</div>
+          <div class="d-sub">Truck builds are the priority, but any sponsored content or gear roundups get audited in parallel.</div>
+        </div>
+      </div>
+
+      <div class="deliverable-item">
+        <div class="d-num">06</div>
+        <div>
+          <div class="d-text">End-of-month readout: revenue signal and phase two recommendation</div>
+          <div class="d-sub">30-day summary of what was activated, early click and revenue data, and a clear recommendation on whether and how to expand.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Engagement -->
+  <div class="section">
+    <div class="section-label">05 — Engagement terms</div>
+
+    <div class="engagement-block">
+      <div>
+        <div class="eng-label">Sprint fee</div>
+        <div class="eng-value">$5,000</div>
+        <div class="eng-note">Fixed for the 30-day activation sprint. No retainer commitment, no long-term obligation. Lightweight working style — minimal meeting overhead.</div>
+      </div>
+      <div class="eng-right">
+        <div class="eng-label">If the signal is there</div>
+        <div class="eng-value">Month-to-month</div>
+        <div class="eng-note">Sprint extends at $5K/month for the initial 90–120 days while the full scope is defined. If affiliate revenue reaches agreed targets at the 90-day mark, a $5K performance bonus applies. No decision needed upfront.</div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: var(--text-muted);">The goal of the sprint is to prove the opportunity with real data — then decide how far to take it. If results don't validate within 30 days, we shouldn't continue. That's the honest version of this.</p>
+  </div>
+
+  <!-- Phase 2 Preview -->
+  <div class="section">
+    <div class="section-label">06 — What comes after, if it works</div>
+    <h2>The broader build</h2>
+    <p>If the sprint confirms the signal, the natural next phase covers everything the current setup doesn't.</p>
+
+    <div class="phase2-grid">
+      <div class="phase2-item">
+        <div class="phase2-icon">⚙️</div>
+        <div class="phase2-title">Affiliate infrastructure</div>
+        <div class="phase2-desc">Network setup, reporting, tracking standards, and editorial guidelines across all Overland properties.</div>
+      </div>
+      <div class="phase2-item">
+        <div class="phase2-icon">🤝</div>
+        <div class="phase2-title">New partner activation</div>
+        <div class="phase2-desc">Proactive outreach to brands that fit the audience but aren't yet in the build pages or editorial mix.</div>
+      </div>
+      <div class="phase2-item">
+        <div class="phase2-icon">📧</div>
+        <div class="phase2-title">Newsletter monetization</div>
+        <div class="phase2-desc">256K email subscribers is an underutilized commercial asset. Affiliate integration without disrupting editorial voice.</div>
+      </div>
+      <div class="phase2-item">
+        <div class="phase2-icon">🎯</div>
+        <div class="phase2-title">Sponsor-to-affiliate bridge</div>
+        <div class="phase2-desc">Converting existing sponsor relationships into affiliate structures where appropriate — without disrupting those deals.</div>
+      </div>
+      <div class="phase2-item">
+        <div class="phase2-icon">📊</div>
+        <div class="phase2-title">Reporting + attribution</div>
+        <div class="phase2-desc">Real visibility into what content drives revenue, which brands convert, and where to invest editorial energy next.</div>
+      </div>
+      <div class="phase2-item">
+        <div class="phase2-icon">📅</div>
+        <div class="phase2-title">Q4 scale plan</div>
+        <div class="phase2-desc">Overland gear buying peaks in fall. Building the infrastructure now positions you to capture that window at scale.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>
+      <div class="footer-name">Kelly Hagen · EchoTribe</div>
+      <div class="footer-contact">kelly@echotribe.ai · echotribe.ai</div>
+    </div>
+    <div class="footer-date">May 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
