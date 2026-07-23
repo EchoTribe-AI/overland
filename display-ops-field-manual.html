@@ -1,0 +1,522 @@
+<title>Display Monetization — Field Manual</title>
+<style>
+  :root {
+    /* warm, green-biased neutrals — chosen, not defaulted */
+    --paper:   #EFEBE0;
+    --panel:   #F6F3EA;
+    --panel-2: #E7E2D4;
+    --line:    #D3CCB9;
+    --ink:     #23261D;
+    --ink-2:   #4A4E3E;
+    --ink-3:   #6E7360;
+    /* accent: field / olive */
+    --field:   #5F7233;
+    --field-2: #728A3E;
+    --field-ink:#3F4C22;
+    /* secondary trail marker — used sparingly */
+    --trail:   #B0552B;
+    --sun:     #B98A22;
+    /* semantic (separate from accent) */
+    --good:    #4E7A34;
+    --warn:    #B5811A;
+    --crit:    #B23B2E;
+    --good-bg: rgba(78,122,52,.12);
+    --warn-bg: rgba(181,129,26,.14);
+    --crit-bg: rgba(178,59,46,.12);
+
+    --shadow: 0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:   #16180F;
+      --panel:   #1E2016;
+      --panel-2: #262a1c;
+      --line:    #343827;
+      --ink:     #E9E5D6;
+      --ink-2:   #C3BFAE;
+      --ink-3:   #8E927C;
+      --field:   #9FB65C;
+      --field-2: #8AA24A;
+      --field-ink:#C6D68A;
+      --trail:   #D98252;
+      --sun:     #D6A63C;
+      --good:    #86B85C;
+      --warn:    #D6A63C;
+      --crit:    #E0725F;
+      --good-bg: rgba(134,184,92,.14);
+      --warn-bg: rgba(214,166,60,.16);
+      --crit-bg: rgba(224,114,95,.14);
+      --shadow: 0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper:#EFEBE0;--panel:#F6F3EA;--panel-2:#E7E2D4;--line:#D3CCB9;
+    --ink:#23261D;--ink-2:#4A4E3E;--ink-3:#6E7360;
+    --field:#5F7233;--field-2:#728A3E;--field-ink:#3F4C22;--trail:#B0552B;--sun:#B98A22;
+    --good:#4E7A34;--warn:#B5811A;--crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12);--warn-bg:rgba(181,129,26,.14);--crit-bg:rgba(178,59,46,.12);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+  }
+  :root[data-theme="dark"] {
+    --paper:#16180F;--panel:#1E2016;--panel-2:#262a1c;--line:#343827;
+    --ink:#E9E5D6;--ink-2:#C3BFAE;--ink-3:#8E927C;
+    --field:#9FB65C;--field-2:#8AA24A;--field-ink:#C6D68A;--trail:#D98252;--sun:#D6A63C;
+    --good:#86B85C;--warn:#D6A63C;--crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14);--warn-bg:rgba(214,166,60,.16);--crit-bg:rgba(224,114,95,.14);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* ---------- utility type ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0;
+  }
+  h1, h2, h3 { text-wrap: balance; line-height: 1.15; }
+  a { color: var(--field-ink); }
+  @media (prefers-color-scheme: dark){ a{ color: var(--field); } }
+  :root[data-theme="dark"] a{ color: var(--field); }
+  :root[data-theme="light"] a{ color: var(--field-ink); }
+
+  /* ---------- hero ---------- */
+  header.hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+  }
+  #topo { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5; }
+  @media (prefers-color-scheme: dark){ #topo{ opacity:.4; } }
+  .hero-inner {
+    position: relative;
+    max-width: 1080px; margin: 0 auto;
+    padding: 40px 24px 34px;
+  }
+  .kicker-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .badge {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--field-ink); background: var(--good-bg);
+    border: 1px solid color-mix(in srgb, var(--field) 40%, transparent);
+    padding: 3px 9px; border-radius: 4px;
+  }
+  @media (prefers-color-scheme: dark){ .badge{ color: var(--field); } }
+  :root[data-theme="dark"] .badge{ color: var(--field); }
+  :root[data-theme="light"] .badge{ color: var(--field-ink); }
+  h1.title {
+    font-size: clamp(30px, 5vw, 48px);
+    font-weight: 800; letter-spacing: -0.02em;
+    margin: 16px 0 10px;
+  }
+  .lede { font-size: clamp(15px, 2.1vw, 18px); color: var(--ink-2); max-width: 62ch; margin: 0; }
+  .meta-strip {
+    display: flex; gap: 18px 26px; flex-wrap: wrap;
+    margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--line);
+    font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+  }
+  .meta-strip b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 54px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .sec-num {
+    font-family: var(--mono); font-size: 12px; color: var(--field);
+    border: 1px solid color-mix(in srgb, var(--field) 45%, transparent);
+    border-radius: 4px; padding: 2px 7px; flex: none;
+  }
+  h2.sec-title { font-size: clamp(21px, 3vw, 27px); font-weight: 750; letter-spacing: -.01em; margin: 0; }
+  .sec-sub { color: var(--ink-2); margin: 8px 0 24px; max-width: 68ch; }
+
+  .panel {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 22px; box-shadow: var(--shadow);
+  }
+
+  /* ---------- the stack / waterfall ---------- */
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .tier {
+    display: grid; grid-template-columns: 46px 1fr; gap: 16px;
+    align-items: stretch;
+  }
+  .tier-rail { position: relative; }
+  .tier-dot {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    width: 14px; height: 14px; border-radius: 50%; z-index: 2;
+    border: 3px solid var(--panel);
+  }
+  .tier-line {
+    position: absolute; top: 20px; bottom: -12px; left: 50%; transform: translateX(-50%);
+    width: 2px; background: var(--line);
+  }
+  .tier:last-child .tier-line { display: none; }
+  .tier-body {
+    background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--tc, var(--line));
+    border-radius: 10px; padding: 15px 18px; box-shadow: var(--shadow);
+  }
+  .tier-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .tier-top h3 { font-size: 17px; margin: 0; font-weight: 700; }
+  .tier-tag {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 1px 7px;
+  }
+  .tier-prio { margin-left: auto; font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+  .tier-body p { margin: 8px 0 0; color: var(--ink-2); font-size: 14.5px; }
+
+  /* ---------- generic grid of cards ---------- */
+  .grid { display: grid; gap: 14px; }
+  .grid.two { grid-template-columns: repeat(2, 1fr); }
+  .grid.three { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 760px){ .grid.two, .grid.three { grid-template-columns: 1fr; } .tier{ grid-template-columns: 30px 1fr; gap:10px; } }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 17px; }
+  .card h4 { margin: 0 0 6px; font-size: 15.5px; font-weight: 700; }
+  .card p { margin: 0; color: var(--ink-2); font-size: 14px; }
+  .card .cap { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display:block; margin-bottom: 4px;}
+
+  .lever-group { margin-top: 16px; }
+  .lever-group > .grp-label {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--field); margin: 0 0 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .grp-label::after { content:""; flex:1; height:1px; background: var(--line); }
+
+  /* ---------- metrics glossary ---------- */
+  .metric {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 15px 16px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .metric .term { font-weight: 750; font-size: 15px; }
+  .metric .term .abbr { font-family: var(--mono); font-size: 12px; color: var(--field); margin-left: 6px; }
+  .metric .def { color: var(--ink-2); font-size: 13.5px; margin: 0; }
+  .metric .why { font-size: 12.5px; color: var(--ink-3); margin: 0; padding-top: 6px; border-top: 1px dashed var(--line); }
+  .metric .why b { color: var(--field-ink); font-weight: 650; }
+  @media (prefers-color-scheme: dark){ .metric .why b{ color: var(--field); } }
+  :root[data-theme="dark"] .metric .why b{ color: var(--field);} :root[data-theme="light"] .metric .why b{ color: var(--field-ink);}
+  .star { color: var(--sun); font-family: var(--mono); font-size: 11px; letter-spacing:.05em;}
+
+  /* ---------- avantlink decision ---------- */
+  .calc {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0;
+  }
+  @media (max-width: 760px){ .calc{ grid-template-columns: 1fr; } }
+  .case {
+    border-radius: 10px; padding: 16px 17px; border: 1px solid var(--line); background: var(--panel);
+  }
+  .case.win { border-color: color-mix(in srgb, var(--good) 45%, transparent); background: var(--good-bg); }
+  .case.hold { border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: var(--warn-bg); }
+  .case h4 { margin: 0 0 4px; font-size: 15px; }
+  .case .tag { font-family: var(--mono); font-size: 11px; letter-spacing:.06em; text-transform: uppercase; }
+  .case.win .tag { color: var(--good); }
+  .case.hold .tag { color: var(--warn); }
+  .case p { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-2); }
+
+  .formula {
+    font-family: var(--mono); font-size: 13.5px; color: var(--ink);
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px;
+    padding: 14px 16px; margin: 6px 0; overflow-x: auto; line-height: 1.7;
+  }
+  .formula .hl { color: var(--field); font-weight: 700; }
+  .formula .muted { color: var(--ink-3); }
+
+  /* ---------- checklist ---------- */
+  ol.pull { list-style: none; counter-reset: p; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  ol.pull li {
+    counter-increment: p; display: grid; grid-template-columns: 30px 1fr; gap: 14px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 9px; padding: 13px 15px;
+  }
+  ol.pull li::before {
+    content: counter(p, decimal-leading-zero);
+    font-family: var(--mono); font-size: 12px; color: var(--field);
+    border: 1px solid color-mix(in srgb, var(--field) 45%, transparent);
+    border-radius: 5px; height: 26px; display: grid; place-items: center; font-weight: 600;
+  }
+  ol.pull li b { font-weight: 700; }
+  ol.pull li .path { font-family: var(--mono); font-size: 12px; color: var(--ink-3); display: block; margin-top: 3px; }
+  ol.pull li p { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-2); }
+
+  ul.qs { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  ul.qs li { padding-left: 22px; position: relative; color: var(--ink); font-size: 14.5px; }
+  ul.qs li::before { content: "▸"; position: absolute; left: 0; color: var(--field); }
+  ul.qs li .n { color: var(--ink-3); font-size: 13px; display:block; }
+
+  .callout {
+    border-left: 4px solid var(--trail); background: color-mix(in srgb, var(--trail) 8%, var(--panel));
+    border-radius: 0 10px 10px 0; padding: 14px 18px; margin-top: 16px;
+  }
+  .callout .cap { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--trail); }
+  .callout p { margin: 6px 0 0; font-size: 14px; color: var(--ink-2); }
+
+  footer.foot {
+    margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--line);
+    font-family: var(--mono); font-size: 12px; color: var(--ink-3);
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .theme-toggle {
+    position: fixed; top: 14px; right: 14px; z-index: 20;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    background: var(--panel); color: var(--ink-2); border: 1px solid var(--line);
+    border-radius: 20px; padding: 6px 13px; cursor: pointer;
+  }
+  .theme-toggle:focus-visible, a:focus-visible, button:focus-visible { outline: 2px solid var(--field); outline-offset: 2px; }
+</style>
+
+<button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
+
+<header class="hero">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="kicker-row">
+      <span class="badge">Field Manual</span>
+      <p class="eyebrow">Expedition Portal · Display Monetization Ops</p>
+    </div>
+    <h1 class="title">How your display ad money is actually made</h1>
+    <p class="lede">A plain-English map of the stack, the levers you control, the assets you're selling, and the metrics that decide who wins — written so Kelly &amp; Jake can walk into the NextMillennium meeting knowing exactly what to push on.</p>
+    <div class="meta-strip">
+      <span>Ad server · <b>Google Ad Manager (GAM)</b></span>
+      <span>Remnant partner · <b>NextMillennium</b></span>
+      <span>House fallback · <b>AvantLink 2026</b></span>
+      <span>Prepared · <b>Jul 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. THE STACK -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">The stack — who gets first crack at each ad slot</h2></div>
+    <p class="sec-sub">Every time a page loads, each ad slot runs a mini-auction inside GAM. GAM fills it in <b>priority order</b>: guaranteed deals you sold directly go first, then programmatic demand competes on price for what's left, and a house ad mops up anything still empty. This order is the single most important thing to understand — it's literally a waterfall.</p>
+
+    <div class="stack">
+      <div class="tier">
+        <div class="tier-rail"><span class="tier-line"></span><span class="tier-dot" style="background:var(--trail)"></span></div>
+        <div class="tier-body" style="--tc:var(--trail)">
+          <div class="tier-top"><h3>Direct-sold sponsorships</h3><span class="tier-tag">Guaranteed</span><span class="tier-prio">GAM priority 4–8 · highest</span></div>
+          <p>The sponsor ads you sell yourself (endemic overland brands). These are booked to deliver a promised number of impressions, so GAM serves them <b>before</b> anyone else. Highest revenue per impression, but capped by how much you've sold.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier-rail"><span class="tier-line"></span><span class="tier-dot" style="background:var(--field)"></span></div>
+        <div class="tier-body" style="--tc:var(--field)">
+          <div class="tier-top"><h3>NextMillennium (programmatic remnant)</h3><span class="tier-tag">Auction / price</span><span class="tier-prio">GAM priority 12 · competes on CPM</span></div>
+          <p>Whatever direct-sold didn't take becomes <b>unsold / remnant</b> inventory. NextMillennium brings a pile of buyers (SSPs/DSPs) who bid on it in real time; the highest bid wins. This is where "fill rate" and "CPM" live — and where the video-fill problem sits, because a display slot doesn't invite dedicated video budgets.</p>
+        </div>
+      </div>
+      <div class="tier">
+        <div class="tier-rail"><span class="tier-dot" style="background:var(--sun)"></span></div>
+        <div class="tier-body" style="--tc:var(--sun)">
+          <div class="tier-top"><h3>AvantLink 2026 (house affiliate)</h3><span class="tier-tag">House · % goal</span><span class="tier-prio">currently taking 20% of unsold</span></div>
+          <p>Your own affiliate creative, running as a house campaign. It earns on <b>clicks/conversions</b>, not on impressions. Right now it's set to grab 20% of unsold inventory — the exact lever you're asking about in Section 05.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="cap">The one sentence that ties it together</span>
+      <p>Direct-sold is capped by your sales effort; the house ad is a fallback; <b>NextMillennium is the engine that monetizes the 80–95% of inventory in the middle</b> — so almost everything in this manual is about feeding that engine more and better inventory.</p>
+    </div>
+  </section>
+
+  <!-- 2. ASSETS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Your assets — what you're actually selling</h2></div>
+    <p class="sec-sub">You don't sell "ads." You sell attention on specific inventory. Knowing your assets tells you where the upside is and gives you leverage in the NM conversation.</p>
+    <div class="grid three">
+      <div class="card"><span class="cap">Inventory</span><h4>The ad slots</h4><p>Each placement (leaderboard, in-content rectangle, sidebar, sticky anchor) × each page = an impression you can sell. Their <b>sizes, position, and viewability</b> set their value.</p></div>
+      <div class="card"><span class="cap">Traffic</span><h4>Pageviews &amp; sessions</h4><p>The forum is the sleeper asset: long sessions and huge pageview volume make it ideal for <b>ad refresh</b> (Section 04) — more monetizable impressions from the same visit.</p></div>
+      <div class="card"><span class="cap">Audience</span><h4>Endemic off-road buyers</h4><p>A high-intent, gear-buying niche. Worth premium CPMs to endemic advertisers and the reason <b>direct deals</b> and <b>video budgets</b> are realistic — this audience is a scarce buy.</p></div>
+      <div class="card"><span class="cap">First-party data</span><h4>Newsletter &amp; logged-in forum</h4><p>256K newsletter subscribers and logged-in forum users are addressable identity in a cookieless world — fuel for higher match rates and CPMs if wired into the demand stack.</p></div>
+      <div class="card"><span class="cap">Content</span><h4>XOVERLAND owned video</h4><p>Real video content is the asset that unlocks a <b>true video unit</b> (instream pre-roll), the highest-CPM inventory you could add. Most sites can only run junky outstream; you can run your own footage.</p></div>
+      <div class="card"><span class="cap">Authorization</span><h4>Your ads.txt file</h4><p>The public file at <span class="cap" style="display:inline;text-transform:none;font-size:12px">expeditionportal.com/ads.txt</span> that says which sellers may sell you. If NM's seats aren't listed, that demand gets filtered out before it can bid.</p></div>
+    </div>
+  </section>
+
+  <!-- 3. LEVERS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The levers — what you can actually change</h2></div>
+    <p class="sec-sub">Optimization is just pulling these knobs and measuring the effect on Session RPM (Section 04). They split into three groups: the inventory you offer, the demand competing for it, and how the waterfall is configured.</p>
+
+    <div class="lever-group">
+      <p class="grp-label">Inventory levers — mostly yours to pull</p>
+      <div class="grid two">
+        <div class="card"><h4>Ad refresh <span class="star">★ biggest volume lever</span></h4><p>Reload an ad after it's been viewed for 30–60s of active on-screen time. On long forum sessions this can multiply monetizable impressions. Must be viewability-triggered so you don't tank CPMs.</p></div>
+        <div class="card"><h4>Placement density &amp; position</h4><p>More slots and better positions = more impressions, but watch UX, viewability, and Core Web Vitals. Adding one well-placed in-content unit often beats three bad ones.</p></div>
+        <div class="card"><h4>Sizes offered</h4><p>Enable high-value sizes: <b>300×600 half-page</b> and <b>970×250 billboard</b> command far higher CPMs than a lone 300×250. Multi-size slots let more buyers compete.</p></div>
+        <div class="card"><h4>Lazy loading</h4><p>Only request an ad as the slot scrolls near view. Raises viewability (you're not counting ads nobody saw), which directly lifts CPMs and Core Web Vitals.</p></div>
+        <div class="card"><h4>Sticky / anchor units</h4><p>A pinned anchor (bottom of screen) or sticky sidebar stays in view longer → higher viewability → higher CPM. Also the natural home for the <b>outstream video player</b>.</p></div>
+        <div class="card"><h4>A dedicated video unit</h4><p>The incremental play: a sticky outstream player (or instream with your own footage) turns a slot into a <b>true video impression</b> that dedicated video budgets ($15–40+ CPM) will bid on.</p></div>
+      </div>
+    </div>
+
+    <div class="lever-group">
+      <p class="grp-label">Demand levers — you direct, NM executes</p>
+      <div class="grid two">
+        <div class="card"><h4>Number of demand partners</h4><p>How many SSPs/bidders compete in the auction (header bidding depth + Open Bidding). More competition = higher clearing price. Ask NM exactly who's live.</p></div>
+        <div class="card"><h4>Price floors</h4><p>The minimum you'll accept. Too high kills fill; too low leaves money on the table. Should be dynamic, set per size/geo/device — a common source of quiet under-earning.</p></div>
+        <div class="card"><h4>Identity modules</h4><p>UID2 / ID5 / LiveRamp / SharedID let buyers recognize users without third-party cookies. Big driver of both fill and CPM as cookies go away.</p></div>
+        <div class="card"><h4>ads.txt completeness</h4><p>Every NM seat and reseller line must be authorized, or that demand is dropped. A 5-minute audit that can meaningfully move fill.</p></div>
+      </div>
+    </div>
+
+    <div class="lever-group">
+      <p class="grp-label">Configuration levers — inside GAM</p>
+      <div class="grid two">
+        <div class="card"><h4>House / AvantLink priority &amp; share <span class="star">★ your open question</span></h4><p>Whether AvantLink sits above or below NM in the waterfall, and what % it takes. This decides if the 20%→5% change actually hands impressions to NM. See Section 05.</p></div>
+        <div class="card"><h4>Direct-sold commitment</h4><p>How many impressions your direct deals reserve. Over-booking guaranteed deals starves the NM auction; under-booking leaves premium money unsold.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. METRICS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">The metrics — the scoreboard, in plain English</h2></div>
+    <p class="sec-sub">You'll hear these constantly. The gold-starred ones are the numbers that actually decide whether a change made you money. Optimize <b>Session RPM</b> above all — it's the only number that captures fill, price, and ad count at once.</p>
+    <div class="grid two">
+      <div class="metric"><span class="term">Impressions</span><p class="def">The number of ads served.</p><p class="why">Raw volume. Meaningless on its own — a million cheap impressions can earn less than ten thousand good ones.</p></div>
+
+      <div class="metric"><span class="term">Fill rate</span><p class="def">Of all ad requests, the % that returned a paying ad. <span class="cap" style="display:inline;text-transform:none">filled ÷ requested</span></p><p class="why">Your <b>"low video fill"</b> problem lives here: video ad requests are mostly coming back empty because a display slot doesn't attract video buyers.</p></div>
+
+      <div class="metric"><span class="term">CPM<span class="abbr">cost per mille</span></span><p class="def">What an advertiser pays per <b>1,000</b> impressions.</p><p class="why">The price of a win. Video CPMs run several times display CPMs — which is why a real video unit is worth the effort.</p></div>
+
+      <div class="metric"><span class="term">eCPM<span class="abbr">effective CPM</span></span><p class="def">Blended revenue per 1,000 impressions across filled <em>and</em> unfilled requests.</p><p class="why">The honest apples-to-apples number for comparing two setups — because it bakes in fill rate, not just winning price.</p></div>
+
+      <div class="metric"><span class="term">Session RPM <span class="star">★ north star</span></span><p class="def">Revenue per 1,000 <b>sessions</b> (or pageviews = Page RPM).</p><p class="why"><b>The one number to optimize.</b> It captures fill × CPM × ads-per-session together, so it tells you if a change actually grew the pie or just reshuffled it.</p></div>
+
+      <div class="metric"><span class="term">Viewability</span><p class="def">% of impressions actually seen (industry standard: 50% of pixels on screen for 1s+).</p><p class="why">Buyers pay more for ads people see. Lazy-loading and sticky units raise it; it's an indirect but strong lever on CPM.</p></div>
+
+      <div class="metric"><span class="term">Video fill / VCR</span><p class="def">Video-specific fill rate and <b>Video Completion Rate</b> (how often the ad plays to the end).</p><p class="why">The KPIs that will prove a dedicated video unit is working. Track these separately from display from day one.</p></div>
+
+      <div class="metric"><span class="term">Core Web Vitals<span class="abbr">LCP · CLS · INP</span></span><p class="def">Google's page-experience scores for load speed, layout stability, and responsiveness.</p><p class="why">Ads are the usual culprit for bad scores, and bad scores hurt <b>SEO and traffic</b> — the guardrail on every "add more ads" lever.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. AVANTLINK DECISION -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Your AvantLink question — 20% → 5%, worked out</h2></div>
+    <p class="sec-sub">"Will dropping AvantLink from 20% to 5% of unsold inventory increase NextMillennium earnings?" The honest answer: <b>it depends entirely on one thing you can check in GAM in two minutes</b> — where AvantLink sits in the waterfall relative to NM. There are two cases, and they point opposite ways.</p>
+
+    <div class="calc">
+      <div class="case win">
+        <span class="tag">Case A — likely worth it</span>
+        <h4>AvantLink is ABOVE NM in priority</h4>
+        <p>If the AvantLink line item is a <b>Sponsorship or Standard</b> type (priority 4–10), it skims 20% of impressions off the top <em>before</em> NM ever competes. Cutting to 5% hands roughly <b>15% more impressions</b> to the NM auction. Worth it if NM earns more on those than AvantLink does.</p>
+      </div>
+      <div class="case hold">
+        <span class="tag">Case B — no effect on NM</span>
+        <h4>AvantLink is BELOW NM (true "house")</h4>
+        <p>If AvantLink is a <b>House</b> line item (priority 16), NM already gets first look and AvantLink only fills what NM <em>declined</em>. Cutting it won't feed NM anything — those impressions were NM passbacks. You'd just create blanks. The lever is moot for NM here.</p>
+      </div>
+    </div>
+
+    <p class="sec-sub" style="margin-bottom:10px"><b>How to decide, regardless of case.</b> Don't argue theory — compare revenue-per-1,000-impressions. AvantLink pays on conversions, so convert its affiliate earnings into an effective impression value and put it next to NM's eCPM on the same slot:</p>
+
+    <div class="formula">
+<span class="muted"># AvantLink's true value as a display unit</span>
+AvantLink eCPM = (affiliate $ earned ÷ impressions shown) × 1000
+
+<span class="muted"># Give NM the impressions only if</span>
+<span class="hl">NM eCPM  &gt;  AvantLink eCPM</span>   <span class="muted">→ shift the 15% to NM</span>
+
+<span class="muted"># Net gain from the change (per 1,000 impressions moved)</span>
+Δ = NM eCPM − AvantLink eCPM
+    </div>
+
+    <p class="sec-sub" style="margin-top:14px"><b>Why NM probably wins — but verify.</b> An affiliate creative in a display slot usually converts at a low enough rate that its eCPM is a fraction of programmatic CPM. So Case A most likely favors NM. But "probably" isn't a number — pull AvantLink's actual earnings and impressions for that placement and compute its eCPM before you commit.</p>
+
+    <div class="callout">
+      <span class="cap">The clean way to settle it</span>
+      <p>Run it as a controlled test: drop AvantLink to 5% for <b>2 weeks</b>, then compare <b>Session RPM</b> before vs. after (RPM, not raw dollars, to cancel out traffic swings). Net win = the rise in NM revenue minus any drop in AvantLink revenue. If GAM's A/B experiments are available, split-test it instead of a before/after. Either way, let the RPM decide — not the theory.</p>
+    </div>
+  </section>
+
+  <!-- 6. PULL LIST -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Pull this before the meeting — the real analysis lives in your dashboards</h2></div>
+    <p class="sec-sub">I can't reach your GAM or NM accounts (and the live site is behind bot protection), but everything that actually matters is in there and takes minutes to export. Grab these and the picture is complete — send them over and I'll help interpret.</p>
+    <ol class="pull">
+      <li><div><b>GAM inventory report — last 30 &amp; 90 days</b><span class="path">Reporting → Ad unit × Impressions, eCPM, Revenue, Fill rate, Viewability, split desktop/mobile</span><p>Shows which placements earn and where fill/viewability is leaking.</p></div></li>
+      <li><div><b>The AvantLink 2026 line item — type, priority &amp; goal</b><span class="path">Delivery → Line items → "AvantLink 2026" → Settings</span><p>This single screen resolves Case A vs. Case B in Section 05. Note its delivered impressions + affiliate revenue too.</p></div></li>
+      <li><div><b>Programmatic / NM performance</b><span class="path">Reporting → by demand channel: NM / Open Bidding / AdX — revenue, eCPM, unfilled impressions, match rate</span><p>The engine's actual output, and how much inventory goes unfilled today.</p></div></li>
+      <li><div><b>Current price floors / unified pricing rules</b><span class="path">Inventory → Unified pricing rules</span><p>Reveals if floors are choking fill or left at defaults.</p></div></li>
+      <li><div><b>Ad refresh setting &amp; current ads.txt</b><span class="path">refresh: on/off + interval · file: expeditionportal.com/ads.txt</span><p>Two of the fastest levers — confirm the current state of each.</p></div></li>
+      <li><div><b>Video: does a video ad unit even exist?</b><span class="path">Inventory → Ad units — look for any video/outstream unit</span><p>Almost certainly not — which confirms the video revenue is display-eligible demand, and frames the video-player ask.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- 7. MEETING -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">What to put in front of NextMillennium</h2></div>
+    <p class="sec-sub">Five asks, in priority order — each maps to a lever above and a metric you'll hold them to.</p>
+    <ul class="qs">
+      <li>Confirm our current video is <b>in-banner within the display slot</b>, not a dedicated unit — and quantify the video fill rate and CPM we're leaving on the table.<span class="n">→ frames the video opportunity with their own numbers</span></li>
+      <li>Stand up a <b>dedicated outstream / sticky video player</b> with your video demand partners, and give us a projected incremental Session RPM.<span class="n">→ the incremental-revenue play; owned-content instream on the roadmap</span></li>
+      <li>Walk us through the <b>display optimization audit</b>: demand-partner count, floor strategy, ad refresh, identity modules, ads.txt coverage.<span class="n">→ squeezes the existing placements in parallel</span></li>
+      <li>Advise on the <b>AvantLink 20%→5%</b> change given where it sits vs. your line items — and help us A/B it.<span class="n">→ resolves Section 05 with their visibility into the auction</span></li>
+      <li>Agree the <b>metrics you'll report</b>: fill, eCPM, viewability, video fill/VCR, and net incremental Session RPM.<span class="n">→ so every change is judged on RPM, not vibes</span></li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <span>Expedition Portal · Display Monetization Field Manual</span>
+    <span>Internal working doc · not for distribution</span>
+  </footer>
+</div>
+
+<script>
+  // theme toggle
+  (function(){
+    var tt = document.getElementById('tt');
+    var root = document.documentElement;
+    tt.addEventListener('click', function(){
+      var cur = root.getAttribute('data-theme');
+      if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+      root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+      draw();
+    });
+  })();
+
+  // topographic contour background — static, subtle, respects reduced motion
+  var cv = document.getElementById('topo'), ctx = cv.getContext('2d');
+  function line(hex){ return hex; }
+  function draw(){
+    var host = cv.parentElement;
+    var w = cv.width = host.offsetWidth, h = cv.height = host.offsetHeight;
+    ctx.clearRect(0,0,w,h);
+    var cs = getComputedStyle(document.documentElement);
+    var stroke = cs.getPropertyValue('--field').trim() || '#5F7233';
+    ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.globalAlpha = 0.22;
+    // nested contour rings offset toward the right, like an elevation map
+    var cx = w * 0.82, cy = h * 0.5;
+    for(var r = 24; r < Math.max(w,h)*1.1; r += 26){
+      ctx.beginPath();
+      for(var a = 0; a <= Math.PI*2 + 0.01; a += 0.08){
+        // deterministic wobble (no Math.random) so contours look organic but stable
+        var wob = Math.sin(a*3 + r*0.05)*7 + Math.cos(a*5 - r*0.03)*5;
+        var rr = r + wob;
+        var x = cx + Math.cos(a)*rr*1.25;
+        var y = cy + Math.sin(a)*rr;
+        if(a===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+  }
+  draw();
+  var rt;
+  addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(draw, 120); });
+</script>
