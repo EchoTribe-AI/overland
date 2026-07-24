@@ -1,0 +1,360 @@
+<title>Placement Map &amp; Integration Blueprint</title>
+<style>
+  :root {
+    --paper:#EFEBE0; --panel:#F6F3EA; --panel-2:#E7E2D4; --line:#D3CCB9;
+    --ink:#23261D; --ink-2:#4A4E3E; --ink-3:#6E7360;
+    --field:#5F7233; --field-2:#728A3E; --field-ink:#3F4C22;
+    --trail:#B0552B; --sun:#B98A22;
+    --good:#4E7A34; --warn:#B5811A; --crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12); --warn-bg:rgba(181,129,26,.14); --crit-bg:rgba(178,59,46,.12);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){ :root{
+    --paper:#16180F; --panel:#1E2016; --panel-2:#262a1c; --line:#343827;
+    --ink:#E9E5D6; --ink-2:#C3BFAE; --ink-3:#8E927C;
+    --field:#9FB65C; --field-2:#8AA24A; --field-ink:#C6D68A; --trail:#D98252; --sun:#D6A63C;
+    --good:#86B85C; --warn:#D6A63C; --crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14); --warn-bg:rgba(214,166,60,.16); --crit-bg:rgba(224,114,95,.14);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }}
+  :root[data-theme="light"]{
+    --paper:#EFEBE0;--panel:#F6F3EA;--panel-2:#E7E2D4;--line:#D3CCB9;--ink:#23261D;--ink-2:#4A4E3E;--ink-3:#6E7360;
+    --field:#5F7233;--field-2:#728A3E;--field-ink:#3F4C22;--trail:#B0552B;--sun:#B98A22;
+    --good:#4E7A34;--warn:#B5811A;--crit:#B23B2E;--good-bg:rgba(78,122,52,.12);--warn-bg:rgba(181,129,26,.14);--crit-bg:rgba(178,59,46,.12);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+  }
+  :root[data-theme="dark"]{
+    --paper:#16180F;--panel:#1E2016;--panel-2:#262a1c;--line:#343827;--ink:#E9E5D6;--ink-2:#C3BFAE;--ink-3:#8E927C;
+    --field:#9FB65C;--field-2:#8AA24A;--field-ink:#C6D68A;--trail:#D98252;--sun:#D6A63C;
+    --good:#86B85C;--warn:#D6A63C;--crit:#E0725F;--good-bg:rgba(134,184,92,.14);--warn-bg:rgba(214,166,60,.16);--crit-bg:rgba(224,114,95,.14);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 24px 96px; }
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin:0; }
+  h1,h2,h3{ text-wrap:balance; line-height:1.15; }
+  a{ color:var(--field-ink); } :root[data-theme="dark"] a{ color:var(--field);} @media (prefers-color-scheme:dark){a{color:var(--field);}} :root[data-theme="light"] a{color:var(--field-ink);}
+
+  header.hero{ position:relative; overflow:hidden; border-bottom:1px solid var(--line); background:var(--panel); }
+  #topo{ position:absolute; inset:0; width:100%; height:100%; opacity:.5; } @media (prefers-color-scheme:dark){#topo{opacity:.4;}}
+  .hero-inner{ position:relative; max-width:1120px; margin:0 auto; padding:40px 24px 32px; }
+  .kicker-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .badge{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--field-ink); background:var(--good-bg); border:1px solid color-mix(in srgb, var(--field) 40%, transparent); padding:3px 9px; border-radius:4px; }
+  :root[data-theme="dark"] .badge{color:var(--field);} @media (prefers-color-scheme:dark){.badge{color:var(--field);}} :root[data-theme="light"] .badge{color:var(--field-ink);}
+  h1.title{ font-size:clamp(28px,4.6vw,46px); font-weight:800; letter-spacing:-.02em; margin:16px 0 10px; }
+  .lede{ font-size:clamp(15px,2.1vw,18px); color:var(--ink-2); max-width:64ch; margin:0; }
+  .meta-strip{ display:flex; gap:16px 24px; flex-wrap:wrap; margin-top:20px; padding-top:16px; border-top:1px dashed var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+  .meta-strip b{ color:var(--ink); font-weight:600; }
+
+  section{ margin-top:52px; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .sec-num{ font-family:var(--mono); font-size:12px; color:var(--field); border:1px solid color-mix(in srgb, var(--field) 45%, transparent); border-radius:4px; padding:2px 7px; flex:none; }
+  h2.sec-title{ font-size:clamp(20px,3vw,26px); font-weight:750; letter-spacing:-.01em; margin:0; }
+  .sec-sub{ color:var(--ink-2); margin:8px 0 22px; max-width:70ch; }
+
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px; box-shadow:var(--shadow); }
+
+  /* two silos */
+  .silos{ display:grid; grid-template-columns:1fr 64px 1fr; align-items:stretch; gap:0; }
+  @media (max-width:820px){ .silos{ grid-template-columns:1fr; } .silo-gap{ order:3; padding:14px 0; } }
+  .silo{ border:1px solid var(--line); border-radius:12px; padding:18px; background:var(--panel); box-shadow:var(--shadow); }
+  .silo h3{ margin:0 0 3px; font-size:17px; }
+  .silo .who{ font-family:var(--mono); font-size:11.5px; color:var(--ink-3); margin:0 0 12px; }
+  .silo.gam{ border-top:4px solid var(--field); }
+  .silo.nm{ border-top:4px solid var(--trail); }
+  .silo ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .silo li{ font-size:13.5px; color:var(--ink-2); padding-left:18px; position:relative; }
+  .silo li::before{ content:"—"; position:absolute; left:0; color:var(--ink-3); }
+  .silo li b{ color:var(--ink); }
+  .silo-gap{ display:grid; place-items:center; }
+  .broken{ font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--crit); text-align:center; line-height:1.5; }
+  .broken .bar{ display:block; width:2px; height:34px; margin:6px auto; background:repeating-linear-gradient(var(--crit) 0 4px, transparent 4px 9px); }
+
+  .grid{ display:grid; gap:14px; }
+  .grid.two{ grid-template-columns:repeat(2,1fr); } .grid.three{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:760px){ .grid.two,.grid.three{ grid-template-columns:1fr; } }
+
+  /* tables */
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
+  table{ border-collapse:collapse; width:100%; min-width:560px; font-size:13.5px; background:var(--panel); }
+  caption{ text-align:left; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:12px 14px 8px; }
+  th,td{ text-align:left; padding:9px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--panel-2); }
+  td.num, th.num{ text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:none; }
+  .pill{ font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; padding:2px 8px; border-radius:20px; white-space:nowrap; display:inline-block; }
+  .pill.gam{ color:var(--field-ink); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--field) 35%,transparent); }
+  :root[data-theme="dark"] .pill.gam{ color:var(--field);} @media (prefers-color-scheme:dark){.pill.gam{color:var(--field);}}
+  .pill.nm{ color:var(--trail); background:color-mix(in srgb,var(--trail) 12%,transparent); border:1px solid color-mix(in srgb,var(--trail) 35%,transparent); }
+  .pill.blank{ color:var(--crit); background:var(--crit-bg); border:1px solid color-mix(in srgb,var(--crit) 35%,transparent); }
+  .pill.house{ color:var(--sun); background:var(--warn-bg); border:1px solid color-mix(in srgb,var(--sun) 35%,transparent); }
+
+  /* target stack */
+  .layers{ display:flex; flex-direction:column; gap:12px; }
+  .layer{ display:grid; grid-template-columns:52px 1fr; gap:16px; }
+  .layer-badge{ display:grid; place-items:center; border-radius:10px; font-family:var(--mono); font-weight:700; font-size:18px; color:#fff; }
+  .layer-badge.l1{ background:var(--trail); } .layer-badge.l2{ background:var(--field); } .layer-badge.l3{ background:var(--sun); } .layer-badge.lv{ background:var(--field-ink); }
+  :root[data-theme="dark"] .layer-badge{ color:#16180F; }
+  .layer-body{ background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--lc,var(--line)); border-radius:10px; padding:14px 18px; box-shadow:var(--shadow); }
+  .layer-body h3{ margin:0; font-size:16.5px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .layer-body .tag{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); border:1px solid var(--line); border-radius:4px; padding:1px 7px; }
+  .layer-body p{ margin:7px 0 0; color:var(--ink-2); font-size:14px; }
+  .layer-body .now{ font-size:12.5px; color:var(--ink-3); margin-top:6px; }
+  .layer-body .now b{ color:var(--crit); font-weight:600; }
+
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px 17px; }
+  .card h4{ margin:0 0 6px; font-size:15px; font-weight:700; }
+  .card p{ margin:0; color:var(--ink-2); font-size:13.5px; }
+  .card .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--field); display:block; margin-bottom:5px; }
+  .card.rec{ border-left:3px solid var(--field); }
+
+  ol.seq{ list-style:none; counter-reset:s; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  ol.seq li{ counter-increment:s; display:grid; grid-template-columns:32px 1fr; gap:14px; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:13px 15px; }
+  ol.seq li::before{ content:counter(s); font-family:var(--mono); font-size:13px; color:#fff; background:var(--field); border-radius:6px; height:28px; display:grid; place-items:center; font-weight:700; }
+  :root[data-theme="dark"] ol.seq li::before{ color:#16180F; }
+  ol.seq li h4{ margin:0; font-size:15px; }
+  ol.seq li p{ margin:4px 0 0; font-size:13.5px; color:var(--ink-2); }
+  ol.seq li .owner{ font-family:var(--mono); font-size:11px; color:var(--ink-3); margin-left:8px; }
+
+  .callout{ border-left:4px solid var(--trail); background:color-mix(in srgb, var(--trail) 8%, var(--panel)); border-radius:0 10px 10px 0; padding:14px 18px; margin-top:16px; }
+  .callout .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--trail); }
+  .callout p{ margin:6px 0 0; font-size:14px; color:var(--ink-2); }
+  .callout.field{ border-color:var(--field); background:color-mix(in srgb,var(--field) 8%, var(--panel)); }
+  .callout.field .cap{ color:var(--field); }
+
+  footer.foot{ margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle{ position:fixed; top:14px; right:14px; z-index:20; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel); color:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:6px 13px; cursor:pointer; }
+  .theme-toggle:focus-visible,a:focus-visible,button:focus-visible{ outline:2px solid var(--field); outline-offset:2px; }
+  .note{ font-size:12.5px; color:var(--ink-3); font-style:italic; margin-top:10px; }
+</style>
+
+<button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
+
+<header class="hero">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="kicker-row">
+      <span class="badge">Integration Blueprint</span>
+      <p class="eyebrow">Expedition Portal · GAM 10039233 × NextMillennium 15113</p>
+    </div>
+    <h1 class="title">The placements, who fills them, and how to wire the three layers together</h1>
+    <p class="lede">Grounded in the July 23 audit. Today GAM and NextMillennium run as two silos that never compete. This is the map of what each fills right now — and the blueprint to turn them into your intended stack: direct-sold first, NM as the paying backstop, AvantLink as a deliberate promotional layer.</p>
+    <div class="meta-strip">
+      <span>GAM YTD units · <b>1 site + forum subsite</b></span>
+      <span>NM YTD · <b>$5,672 · $1.25 eCPM · 15.9% fill</b></span>
+      <span>Bridge today · <b style="color:var(--crit)">none</b></span>
+      <span>Source · <b>NM Agenda audit, Jul 23 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1. TWO SILOS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">The core finding: two systems, no bridge</h2></div>
+    <p class="sec-sub">This is the reframe. Your target model assumes direct-sold → NM → AvantLink is one ranked waterfall. It isn't. GAM fills its slots and NM injects and fills a completely separate set of slots. Neither ever bids on the other's inventory — so GAM's unsold impressions have <b>no paying backstop</b>, and NM only earns on the few slots its own script renders.</p>
+    <div class="silos">
+      <div class="silo gam">
+        <h3>Google Ad Manager</h3>
+        <p class="who">network 10039233 · GPT slots</p>
+        <ul>
+          <li>Serves <b>direct-sold sponsorships</b>, house banners, AvantLink 2026 rotator</li>
+          <li>Covers main site <b>and forum</b> (ExPo_Forum_*, forum_side_*)</li>
+          <li>Fills 8/8 article slots, most forum sidebars</li>
+          <li>Only "programmatic" = <b>8 dead AdX-by-size line items</b> (since 2019, $0)</li>
+          <li>Zero yield groups · zero bidders · zero NM line items</li>
+        </ul>
+      </div>
+      <div class="silo-gap">
+        <div class="broken">no<span class="bar"></span>bridge</div>
+      </div>
+      <div class="silo nm">
+        <h3>NextMillennium</h3>
+        <p class="who">powerad.ai wrapper · publisher 15113</p>
+        <ul>
+          <li>Runs its <b>own auction entirely outside GAM</b></li>
+          <li>Injects <b>4 placements</b>: gunstar, prometheus, eagle, video</li>
+          <li>Reports one site only — <b>no forum breakout</b></li>
+          <li>Wrapper loads on every page but <b>rarely fires an auction</b> in testing</li>
+          <li>Books ~$32/day under conditions we couldn't reproduce</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="cap">Why this is the whole game</span>
+      <p>Every optimization you're weighing — the AvantLink 20%→5% move, filling forum blanks, backstopping Montana when it completes — is blocked by this one gap. <b>Until NM demand competes inside the GAM auction, there is no "layer 2."</b> The percentage tweaks only shuffle GAM's own low-value fill.</p>
+    </div>
+  </section>
+
+  <!-- 2. PLACEMENT MAP -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Placement map — what actually fills each slot today</h2></div>
+    <p class="sec-sub">Every ad slot on the tested pages, and what filled it. Note that NM's four placements are <em>not</em> in these tables — they're separate injected units that render elsewhere/under other conditions (Section 03). The blanks are the unmonetized inventory NM should be capturing.</p>
+
+    <div class="tbl-wrap" style="margin-bottom:16px">
+      <table>
+        <caption>Article page — 8 GPT slots · 8/8 filled by GAM, no NM auction fired</caption>
+        <thead><tr><th>Slot / GAM ad unit</th><th>Typical sizes</th><th>Filled by (test)</th><th>Served via</th></tr></thead>
+        <tbody>
+          <tr><td>Header leaderboard</td><td>970×250 · 728×90</td><td>Continental GT</td><td><span class="pill gam">GAM direct</span></td></tr>
+          <tr><td>In-content rectangles ×3–4</td><td>300×250</td><td>Montana State Tourism</td><td><span class="pill gam">GAM direct</span></td></tr>
+          <tr><td>Sidebar</td><td>300×600 · 300×250</td><td>Montana State Tourism</td><td><span class="pill gam">GAM direct</span></td></tr>
+          <tr><td>"video article *" units</td><td>970×250 · 320×50 · 300×250</td><td>Banner demand — <b>not video</b></td><td><span class="pill gam">GAM direct</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>Forum home — 15 GPT slots · 5+ chronic blanks</caption>
+        <thead><tr><th>Slot / GAM ad unit</th><th>Role</th><th>Filled by (test)</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Belly_1</td><td>Top belly banner</td><td>Overland Journal (house)</td><td><span class="pill house">house</span></td></tr>
+          <tr><td>forum_side_* ×8</td><td>Sidebar rail</td><td>Montana / Continental / Mohab</td><td><span class="pill gam">GAM direct</span></td></tr>
+          <tr><td>Belly_2 · Belly_3 · Belly_5 · Belly_6</td><td>In-content belly</td><td>—</td><td><span class="pill blank">blank</span></td></tr>
+          <tr><td>Footer</td><td>Page footer</td><td>—</td><td><span class="pill blank">blank</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Exact unit-name → slot mapping for the article page should be confirmed against GAM's ad-unit tree; sizes and fills above are from the live desktop inspection in the audit.</p>
+  </section>
+
+  <!-- 3. NM PLACEMENTS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">NextMillennium's four placements — separate, and mostly idle</h2></div>
+    <p class="sec-sub">These are the units NM's wrapper injects and auctions on its own. Three are modest display earners; "video" is the problem child — 80% of all requests at ~7.9% fill and $0.75 eCPM, which is pure request overhead dragging every blended number down.</p>
+    <div class="tbl-wrap">
+      <table>
+        <caption>NM placement performance · YTD Jan 1 – Jul 22</caption>
+        <thead><tr><th>Placement</th><th class="num">Revenue</th><th class="num">eCPM</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>prometheus</td><td class="num">$1,767</td><td class="num">$1.81</td><td>Best display unit — keep, route into GAM</td></tr>
+          <tr><td>gunstar</td><td class="num">$1,865</td><td class="num">$1.74</td><td>Top revenue — keep, route into GAM</td></tr>
+          <tr><td>eagle</td><td class="num">$692</td><td class="num">$1.01</td><td>Weakest display — keep but low priority</td></tr>
+          <tr><td>video</td><td class="num">$1,348</td><td class="num">$0.75</td><td><b>Gate/kill</b> — 80% of requests, ~7.9% fill, overhead</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="cap">The metric distortion to fix first</span>
+      <p>22.8M of 28.5M total requests are that in-banner "video" call. Killing or gating it won't lose meaningful revenue ($0.75 eCPM), but it will <b>clean up fill rate and eCPM overnight</b> so the real display units — and any new outstream player — can be measured honestly.</p>
+    </div>
+  </section>
+
+  <!-- 4. TARGET -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">The target: three real layers in one auction</h2></div>
+    <p class="sec-sub">Your intended model, made mechanical. The difference from today is that all three layers compete for <b>the same GAM slots</b> in priority order — instead of GAM and NM each owning a separate set of slots.</p>
+    <div class="layers">
+      <div class="layer">
+        <div class="layer-badge l1">1</div>
+        <div class="layer-body" style="--lc:var(--trail)">
+          <h3>Direct-sold sponsorships <span class="tag">GAM priority 4–8 · guaranteed</span></h3>
+          <p>Montana, Continental, Nitto, Mohab, AEV, Hankook, Overland Expo, OJ house. Keep exactly as-is — highest value, served first. <b>No change to priority.</b></p>
+          <p class="now">Today: healthy, but over-pacing (Montana at 548%) front-loads flights and starves everything below.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-badge l2">2</div>
+        <div class="layer-body" style="--lc:var(--field)">
+          <h3>NextMillennium — in-auction backstop <span class="tag">price priority 12 · every unsold impression</span></h3>
+          <p>NM demand competes for whatever direct-sold doesn't take, at real market price, across main site <b>and forum</b>. This is the layer that fills the Belly/Footer blanks and catches inventory when Montana completes.</p>
+          <p class="now">Today: <b>does not exist inside GAM</b> — NM runs in its own silo. This is the one thing to build.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-badge l3">3</div>
+        <div class="layer-body" style="--lc:var(--sun)">
+          <h3>AvantLink 2026 — promotional layer <span class="tag">house priority 16 / scheduled promo</span></h3>
+          <p>Repurposed from a blind 20% remnant skim into a <b>deliberate feature slot</b>: affiliate promotions and media buys you choose to run. It fills only what NM declines, or runs as scheduled campaigns you control.</p>
+          <p class="now">Today: Network priority 12, 20% run-of-network, ~$0 value (82 clicks / 292K imps). Reposition, don't just trim.</p>
+        </div>
+      </div>
+      <div class="layer">
+        <div class="layer-badge lv">▶</div>
+        <div class="layer-body" style="--lc:var(--field-ink)">
+          <h3>Video — its own lane <span class="tag">dedicated outstream / instream</span></h3>
+          <p>A real sticky outstream player (owned-content instream on the roadmap), reported separately, replacing the in-banner "video" request bloat. New demand, not a reshuffle.</p>
+          <p class="now">Today: no video ad unit exists; "video" = display-eligible demand in banner slots.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. THE BRIDGE -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Building the bridge — how NM demand enters the GAM auction</h2></div>
+    <p class="sec-sub">There are two standard mechanisms. NM already runs a Prebid-style wrapper (powerad.ai), so Option A reuses what they have — the winning bid just gets routed through GAM to compete with direct-sold instead of running in parallel. Confirm on the call which NM supports for network 10039233.</p>
+    <div class="grid two">
+      <div class="card rec">
+        <span class="cap">Option A · recommended</span>
+        <h4>Prebid line items (header bidding)</h4>
+        <p>NM's wrapper sends bids into GAM via ~20 <b>price-priority line items</b> keyed on <code>hb_pb</code> price buckets. NM competes against direct-sold on CPM, client-side. Most control and transparency; reuses their existing auction.</p>
+      </div>
+      <div class="card">
+        <span class="cap">Option B · GAM-native</span>
+        <h4>Open Bidding (server-side)</h4>
+        <p>Add NM as an <b>Open Bidding yield partner</b> in GAM's unified auction. Lighter page weight, GAM-managed, but requires NM to support OB and your GAM to have it enabled. Less granular reporting.</p>
+      </div>
+    </div>
+    <div class="callout field">
+      <span class="cap">Division of labor</span>
+      <p><b>NM's job:</b> provide the bid adapter/config and set up their side. <b>Your GAM's job:</b> authorize it — create the price-priority line items (or enable the OB partner), and map NM's gunstar / prometheus / eagle demand onto the corresponding GAM ad units so there's <b>one set of slots</b>, not two.</p>
+    </div>
+  </section>
+
+  <!-- 6. SEQUENCE -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Migration sequence — safe order of operations</h2></div>
+    <p class="sec-sub">Order matters: don't touch AvantLink or the blanks until NM is actually backstopping the auction, or you just create more empty slots.</p>
+    <ol class="seq">
+      <li><div><h4>Housekeeping now <span class="owner">— us, this week</span></h4><p>Sync ads.txt to NM's 04-08-2025 version; fix Montana click tracking (0/933K) and pacing; upload or pause Hankook ("needs creatives"). No dependencies — do immediately.</p></div></li>
+      <li><div><h4>Authorize NM in GAM <span class="owner">— NM sets up, us to approve</span></h4><p>Stand up Prebid price-priority line items (Option A) or the Open Bidding partner. Map gunstar/prometheus/eagle to the matching GAM ad units. This creates layer 2.</p></div></li>
+      <li><div><h4>Consolidate slots &amp; kill dead weight <span class="owner">— us</span></h4><p>Retire the separate NM-injected placements so demand flows through GAM slots. Remove the 8 dead AdX line items. Gate the in-banner "video" request (80% of requests, $0.75).</p></div></li>
+      <li><div><h4>Verify the backstop <span class="owner">— us</span></h4><p>Confirm NM now wins unsold impressions: forum Belly/Footer blanks fill, article slots backstop when Montana completes. Watch blank-rate.</p></div></li>
+      <li><div><h4>Reposition AvantLink to layer 3 <span class="owner">— us</span></h4><p>Move from Network/20% run-of-network to House priority 16 (or scheduled promo campaigns). <em>Now</em> drop the share to 5% — it finally means something because NM is beneath it.</p></div></li>
+      <li><div><h4>Prove it on Session RPM <span class="owner">— us + NM reporting</span></h4><p>2-week before/after (or GAM A/B) on Session RPM, per the field-manual test design. Net win = NM revenue gained − AvantLink revenue lost.</p></div></li>
+      <li><div><h4>Launch the video lane <span class="owner">— NM + us</span></h4><p>Sticky outstream pilot with projected incremental Session RPM in writing; video fill + VCR reported separately from day one.</p></div></li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <span>Expedition Portal · Placement Map &amp; Integration Blueprint</span>
+    <span>Companion to display-ops-field-manual.html · internal working doc</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var tt=document.getElementById('tt'), root=document.documentElement;
+    tt.addEventListener('click', function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark'); draw();
+    });
+  })();
+  var cv=document.getElementById('topo'), ctx=cv.getContext('2d');
+  function draw(){
+    var host=cv.parentElement, w=cv.width=host.offsetWidth, h=cv.height=host.offsetHeight;
+    ctx.clearRect(0,0,w,h);
+    var stroke=getComputedStyle(document.documentElement).getPropertyValue('--field').trim()||'#5F7233';
+    ctx.strokeStyle=stroke; ctx.lineWidth=1; ctx.globalAlpha=0.22;
+    var cx=w*0.84, cy=h*0.5;
+    for(var r=24; r<Math.max(w,h)*1.1; r+=26){
+      ctx.beginPath();
+      for(var a=0; a<=Math.PI*2+0.01; a+=0.08){
+        var wob=Math.sin(a*3+r*0.05)*7+Math.cos(a*5-r*0.03)*5, rr=r+wob;
+        var x=cx+Math.cos(a)*rr*1.25, y=cy+Math.sin(a)*rr;
+        if(a===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+  }
+  draw();
+  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(draw,120); });
+</script>
