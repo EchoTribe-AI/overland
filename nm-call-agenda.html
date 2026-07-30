@@ -1,0 +1,207 @@
+<title>NextMillennium Call — Final Agenda</title>
+<style>
+  :root {
+    --paper:#EFEBE0; --panel:#F6F3EA; --panel-2:#E7E2D4; --line:#D3CCB9;
+    --ink:#23261D; --ink-2:#4A4E3E; --ink-3:#6E7360;
+    --field:#5F7233; --field-ink:#3F4C22; --trail:#B0552B; --sun:#B98A22;
+    --good:#4E7A34; --warn:#B5811A; --crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12); --warn-bg:rgba(181,129,26,.14); --crit-bg:rgba(178,59,46,.12);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){ :root{
+    --paper:#16180F; --panel:#1E2016; --panel-2:#262a1c; --line:#343827;
+    --ink:#E9E5D6; --ink-2:#C3BFAE; --ink-3:#8E927C;
+    --field:#9FB65C; --field-ink:#C6D68A; --trail:#D98252; --sun:#D6A63C;
+    --good:#86B85C; --warn:#D6A63C; --crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14); --warn-bg:rgba(214,166,60,.16); --crit-bg:rgba(224,114,95,.14);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }}
+  :root[data-theme="light"]{
+    --paper:#EFEBE0;--panel:#F6F3EA;--panel-2:#E7E2D4;--line:#D3CCB9;--ink:#23261D;--ink-2:#4A4E3E;--ink-3:#6E7360;
+    --field:#5F7233;--field-ink:#3F4C22;--trail:#B0552B;--sun:#B98A22;--good:#4E7A34;--warn:#B5811A;--crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12);--warn-bg:rgba(181,129,26,.14);--crit-bg:rgba(178,59,46,.12);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+  }
+  :root[data-theme="dark"]{
+    --paper:#16180F;--panel:#1E2016;--panel-2:#262a1c;--line:#343827;--ink:#E9E5D6;--ink-2:#C3BFAE;--ink-3:#8E927C;
+    --field:#9FB65C;--field-ink:#C6D68A;--trail:#D98252;--sun:#D6A63C;--good:#86B85C;--warn:#D6A63C;--crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14);--warn-bg:rgba(214,166,60,.16);--crit-bg:rgba(224,114,95,.14);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:900px; margin:0 auto; padding:0 24px 80px; }
+  h1,h2,h3{ text-wrap:balance; line-height:1.15; }
+
+  header.hero{ border-bottom:1px solid var(--line); background:var(--panel); }
+  .hero-inner{ max-width:900px; margin:0 auto; padding:34px 24px 26px; }
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin:0 0 12px; }
+  h1.title{ font-size:clamp(26px,4.4vw,38px); font-weight:800; letter-spacing:-.02em; margin:0 0 8px; }
+  .lede{ color:var(--ink-2); max-width:66ch; margin:0; font-size:15.5px; }
+  .meta{ display:flex; gap:14px 22px; flex-wrap:wrap; margin-top:16px; font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+  .meta b{ color:var(--ink); }
+
+  section{ margin-top:38px; }
+  h2.sec{ font-size:19px; font-weight:750; margin:0 0 4px; display:flex; align-items:baseline; gap:10px; }
+  h2.sec .n{ font-family:var(--mono); font-size:12px; color:var(--field); border:1px solid color-mix(in srgb,var(--field) 45%,transparent); border-radius:4px; padding:1px 7px; }
+  .sub{ color:var(--ink-2); font-size:14px; margin:4px 0 16px; max-width:70ch; }
+
+  .nn{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:700px){ .nn{ grid-template-columns:1fr; } }
+  .nn .card{ background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--trail); border-radius:10px; padding:13px 15px; box-shadow:var(--shadow); }
+  .nn .card h4{ margin:0 0 4px; font-size:14px; }
+  .nn .card p{ margin:0; font-size:13px; color:var(--ink-2); }
+
+  .exhibit{ background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--trail); border-radius:0 10px 10px 0; padding:15px 18px; box-shadow:var(--shadow); }
+  .exhibit .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--trail); }
+  .exhibit p{ margin:6px 0 0; font-size:14px; color:var(--ink-2); }
+  .exhibit b{ color:var(--ink); }
+
+  ul.facts{ margin:0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:9px 18px; }
+  @media (max-width:700px){ ul.facts{ grid-template-columns:1fr; } }
+  ul.facts li{ padding-left:20px; position:relative; font-size:13.5px; color:var(--ink-2); }
+  ul.facts li::before{ content:"▸"; position:absolute; left:0; color:var(--field); }
+  ul.facts li b{ color:var(--ink); }
+
+  ol.q{ list-style:none; counter-reset:q; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  ol.q li{ counter-increment:q; display:grid; grid-template-columns:32px 1fr; gap:14px; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:13px 15px; box-shadow:var(--shadow); }
+  ol.q li::before{ content:counter(q); font-family:var(--mono); font-size:13px; font-weight:700; color:#fff; background:var(--field); border-radius:6px; height:28px; display:grid; place-items:center; }
+  :root[data-theme="dark"] ol.q li::before{ color:#16180F; }
+  ol.q li h4{ margin:0; font-size:14.5px; }
+  ol.q li h4 .why{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-left:8px; }
+  ol.q li p{ margin:4px 0 0; font-size:13.5px; color:var(--ink-2); }
+  ol.q li.lead{ border-left:4px solid var(--trail); }
+
+  ul.out{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+  ul.out li{ padding-left:24px; position:relative; font-size:14px; color:var(--ink); }
+  ul.out li::before{ content:"☐"; position:absolute; left:0; color:var(--field); font-size:15px; }
+  ul.out li .m{ color:var(--ink-3); font-size:12.5px; display:block; }
+
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
+  table{ border-collapse:collapse; width:100%; min-width:520px; font-size:13px; background:var(--panel); }
+  th,td{ text-align:left; padding:8px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--panel-2); }
+  tbody tr:last-child td{ border-bottom:none; }
+  .pill{ font-family:var(--mono); font-size:10px; letter-spacing:.04em; padding:2px 8px; border-radius:20px; white-space:nowrap; display:inline-block; }
+  .pill.ok{ color:var(--good); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--good) 35%,transparent); }
+  .pill.ask{ color:var(--warn); background:var(--warn-bg); border:1px solid color-mix(in srgb,var(--warn) 35%,transparent); }
+
+  footer.foot{ margin-top:52px; padding-top:18px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle{ position:fixed; top:14px; right:14px; z-index:20; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel); color:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:6px 13px; cursor:pointer; }
+  .theme-toggle:focus-visible,button:focus-visible{ outline:2px solid var(--field); outline-offset:2px; }
+</style>
+
+<button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Expedition Portal + Forum · Display</p>
+    <h1 class="title">NextMillennium Call — Final Agenda</h1>
+    <p class="lede">Frame: <b>you bring the plan, we bring the facts.</b> NM leads with their recommendations to grow the account; every accepted item gets a projected impact and a validation window. We state our constraints up front so their plan is built inside them.</p>
+    <div class="meta">
+      <span>Prepared · <b>Jul 30, 2026</b></span>
+      <span>GAM · <b>10039233</b></span>
+      <span>NM publisher · <b>15113</b></span>
+      <span>Companion docs · <b>Blueprint Rev 2 · Field Manual</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2 class="sec"><span class="n">A</span>Non-negotiables — stated in the first two minutes</h2>
+    <div class="nn">
+      <div class="card"><h4>Direct-sold priority is untouchable</h4><p>Our sponsorships serve first, always. Any integration competes only for unsold inventory.</p></div>
+      <div class="card"><h4>We keep GAM control</h4><p>Admin access and independent reporting stay ours. Managed/MCM offers: unsold-only scope at most.</p></div>
+      <div class="card"><h4>Everything is measured</h4><p>Each change: projected lift in writing → 2-week incremental Session RPM validation. Reporting access comes first so a baseline exists.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec"><span class="n">B</span>Exhibit A — open with this</h2>
+    <div class="exhibit">
+      <span class="cap">The backstop gap, observed live</span>
+      <p><b>Jul 23:</b> article slots filled edge-to-edge by Montana State (direct flight, 548% pacing, days from done). <b>Jul 30, same template:</b> Montana completed — the same real estate now serves house/AvantLink at near-$0. When a direct flight ends, nothing paid competes for our inventory. <b>That structural gap is what this call exists to close.</b></p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec"><span class="n">C</span>Our facts (first-party, verified)</h2>
+    <ul class="facts">
+      <li><b>ads.txt fixed by us, not NM</b> — live file was NM's 12-2024 test file missing 56 sellers from their own 04-2025 master; we deployed the corrected 270-record file Jul 26; reporting normalized in a day.</li>
+      <li><b>NM on-page = 4 units per article</b> (4740 ×2 in-article; 60165 + 8045 overlays) while ~29 non-NM slots sit on the same page.</li>
+      <li><b>Forum: zero NM placements</b> — config returns none for any forum URL; wrapper loads and does nothing. Forum ads.txt is a 404 (we'll deploy it as part of enablement).</li>
+      <li><b>Loader is scroll-gated (&gt;3 events)</b> — first impression goes to GAM every time; on our traffic mix this structurally suppresses NM auctions.</li>
+      <li><b>Yield ≈ $28/day, eCPM $0.90–1.13</b> — desktop Chrome healthy (63% of NM revenue); Safari ($0.76) and in-app ($0.79) drag the blend. Quality problem, not an outage.</li>
+      <li><b>A Connatix outstream player runs in our sidebar</b> — connatix.com is DIRECT in NM's managed ads.txt block, but its revenue has never been broken out anywhere we can see.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="sec"><span class="n">D</span>Questions — in this order</h2>
+    <p class="sub">Q1 is the structural ask; everything else hangs off it. Get their recommendation first on each, then pin mechanism, timeline, and projected numbers.</p>
+    <ol class="q">
+      <li class="lead"><div><h4>NM demand into our GAM auction <span class="why">the structural ask</span></h4><p>"We want your demand competing for our unsold inventory inside GAM network 10039233 — Prebid price-priority line items or Open Bidding. Which do you support, what's the setup lift, and what's the timeline?" Lead with Exhibit A as the proof of need. Without this, "more coverage" just means more NM-owned units and a deeper silo.</p></div></li>
+      <li><div><h4>Property audit — EP article pages <span class="why">their plan</span></h4><p>"What would you add or change on our article template today? You run 4 units while ~29 non-NM slots sit beside them. Should your demand compete in the sidebar, and what would you expect it to earn?" Also: give us the placement name↔ID key (gunstar/prometheus/eagle/video ↔ 4740/60165/8045/…).</p></div></li>
+      <li><div><h4>Forum enablement <span class="why">new inventory</span></h4><p>"Your system returns zero placements for the forum. What placements do you recommend for XenForo templates (thread, list, sidebar), what's the setup lift, and what RPM do you project — post-IVT-filter numbers, please?" We handle the forum ads.txt deployment.</p></div></li>
+      <li><div><h4>Video: Connatix attribution + the request bloat <span class="why">one question, not two</span></h4><p>"Is the sidebar Connatix player your deal, and is your 'video' placement (80% of our 28.5M requests, 7.9% fill, $0.75 eCPM) its bid slots? Where does that revenue report?" Then: their recommendation for video — fix, expand to in-article outstream, or replace with their player — with rev share and projected incremental Session RPM in writing.</p></div></li>
+      <li><div><h4>Scroll gate — negotiate, don't demand <span class="why">a/b it</span></h4><p>"Show us the data behind the &gt;3-scroll threshold. We'd like to A/B a lower gate (or time-on-page fallback) on a traffic slice and compare eCPM × fill." Expect their defense: the gate protects viewability/IVT on our ~40% junk share — which is why the ask is a test, not removal.</p></div></li>
+      <li><div><h4>Yield plan to $3+ <span class="why">commitments</span></h4><p>"Blended eCPM is ~$1; Safari and in-app clear at $0.76–0.79. What specifically changes — floors, demand mix, identity for cookieless Safari (UID2/ID5/LiveRamp), APS participation — and what lift will you commit to watching for, on what dates?"</p></div></li>
+      <li><div><h4>Reporting access — turned on first <span class="why">baseline</span></h4><p>"Placement-level and device-level splits (impressions, bid rate, win rate, RPM), self-serve. This goes live before any changes so every projection above is measurable against a baseline."</p></div></li>
+      <li><div><h4>ads.txt ownership + master-file errors <span class="why">leverage</span></h4><p>"We found and fixed the stale file ourselves. (a) Fix your master: the jammed appnexus/insticator line and the malformed smartadserver TAG-ID. (b) Give us a process — hosted redirect or notification on every update — so it never drifts again. (c) Confirm 04-2025 is the current seller set."</p></div></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 class="sec"><span class="n">E</span>Outcomes we leave with</h2>
+    <ul class="out">
+      <li>Integration mechanism chosen (Prebid line items / Open Bidding) with a setup date<span class="m">the call fails without this one</span></li>
+      <li>NM's written recommendation list, projected impact per item — their numbers, on record<span class="m">each validated in a 2-week incremental Session RPM window</span></li>
+      <li>Forum enablement scoped with a date (post-IVT projections)<span class="m">we deploy forum ads.txt in parallel</span></li>
+      <li>Connatix / "video" placement attribution clarified<span class="m">decides whether we gate the 22.8M requests or fix the player</span></li>
+      <li>Scroll-gate A/B agreed (slice, duration, success metric)</li>
+      <li>Self-serve reporting enabled — before any other change ships</li>
+      <li>ads.txt process owned, master-file errors acknowledged</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="sec"><span class="n">F</span>Confirmed vs. assumed — keep straight on the call</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Claim</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>NM = 4 units/article (4740×2, 60165, 8045); ~29 non-NM slots are ours</td><td><span class="pill ok">confirmed · live DOM Jul 30</span></td></tr>
+          <tr><td>Sidebar video player = Connatix</td><td><span class="pill ok">confirmed · DOM markup</span></td></tr>
+          <tr><td>Connatix monetizes under NM</td><td><span class="pill ask">likely — confirm on call</span></td></tr>
+          <tr><td>"video" placement = Connatix bid slots</td><td><span class="pill ask">unconfirmed — ask</span></td></tr>
+          <tr><td>YouTube-framed Hankook unit = Google-served creative in our GAM slot</td><td><span class="pill ask">likely — verify in GAM delivery report</span></td></tr>
+          <tr><td>Forum = zero NM placements; forum ads.txt 404</td><td><span class="pill ok">confirmed</span></td></tr>
+          <tr><td>Scroll gate &gt;3 events</td><td><span class="pill ok">confirmed · loader source</span></td></tr>
+          <tr><td>Desktop healthy; yield-quality problem, not outage</td><td><span class="pill ok">confirmed · browser-split revenue</span></td></tr>
+          <tr><td>Article slot count: 8 (Jul 23) vs ~29 (Jul 30)</td><td><span class="pill ask">discrepancy — arbitrate via GAM ad-unit report pre-call</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Expedition Portal · NM Call Agenda · Jul 30, 2026</span>
+    <span>Internal working doc · not for distribution</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var tt=document.getElementById('tt'), root=document.documentElement;
+    tt.addEventListener('click', function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    });
+  })();
+</script>

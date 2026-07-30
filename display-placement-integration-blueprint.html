@@ -45,6 +45,7 @@
   .kicker-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .badge{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--field-ink); background:var(--good-bg); border:1px solid color-mix(in srgb, var(--field) 40%, transparent); padding:3px 9px; border-radius:4px; }
   :root[data-theme="dark"] .badge{color:var(--field);} @media (prefers-color-scheme:dark){.badge{color:var(--field);}} :root[data-theme="light"] .badge{color:var(--field-ink);}
+  .badge.rev{ color:var(--trail); background:color-mix(in srgb,var(--trail) 12%,transparent); border-color:color-mix(in srgb,var(--trail) 40%,transparent); }
   h1.title{ font-size:clamp(28px,4.6vw,46px); font-weight:800; letter-spacing:-.02em; margin:16px 0 10px; }
   .lede{ font-size:clamp(15px,2.1vw,18px); color:var(--ink-2); max-width:64ch; margin:0; }
   .meta-strip{ display:flex; gap:16px 24px; flex-wrap:wrap; margin-top:20px; padding-top:16px; border-top:1px dashed var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); }
@@ -92,6 +93,7 @@
   .pill.nm{ color:var(--trail); background:color-mix(in srgb,var(--trail) 12%,transparent); border:1px solid color-mix(in srgb,var(--trail) 35%,transparent); }
   .pill.blank{ color:var(--crit); background:var(--crit-bg); border:1px solid color-mix(in srgb,var(--crit) 35%,transparent); }
   .pill.house{ color:var(--sun); background:var(--warn-bg); border:1px solid color-mix(in srgb,var(--sun) 35%,transparent); }
+  .pill.done{ color:var(--good); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--good) 35%,transparent); }
 
   /* target stack */
   .layers{ display:flex; flex-direction:column; gap:12px; }
@@ -130,6 +132,7 @@
   .theme-toggle{ position:fixed; top:14px; right:14px; z-index:20; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel); color:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:6px 13px; cursor:pointer; }
   .theme-toggle:focus-visible,a:focus-visible,button:focus-visible{ outline:2px solid var(--field); outline-offset:2px; }
   .note{ font-size:12.5px; color:var(--ink-3); font-style:italic; margin-top:10px; }
+  del{ color:var(--ink-3); }
 </style>
 
 <button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
@@ -139,33 +142,51 @@
   <div class="hero-inner">
     <div class="kicker-row">
       <span class="badge">Integration Blueprint</span>
+      <span class="badge rev">Rev 2 · Jul 30</span>
       <p class="eyebrow">Expedition Portal · GAM 10039233 × NextMillennium 15113</p>
     </div>
     <h1 class="title">The placements, who fills them, and how to wire the three layers together</h1>
-    <p class="lede">Grounded in the July 23 audit. Today GAM and NextMillennium run as two silos that never compete. This is the map of what each fills right now — and the blueprint to turn them into your intended stack: direct-sold first, NM as the paying backstop, AvantLink as a deliberate promotional layer.</p>
+    <p class="lede">Revised against the Jul 30 first-party verification (live DOM inspection, loader source read, ads.txt rebuild). GAM and NextMillennium still run as two silos that never compete — and when the Montana flight completed, the "no backstop" gap became visible on the page. This maps what each system fills now, and the blueprint for the intended stack: direct-sold first, NM as the paying backstop, AvantLink as a deliberate promotional layer.</p>
     <div class="meta-strip">
-      <span>GAM YTD units · <b>1 site + forum subsite</b></span>
-      <span>NM YTD · <b>$5,672 · $1.25 eCPM · 15.9% fill</b></span>
+      <span>NM run-rate · <b>~$28/day · eCPM $0.90–1.13</b></span>
+      <span>NM on-page · <b>4 units/article · 0 on forum</b></span>
       <span>Bridge today · <b style="color:var(--crit)">none</b></span>
-      <span>Source · <b>NM Agenda audit, Jul 23 2026</b></span>
+      <span>Sources · <b>Jul 23 audit + Jul 30 verification</b></span>
     </div>
   </div>
 </header>
 
 <div class="wrap">
 
+  <!-- REVISION LOG -->
+  <section style="margin-top:36px">
+    <div class="sec-head"><span class="sec-num">Δ</span><h2 class="sec-title">What changed in this revision (Jul 23 → Jul 30)</h2></div>
+    <p class="sec-sub">Four claims from the Jul 23 audit were corrected by direct verification. The core thesis — two silos, no paying backstop, forum untouched — was <b>confirmed and strengthened</b>.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Jul 23 claim</th><th>Jul 30 verified reality</th></tr></thead>
+        <tbody>
+          <tr><td><del>Wrapper loads but rarely auctions; conditions unknown</del></td><td>The loader is <b>scroll-gated</b> — it does nothing until &gt;3 scroll events (read from loader source). Engaged desktop sessions serve fine (Chrome = 63% of NM revenue). The problem is yield quality, not an outage.</td></tr>
+          <tr><td><del>No video player exists on the site</del></td><td>A <b>Connatix outstream player runs in the article sidebar</b> (cnx-main-container, its own cnx_bid_slot auctions). connatix.com sits as DIRECT in NM's managed ads.txt block — attribution unconfirmed.</td></tr>
+          <tr><td><del>ads.txt one version behind NM's requirement</del></td><td><b>Fixed by us Jul 26</b> — live file was NM's 12-2024 test file missing 56 seller records; we deployed the corrected 270-record file. Reporting normalized within a day. NM never caught it.</td></tr>
+          <tr><td><del>Article slots filled 8/8 by Montana/Continental direct</del></td><td>Montana's flight completed (548% pacing). The same real estate now shows <b>house/AvantLink fill</b> — the predicted backstop gap, made visible. See Exhibit A below.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- 1. TWO SILOS -->
   <section>
     <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">The core finding: two systems, no bridge</h2></div>
-    <p class="sec-sub">This is the reframe. Your target model assumes direct-sold → NM → AvantLink is one ranked waterfall. It isn't. GAM fills its slots and NM injects and fills a completely separate set of slots. Neither ever bids on the other's inventory — so GAM's unsold impressions have <b>no paying backstop</b>, and NM only earns on the few slots its own script renders.</p>
+    <p class="sec-sub">Your target model assumes direct-sold → NM → AvantLink is one ranked waterfall. It isn't. GAM fills its slots and NM injects a separate set of slots. Neither ever bids on the other's inventory — so GAM's unsold impressions have <b>no paying backstop</b>, and NM only earns on the few units its own script renders.</p>
     <div class="silos">
       <div class="silo gam">
         <h3>Google Ad Manager</h3>
         <p class="who">network 10039233 · GPT slots</p>
         <ul>
           <li>Serves <b>direct-sold sponsorships</b>, house banners, AvantLink 2026 rotator</li>
-          <li>Covers main site <b>and forum</b> (ExPo_Forum_*, forum_side_*)</li>
-          <li>Fills 8/8 article slots, most forum sidebars</li>
+          <li>Article sidebar: ~28 widget slots (house/AvantLink today) + 1 in-content slot</li>
+          <li>Forum: <b>legacy ~2018 GAM slots only</b> (ExPo_Forum_*, forum_side_*)</li>
           <li>Only "programmatic" = <b>8 dead AdX-by-size line items</b> (since 2019, $0)</li>
           <li>Zero yield groups · zero bidders · zero NM line items</li>
         </ul>
@@ -178,109 +199,109 @@
         <p class="who">powerad.ai wrapper · publisher 15113</p>
         <ul>
           <li>Runs its <b>own auction entirely outside GAM</b></li>
-          <li>Injects <b>4 placements</b>: gunstar, prometheus, eagle, video</li>
-          <li>Reports one site only — <b>no forum breakout</b></li>
-          <li>Wrapper loads on every page but <b>rarely fires an auction</b> in testing</li>
-          <li>Books ~$32/day under conditions we couldn't reproduce</li>
+          <li>Article page: <b>4 units</b> — placement 4740 ×2 (in-article) + 60165 &amp; 8045 (fixed overlays / footer pop-out)</li>
+          <li>Forum: <b>zero placements</b> — config returns none for any forum URL</li>
+          <li>Loader is <b>scroll-gated (&gt;3 events)</b> — first impression always goes to GAM</li>
+          <li>~$28/day blended · Safari ($0.76) and in-app ($0.79) drag the blend</li>
         </ul>
       </div>
     </div>
     <div class="callout">
-      <span class="cap">Why this is the whole game</span>
-      <p>Every optimization you're weighing — the AvantLink 20%→5% move, filling forum blanks, backstopping Montana when it completes — is blocked by this one gap. <b>Until NM demand competes inside the GAM auction, there is no "layer 2."</b> The percentage tweaks only shuffle GAM's own low-value fill.</p>
+      <span class="cap">Exhibit A — the backstop gap, caught on camera</span>
+      <p>Jul 23: article slots filled edge-to-edge by Montana State (a direct flight burning at 548% pacing). Jul 30, same template: Montana done, and the sidebar is now <b>house/AvantLink — near-$0 inventory</b>. When a direct flight ends, the money stops; nothing paid competes for what's left. This before/after is the opening exhibit for the NM call: not a hypothesis, an observed failure.</p>
     </div>
   </section>
 
   <!-- 2. PLACEMENT MAP -->
   <section>
-    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Placement map — what actually fills each slot today</h2></div>
-    <p class="sec-sub">Every ad slot on the tested pages, and what filled it. Note that NM's four placements are <em>not</em> in these tables — they're separate injected units that render elsewhere/under other conditions (Section 03). The blanks are the unmonetized inventory NM should be capturing.</p>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Placement map — what actually fills each slot</h2></div>
+    <p class="sec-sub">Article template as verified Jul 30 (jeep-beach-2026), with the Jul 23 state shown for contrast. One open discrepancy: Jul 23 counted 8 GPT slots on an article page; Jul 30 counted ~29 non-NM slots. Different article, template, or counting method — <b>run the GAM ad-unit report (requests per unit, 30 days) to arbitrate before quoting a denominator to NM.</b></p>
 
     <div class="tbl-wrap" style="margin-bottom:16px">
       <table>
-        <caption>Article page — 8 GPT slots · 8/8 filled by GAM, no NM auction fired</caption>
-        <thead><tr><th>Slot / GAM ad unit</th><th>Typical sizes</th><th>Filled by (test)</th><th>Served via</th></tr></thead>
+        <caption>Article page — verified Jul 30 · desktop</caption>
+        <thead><tr><th>Slot</th><th>Filled by (Jul 23)</th><th>Filled by (Jul 30)</th><th>System</th></tr></thead>
         <tbody>
-          <tr><td>Header leaderboard</td><td>970×250 · 728×90</td><td>Continental GT</td><td><span class="pill gam">GAM direct</span></td></tr>
-          <tr><td>In-content rectangles ×3–4</td><td>300×250</td><td>Montana State Tourism</td><td><span class="pill gam">GAM direct</span></td></tr>
-          <tr><td>Sidebar</td><td>300×600 · 300×250</td><td>Montana State Tourism</td><td><span class="pill gam">GAM direct</span></td></tr>
-          <tr><td>"video article *" units</td><td>970×250 · 320×50 · 300×250</td><td>Banner demand — <b>not video</b></td><td><span class="pill gam">GAM direct</span></td></tr>
+          <tr><td>Sidebar widget slots (~28)</td><td>Montana State (direct)</td><td>House / AvantLink rotator</td><td><span class="pill gam">GAM</span></td></tr>
+          <tr><td>In-content slot (1)</td><td>Montana State (direct)</td><td>GAM-served</td><td><span class="pill gam">GAM</span></td></tr>
+          <tr><td>Sidebar video player</td><td>—</td><td><b>Connatix outstream</b> (own cnx_bid_slot auction; rotating creatives)</td><td><span class="pill nm">NM? · confirm</span></td></tr>
+          <tr><td>In-article ×2</td><td>—</td><td>NM placement <b>4740</b></td><td><span class="pill nm">NM</span></td></tr>
+          <tr><td>Fixed overlays (incl. footer pop-out)</td><td>—</td><td>NM placements <b>60165</b> · <b>8045</b></td><td><span class="pill nm">NM</span></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="tbl-wrap">
       <table>
-        <caption>Forum home — 15 GPT slots · 5+ chronic blanks</caption>
-        <thead><tr><th>Slot / GAM ad unit</th><th>Role</th><th>Filled by (test)</th><th>Status</th></tr></thead>
+        <caption>Forum (forum.expeditionportal.com) — legacy ~2018 GAM slots only</caption>
+        <thead><tr><th>Item</th><th>State</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>Belly_1</td><td>Top belly banner</td><td>Overland Journal (house)</td><td><span class="pill house">house</span></td></tr>
-          <tr><td>forum_side_* ×8</td><td>Sidebar rail</td><td>Montana / Continental / Mohab</td><td><span class="pill gam">GAM direct</span></td></tr>
-          <tr><td>Belly_2 · Belly_3 · Belly_5 · Belly_6</td><td>In-content belly</td><td>—</td><td><span class="pill blank">blank</span></td></tr>
-          <tr><td>Footer</td><td>Page footer</td><td>—</td><td><span class="pill blank">blank</span></td></tr>
+          <tr><td>NM placements</td><td>Config returns <b>zero placements</b> for any forum URL — wrapper loads and does nothing</td><td><span class="pill blank">none</span></td></tr>
+          <tr><td>Visible ad slots</td><td>Home sidebar + classifieds sidebar (per live check); audit's Belly_2/3/5/6 + Footer read as unfilled/undefined — GAM report distinguishes defined-but-blank vs never-implemented</td><td><span class="pill house">verify in GAM</span></td></tr>
+          <tr><td>forum ads.txt</td><td><b>404 — no file at all</b> on the subdomain. Likely benign today (forum sells under the main domain), but required before NM forum enablement</td><td><span class="pill blank">missing</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Exact unit-name → slot mapping for the article page should be confirmed against GAM's ad-unit tree; sizes and fills above are from the live desktop inspection in the audit.</p>
+    <p class="note">The YouTube-framed Hankook/Jeep-Beach unit carries Google's AdChoices badge → likely a Google-served video creative inside a GAM sidebar slot, separate from the Connatix player. Confirm via GAM delivery report.</p>
   </section>
 
   <!-- 3. NM PLACEMENTS -->
   <section>
-    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">NextMillennium's four placements — separate, and mostly idle</h2></div>
-    <p class="sec-sub">These are the units NM's wrapper injects and auctions on its own. Three are modest display earners; "video" is the problem child — 80% of all requests at ~7.9% fill and $0.75 eCPM, which is pure request overhead dragging every blended number down.</p>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">NM's placements &amp; the video question</h2></div>
+    <p class="sec-sub">NM reporting uses names (gunstar, prometheus, eagle, video); the on-page units carry numeric IDs (4740, 60165, 8045). <b>The name↔ID mapping is unconfirmed — get it from NM on the call</b>, because it decides which earner is which unit.</p>
     <div class="tbl-wrap">
       <table>
         <caption>NM placement performance · YTD Jan 1 – Jul 22</caption>
         <thead><tr><th>Placement</th><th class="num">Revenue</th><th class="num">eCPM</th><th>Read</th></tr></thead>
         <tbody>
-          <tr><td>prometheus</td><td class="num">$1,767</td><td class="num">$1.81</td><td>Best display unit — keep, route into GAM</td></tr>
           <tr><td>gunstar</td><td class="num">$1,865</td><td class="num">$1.74</td><td>Top revenue — keep, route into GAM</td></tr>
-          <tr><td>eagle</td><td class="num">$692</td><td class="num">$1.01</td><td>Weakest display — keep but low priority</td></tr>
-          <tr><td>video</td><td class="num">$1,348</td><td class="num">$0.75</td><td><b>Gate/kill</b> — 80% of requests, ~7.9% fill, overhead</td></tr>
+          <tr><td>prometheus</td><td class="num">$1,767</td><td class="num">$1.81</td><td>Best eCPM — keep, route into GAM</td></tr>
+          <tr><td>video</td><td class="num">$1,348</td><td class="num">$0.75</td><td>80% of all requests at ~7.9% fill — <b>is this the Connatix bid slots?</b> Resolve attribution before gating</td></tr>
+          <tr><td>eagle</td><td class="num">$692</td><td class="num">$1.01</td><td>Weakest display — keep, low priority</td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout">
-      <span class="cap">The metric distortion to fix first</span>
-      <p>22.8M of 28.5M total requests are that in-banner "video" call. Killing or gating it won't lose meaningful revenue ($0.75 eCPM), but it will <b>clean up fill rate and eCPM overnight</b> so the real display units — and any new outstream player — can be measured honestly.</p>
+      <span class="cap">Video: one question now, not two</span>
+      <p>The site <b>already has an outstream player</b> (Connatix, sidebar). connatix.com is DIRECT in NM's managed ads.txt block — suggesting it monetizes under NM's umbrella — but its revenue has never appeared broken out anywhere. If NM's "video" placement (22.8M requests, 7.9% fill, $0.75) <em>is</em> the Connatix auction, then "kill the request bloat" and "where's the Connatix money" are the same conversation. The strategy is no longer "build a player" — it's <b>audit the player we already have</b>: attribution, revenue, fill — then decide to fix it, expand it (in-article outstream), or replace it with NM's own player. Owned-content instream (XOVERLAND cut-downs + pre-roll) stays on the roadmap behind the editing pipeline.</p>
     </div>
   </section>
 
   <!-- 4. TARGET -->
   <section>
     <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">The target: three real layers in one auction</h2></div>
-    <p class="sec-sub">Your intended model, made mechanical. The difference from today is that all three layers compete for <b>the same GAM slots</b> in priority order — instead of GAM and NM each owning a separate set of slots.</p>
+    <p class="sec-sub">The intended model, made mechanical. The difference from today is that all three layers compete for <b>the same GAM slots</b> in priority order — instead of GAM and NM each owning a separate set.</p>
     <div class="layers">
       <div class="layer">
         <div class="layer-badge l1">1</div>
         <div class="layer-body" style="--lc:var(--trail)">
           <h3>Direct-sold sponsorships <span class="tag">GAM priority 4–8 · guaranteed</span></h3>
-          <p>Montana, Continental, Nitto, Mohab, AEV, Hankook, Overland Expo, OJ house. Keep exactly as-is — highest value, served first. <b>No change to priority.</b></p>
-          <p class="now">Today: healthy, but over-pacing (Montana at 548%) front-loads flights and starves everything below.</p>
+          <p>Montana, Continental, Nitto, Mohab, AEV, Hankook, Overland Expo, OJ house. Highest value, served first. <b>Priority untouchable — stated as a non-negotiable on the call.</b></p>
+          <p class="now">Watch item: Montana's front-loaded pacing + broken clickthrough (0 clicks / 933K) needs a sponsor make-good before renewal talks.</p>
         </div>
       </div>
       <div class="layer">
         <div class="layer-badge l2">2</div>
         <div class="layer-body" style="--lc:var(--field)">
           <h3>NextMillennium — in-auction backstop <span class="tag">price priority 12 · every unsold impression</span></h3>
-          <p>NM demand competes for whatever direct-sold doesn't take, at real market price, across main site <b>and forum</b>. This is the layer that fills the Belly/Footer blanks and catches inventory when Montana completes.</p>
-          <p class="now">Today: <b>does not exist inside GAM</b> — NM runs in its own silo. This is the one thing to build.</p>
+          <p>NM demand competes for whatever direct-sold doesn't take, at real market price, across main site <b>and forum</b>. This is what catches inventory when a flight like Montana completes, instead of house fill.</p>
+          <p class="now">Today: <b>does not exist inside GAM.</b> Exhibit A is the proof of cost. This is the one thing to build.</p>
         </div>
       </div>
       <div class="layer">
         <div class="layer-badge l3">3</div>
         <div class="layer-body" style="--lc:var(--sun)">
           <h3>AvantLink 2026 — promotional layer <span class="tag">house priority 16 / scheduled promo</span></h3>
-          <p>Repurposed from a blind 20% remnant skim into a <b>deliberate feature slot</b>: affiliate promotions and media buys you choose to run. It fills only what NM declines, or runs as scheduled campaigns you control.</p>
-          <p class="now">Today: Network priority 12, 20% run-of-network, ~$0 value (82 clicks / 292K imps). Reposition, don't just trim.</p>
+          <p>Repurposed from a blind 20% remnant skim into a <b>deliberate feature slot</b>: affiliate promotions and media buys you choose. Fills only what NM declines, or runs as scheduled campaigns.</p>
+          <p class="now">Today: Network priority 12, 20% run-of-network, ~$0 value (82 clicks / 292K imps) — and currently absorbing the post-Montana void. Reposition after the bridge exists.</p>
         </div>
       </div>
       <div class="layer">
         <div class="layer-badge lv">▶</div>
         <div class="layer-body" style="--lc:var(--field-ink)">
-          <h3>Video — its own lane <span class="tag">dedicated outstream / instream</span></h3>
-          <p>A real sticky outstream player (owned-content instream on the roadmap), reported separately, replacing the in-banner "video" request bloat. New demand, not a reshuffle.</p>
-          <p class="now">Today: no video ad unit exists; "video" = display-eligible demand in banner slots.</p>
+          <h3>Video — audit first, then expand <span class="tag">Connatix today · instream roadmap</span></h3>
+          <p>Step 1: resolve Connatix attribution and the "video" placement's request bloat. Step 2: decide fix / expand / replace. Step 3 (roadmap): owned-content instream with XOVERLAND cut-downs + pre-roll, gated on the editing pipeline.</p>
+          <p class="now">Today: a player exists but its revenue is <b>invisible in reporting</b> — that's the actual problem.</p>
         </div>
       </div>
     </div>
@@ -289,7 +310,7 @@
   <!-- 5. THE BRIDGE -->
   <section>
     <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Building the bridge — how NM demand enters the GAM auction</h2></div>
-    <p class="sec-sub">There are two standard mechanisms. NM already runs a Prebid-style wrapper (powerad.ai), so Option A reuses what they have — the winning bid just gets routed through GAM to compete with direct-sold instead of running in parallel. Confirm on the call which NM supports for network 10039233.</p>
+    <p class="sec-sub">Two standard mechanisms. NM already runs a Prebid-style wrapper (powerad.ai), so Option A reuses what they have — the winning bid gets routed through GAM to compete with direct-sold instead of running in parallel. Confirm on the call which NM supports for network 10039233.</p>
     <div class="grid two">
       <div class="card rec">
         <span class="cap">Option A · recommended</span>
@@ -303,28 +324,28 @@
       </div>
     </div>
     <div class="callout field">
-      <span class="cap">Division of labor</span>
-      <p><b>NM's job:</b> provide the bid adapter/config and set up their side. <b>Your GAM's job:</b> authorize it — create the price-priority line items (or enable the OB partner), and map NM's gunstar / prometheus / eagle demand onto the corresponding GAM ad units so there's <b>one set of slots</b>, not two.</p>
+      <span class="cap">Division of labor — and the line not to cross</span>
+      <p><b>NM's job:</b> bid adapter/config and their side of setup. <b>Your GAM's job:</b> authorize it — price-priority line items (or the OB partner) mapped onto your ad units, so there's <b>one set of slots</b>. If NM counter-offers a managed-service / MCM takeover: acceptable only scoped to <em>unsold inventory</em>, with direct-sold priority untouched and your independent admin + reporting access retained.</p>
     </div>
   </section>
 
   <!-- 6. SEQUENCE -->
   <section>
     <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Migration sequence — safe order of operations</h2></div>
-    <p class="sec-sub">Order matters: don't touch AvantLink or the blanks until NM is actually backstopping the auction, or you just create more empty slots.</p>
+    <p class="sec-sub">Order matters: don't touch AvantLink or forum expansion until NM is actually backstopping the auction, or you just create more empty slots.</p>
     <ol class="seq">
-      <li><div><h4>Housekeeping now <span class="owner">— us, this week</span></h4><p>Sync ads.txt to NM's 04-08-2025 version; fix Montana click tracking (0/933K) and pacing; upload or pause Hankook ("needs creatives"). No dependencies — do immediately.</p></div></li>
-      <li><div><h4>Authorize NM in GAM <span class="owner">— NM sets up, us to approve</span></h4><p>Stand up Prebid price-priority line items (Option A) or the Open Bidding partner. Map gunstar/prometheus/eagle to the matching GAM ad units. This creates layer 2.</p></div></li>
-      <li><div><h4>Consolidate slots &amp; kill dead weight <span class="owner">— us</span></h4><p>Retire the separate NM-injected placements so demand flows through GAM slots. Remove the 8 dead AdX line items. Gate the in-banner "video" request (80% of requests, $0.75).</p></div></li>
-      <li><div><h4>Verify the backstop <span class="owner">— us</span></h4><p>Confirm NM now wins unsold impressions: forum Belly/Footer blanks fill, article slots backstop when Montana completes. Watch blank-rate.</p></div></li>
-      <li><div><h4>Reposition AvantLink to layer 3 <span class="owner">— us</span></h4><p>Move from Network/20% run-of-network to House priority 16 (or scheduled promo campaigns). <em>Now</em> drop the share to 5% — it finally means something because NM is beneath it.</p></div></li>
-      <li><div><h4>Prove it on Session RPM <span class="owner">— us + NM reporting</span></h4><p>2-week before/after (or GAM A/B) on Session RPM, per the field-manual test design. Net win = NM revenue gained − AvantLink revenue lost.</p></div></li>
-      <li><div><h4>Launch the video lane <span class="owner">— NM + us</span></h4><p>Sticky outstream pilot with projected incremental Session RPM in writing; video fill + VCR reported separately from day one.</p></div></li>
+      <li><div><h4>Housekeeping <span class="owner">— us</span> <span class="pill done">ads.txt done Jul 26</span></h4><p>ads.txt rebuilt (270 records) and verified — done. Still open: Montana click-tracking post-mortem + sponsor make-good; Hankook "needs creatives" (upload or pause); forum ads.txt file before any forum enablement.</p></div></li>
+      <li><div><h4>Authorize NM in GAM <span class="owner">— NM sets up, us to approve</span></h4><p>Prebid price-priority line items (Option A) or Open Bidding. Map NM's placements (get the name↔ID key) to the matching GAM ad units. This creates layer 2. Also on the table: A/B a lower scroll-gate threshold on a traffic slice — ask for the data behind &gt;3, don't demand removal.</p></div></li>
+      <li><div><h4>Resolve video attribution, then consolidate <span class="owner">— NM answers, us</span></h4><p>Confirm whether "video" placement = Connatix bid slots and where the player's revenue reports. <em>Then</em> gate/kill the request bloat with full information. Remove the 8 dead AdX line items either way.</p></div></li>
+      <li><div><h4>Verify the backstop <span class="owner">— us</span></h4><p>Confirm NM now wins unsold impressions: post-flight article inventory backstops at market price instead of house fill; forum slots (once enabled) fill. Watch blank-rate and Session RPM.</p></div></li>
+      <li><div><h4>Reposition AvantLink to layer 3 <span class="owner">— us</span></h4><p>Move from Network/20% run-of-network to House priority 16 or scheduled promo campaigns. <em>Now</em> the 20%→5% reduction means something, because NM sits beneath it.</p></div></li>
+      <li><div><h4>Prove it on Session RPM <span class="owner">— us + NM reporting</span></h4><p>Placement/device-level reporting on <em>first</em> (baseline), then 2-week before/after or A/B per change. Net win = NM revenue gained − AvantLink/house revenue lost.</p></div></li>
+      <li><div><h4>Expand the video lane <span class="owner">— NM + us</span></h4><p>Based on the Connatix audit: fix, expand (in-article outstream), or replace. Projected incremental Session RPM in writing; video fill + VCR reported separately. Instream with XOVERLAND cut-downs once the editing pipeline exists.</p></div></li>
     </ol>
   </section>
 
   <footer class="foot">
-    <span>Expedition Portal · Placement Map &amp; Integration Blueprint</span>
+    <span>Expedition Portal · Placement Map &amp; Integration Blueprint · Rev 2 (Jul 30)</span>
     <span>Companion to display-ops-field-manual.html · internal working doc</span>
   </footer>
 </div>
