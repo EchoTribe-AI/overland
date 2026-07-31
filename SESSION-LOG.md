@@ -176,3 +176,45 @@ historical peak is reachable **without any high-impact format**.
 
 ### Published artifact
 - Revenue Opportunity: https://claude.ai/code/artifact/eb9bbc67-b3b4-4bac-9729-1b3460e3c9a9
+
+---
+
+## Session: Jul 31, 2026 (later) — 2025 data lands + mobile audit → final action plan
+
+### New inputs
+- **2025 NM export** (closes the data gap): $13,481 · 9.0M imps · $1.50 eCPM.
+- **Mobile/desktop audit + web-dev ticket** (Jul 31, measured at 375px/1440px):
+  forum thread slots missing size mappings (970px creatives clipped on phones);
+  main-site sidebar generator stacks 29/30 units below the article on mobile;
+  no lazy loading / collapseEmptyDivs anywhere; 20 of 30 generated slots never
+  request; GA4 shows 56% mobile audience.
+
+### What 2025 changed in the analysis
+- Full revenue path now: $37,356 → $25,837 → **$13,481** → $10,199 ann.
+  2024→2025 is the largest single-year drop (−$12,356, −48%).
+- **ads.txt mechanism confirmed by timing:** non-video eCPM $2.11 (2024,
+  healthy file) → $1.72 (2025, first full year on the file stamped 12-18-2024)
+  → $1.58 (2026). Confidence raised to medium-high.
+- **Volume decline is a multi-year slide, not one event:** non-video requests
+  37.5M → 28.5M → 20.1M → 10.2M. Mix of traffic trend + loader gating + mobile
+  layout; GA4 sessions by year still needed to apportion.
+- **Video bloat dated:** requests 1.65M → 8.88M (×5.4, 2025) → 41.0M ann
+  (×4.6, 2026) with revenue flat ~$1.9K. eCPM $2.67 → $0.85 → $0.75.
+- Mobile layout added as the third failure mechanism (majority segment at the
+  lowest yields: Safari $0.76 / in-app $0.79).
+
+### Deliverables
+- `nm-revenue-opportunity.html` **Rev 2** — 2025 actuals in all tables/charts,
+  mobile factor added, data-request list updated.
+- `display-action-plan.html` — **the final consolidated plan for the Jake
+  review**: 3 mechanisms → 12 ranked actions in 3 phases (A: Greg's template
+  fixes, led by the P1 clipped-ads fix; B: ad-ops moves — device targeting,
+  NM backfill tag, ads.txt measurement; C: NM-sequenced — Playwire preview,
+  forum re-enable under guardrails, video pre-roll, device-split reporting),
+  plus Jake's two open calls (300×250 in mobile forum bucket — recommend
+  launch without; mobile sticky anchor — recommend hold in reserve as the
+  NM trade) and the measurement checklist.
+
+### Published artifacts
+- Revenue Opportunity (Rev 2): https://claude.ai/code/artifact/eb9bbc67-b3b4-4bac-9729-1b3460e3c9a9
+- **Action Plan (final): https://claude.ai/code/artifact/07d98d0e-751e-4e61-be4b-9b782a54708f**

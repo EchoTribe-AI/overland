@@ -1,0 +1,252 @@
+<title>Display Ads — Final Action Plan</title>
+<style>
+  :root{
+    --paper:#EFEBE0; --panel:#F6F3EA; --panel-2:#E7E2D4; --line:#D3CCB9;
+    --ink:#23261D; --ink-2:#4A4E3E; --ink-3:#6E7360;
+    --field:#5F7233; --field-ink:#3F4C22; --trail:#B0552B; --sun:#B98A22;
+    --gain:#1268BE;
+    --good:#4E7A34; --warn:#B5811A; --crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12); --warn-bg:rgba(181,129,26,.14); --crit-bg:rgba(178,59,46,.12); --gain-bg:rgba(18,104,190,.10);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+    --mono: ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){ :root{
+    --paper:#16180F; --panel:#1E2016; --panel-2:#262a1c; --line:#343827;
+    --ink:#E9E5D6; --ink-2:#C3BFAE; --ink-3:#8E927C;
+    --field:#9FB65C; --field-ink:#C6D68A; --trail:#D98252; --sun:#D6A63C; --gain:#5FA3E0;
+    --good:#86B85C; --warn:#D6A63C; --crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14); --warn-bg:rgba(214,166,60,.16); --crit-bg:rgba(224,114,95,.14); --gain-bg:rgba(95,163,224,.16);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }}
+  :root[data-theme="light"]{
+    --paper:#EFEBE0;--panel:#F6F3EA;--panel-2:#E7E2D4;--line:#D3CCB9;--ink:#23261D;--ink-2:#4A4E3E;--ink-3:#6E7360;
+    --field:#5F7233;--field-ink:#3F4C22;--trail:#B0552B;--sun:#B98A22;--gain:#1268BE;
+    --good:#4E7A34;--warn:#B5811A;--crit:#B23B2E;
+    --good-bg:rgba(78,122,52,.12);--warn-bg:rgba(181,129,26,.14);--crit-bg:rgba(178,59,46,.12);--gain-bg:rgba(18,104,190,.10);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+  }
+  :root[data-theme="dark"]{
+    --paper:#16180F;--panel:#1E2016;--panel-2:#262a1c;--line:#343827;--ink:#E9E5D6;--ink-2:#C3BFAE;--ink-3:#8E927C;
+    --field:#9FB65C;--field-ink:#C6D68A;--trail:#D98252;--sun:#D6A63C;--gain:#5FA3E0;
+    --good:#86B85C;--warn:#D6A63C;--crit:#E0725F;
+    --good-bg:rgba(134,184,92,.14);--warn-bg:rgba(214,166,60,.16);--crit-bg:rgba(224,114,95,.14);--gain-bg:rgba(95,163,224,.16);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 24px 90px; }
+  h1,h2,h3{ text-wrap:balance; line-height:1.15; }
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin:0; }
+
+  header.hero{ border-bottom:1px solid var(--line); background:var(--panel); }
+  .hero-inner{ max-width:920px; margin:0 auto; padding:36px 24px 28px; }
+  .badge{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--field-ink); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--field) 40%,transparent); padding:3px 9px; border-radius:4px; }
+  :root[data-theme="dark"] .badge{color:var(--field);} @media (prefers-color-scheme:dark){.badge{color:var(--field);}} :root[data-theme="light"] .badge{color:var(--field-ink);}
+  h1.title{ font-size:clamp(27px,4.4vw,40px); font-weight:800; letter-spacing:-.02em; margin:14px 0 10px; }
+  .lede{ font-size:clamp(15px,2vw,17px); color:var(--ink-2); max-width:64ch; margin:0; }
+  .meta{ display:flex; gap:14px 22px; flex-wrap:wrap; margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); }
+  .meta b{ color:var(--ink); }
+
+  section{ margin-top:46px; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .sec-num{ font-family:var(--mono); font-size:12px; color:var(--field); border:1px solid color-mix(in srgb,var(--field) 45%,transparent); border-radius:4px; padding:2px 7px; flex:none; }
+  h2.sec-title{ font-size:clamp(20px,3vw,25px); font-weight:750; letter-spacing:-.01em; margin:0; }
+  .sub{ color:var(--ink-2); margin:8px 0 20px; max-width:70ch; }
+
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:760px){ .grid3{ grid-template-columns:1fr; } }
+  .mech{ background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--trail); border-radius:10px; padding:15px 16px; box-shadow:var(--shadow); }
+  .mech .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--trail); display:block; margin-bottom:5px; }
+  .mech h4{ margin:0 0 5px; font-size:14.5px; }
+  .mech p{ margin:0; font-size:13px; color:var(--ink-2); }
+  .mech .st{ display:inline-block; margin-top:8px; font-family:var(--mono); font-size:10px; letter-spacing:.05em; padding:2px 8px; border-radius:20px; }
+  .st.fixed{ color:var(--good); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--good) 35%,transparent); }
+  .st.open{ color:var(--warn); background:var(--warn-bg); border:1px solid color-mix(in srgb,var(--warn) 35%,transparent); }
+
+  .phase{ margin-top:26px; }
+  .phase-head{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+  .phase-head h3{ margin:0; font-size:16.5px; font-weight:750; }
+  .phase-head .who{ font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); border:1px solid var(--line); border-radius:20px; padding:2px 10px; }
+  .phase-head::after{ content:""; flex:1; height:1px; background:var(--line); }
+
+  ol.act{ list-style:none; counter-reset:a; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+  ol.act li{ counter-increment:a; display:grid; grid-template-columns:30px 1fr auto; gap:12px; align-items:start; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:12px 14px; box-shadow:var(--shadow); }
+  ol.act li::before{ content:counter(a,decimal-leading-zero); font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--field); border:1px solid color-mix(in srgb,var(--field) 45%,transparent); border-radius:5px; height:24px; display:grid; place-items:center; margin-top:1px; }
+  ol.act{ counter-reset:a var(--start,0); }
+  ol.act li h4{ margin:0; font-size:14px; }
+  ol.act li p{ margin:3px 0 0; font-size:13px; color:var(--ink-2); }
+  ol.act li .impact{ font-family:var(--mono); font-size:11px; color:var(--gain); white-space:nowrap; text-align:right; padding-top:2px; }
+  ol.act li .impact small{ display:block; color:var(--ink-3); font-size:10px; }
+  ol.act li.p1{ border-left:4px solid var(--crit); }
+  @media (max-width:640px){ ol.act li{ grid-template-columns:30px 1fr; } ol.act li .impact{ grid-column:2; text-align:left; padding-top:4px; } }
+
+  .decide{ background:var(--panel); border:1px solid var(--line); border-left:4px solid var(--sun); border-radius:0 10px 10px 0; padding:15px 18px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .decide h4{ margin:0 0 4px; font-size:14.5px; }
+  .decide p{ margin:0; font-size:13.5px; color:var(--ink-2); }
+  .decide .rec{ margin-top:7px; font-size:13px; }
+  .decide .rec b{ color:var(--field-ink); }
+  :root[data-theme="dark"] .decide .rec b{ color:var(--field); } @media (prefers-color-scheme:dark){ .decide .rec b{ color:var(--field); } }
+
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
+  table{ border-collapse:collapse; width:100%; min-width:520px; font-size:13px; background:var(--panel); }
+  th,td{ text-align:left; padding:8px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--panel-2); }
+  td.num,th.num{ text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tr.total td{ font-weight:700; background:var(--panel-2); }
+
+  .callout{ border-left:4px solid var(--gain); background:var(--gain-bg); border-radius:0 10px 10px 0; padding:15px 18px; margin-top:18px; }
+  .callout .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--gain); }
+  .callout p{ margin:6px 0 0; font-size:14px; color:var(--ink-2); }
+  .callout b{ color:var(--ink); }
+
+  ul.meas{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+  ul.meas li{ padding-left:24px; position:relative; font-size:14px; color:var(--ink); }
+  ul.meas li::before{ content:"☐"; position:absolute; left:0; color:var(--field); font-size:15px; }
+  ul.meas li small{ color:var(--ink-3); display:block; font-size:12.5px; }
+
+  footer.foot{ margin-top:56px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle{ position:fixed; top:14px; right:14px; z-index:20; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel); color:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:6px 13px; cursor:pointer; }
+  .theme-toggle:focus-visible,button:focus-visible{ outline:2px solid var(--field); outline-offset:2px; }
+</style>
+
+<button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <span class="badge">Action Plan · Final</span>
+      <p class="eyebrow">Expedition Portal + Forum · Display Advertising</p>
+    </div>
+    <h1 class="title">Everything we verified in July, ranked into actions we control</h1>
+    <p class="lede">One page for the Kelly + Jake review. The diagnosis is complete: revenue fell 73% through three fixable mechanisms, and the majority-mobile audience has been getting a desktop configuration. Every action below has an owner, and none requires a format the community objected to.</p>
+    <div class="meta">
+      <span>Audience · <b>56% mobile</b> (169K/90d)</span>
+      <span>NM baseline · <b>~$10.2K/yr</b></span>
+      <span>Recovery target · <b>$23–50K/yr</b></span>
+      <span>2023 peak · <b>$37.4K</b></span>
+      <span>Prepared · <b>Jul 31, 2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">What broke — three mechanisms, all identified</h2></div>
+    <p class="sub">Full evidence in the Revenue Opportunity analysis (Rev 2, now including 2025 actuals). The short version:</p>
+    <div class="grid3">
+      <div class="mech"><span class="k">2024 · −$13.2K/yr</span><h4>Forum removed from NM scope</h4><p>gunstar + eagle lost 6.9M impressions with fill rates unchanged — pages removed, not yield lost. Cause: community complaints about banners injected between posts. The complaint was specific; the fix honors it.</p><span class="st open">re-enable under guardrails</span></div>
+      <div class="mech"><span class="k">2025–26 · yield −25%</span><h4>ads.txt broke 12-18-2024</h4><p>Non-video eCPM stepped $2.11 → $1.72 → $1.58 starting exactly at the broken file's date stamp. 56 seller records missing for 19 months.</p><span class="st fixed">fixed Jul 26 · measure in Aug</span></div>
+      <div class="mech"><span class="k">Ongoing · majority segment</span><h4>Mobile never configured</h4><p>29 of 30 article ad units render after the article ends on mobile; two forum slots serve desktop-width creatives clipped off the screen; no lazy loading anywhere. Safari clears $0.76 vs the ~$1.13 desktop-led blend.</p><span class="st open">web-dev ticket filed Jul 31</span></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">The plan — three phases, twelve actions</h2></div>
+    <p class="sub">Ranked inside each phase. Phases A and B run in parallel this week; C is sequenced behind the Playwire preview.</p>
+
+    <div class="phase">
+      <div class="phase-head"><h3>Phase A — Template fixes</h3><span class="who">Greg · this week</span></div>
+      <ol class="act" style="--start:0">
+        <li class="p1"><div><h4>Fix the two forum thread slots serving clipped ads</h4><p>Add the size mapping to Forum_Thread_Belly_1 + _2 (ten lines, copying the pattern already on the same page). Advertisers are currently billed for unreadable impressions — this is reputational, not just revenue.</p></div><span class="impact">P1<small>broken now</small></span></li>
+        <li><div><h4>Put 2–3 ads inside the article on mobile</h4><p>After ~paragraph 3, then every ~5 paragraphs, on article + gear-guide templates. Moves ads to where attention actually is — the single biggest mobile revenue change.</p></div><span class="impact">P2<small>largest upside</small></span></li>
+        <li><div><h4>Cap the mobile sidebar stack at 2–3 units</h4><p>Add a &lt;768px branch to displayGoogleSidebarAds. "Fill the column to match the story" only makes sense when there is a column — today it stacks up to 28 units after the article.</p></div><span class="impact">P2</span></li>
+        <li><div><h4>Turn on lazy loading + collapseEmptyDivs</h4><p>Both confirmed absent site-wide. Below-fold units request only as the reader approaches; unfilled slots stop leaving gaps. Also replaces the NM scroll-count gate debate with the right mechanism: viewport-triggered loading.</p></div><span class="impact">P2</span></li>
+        <li><div><h4>Cleanup: 20 dead slots + the addSize() syntax slip</h4><p>Two-thirds of generated slots never request an ad — remove them. Fix the ignored third argument on ExPo_Forum_Belly_1's mapping.</p></div><span class="impact">P3</span></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><h3>Phase B — Ad ops, no dev needed</h3><span class="who">Kelly / Jake · this week</span></div>
+      <ol class="act" style="--start:5">
+        <li><div><h4>Device targeting on direct-sold line items</h4><p>In GAM, so a desktop-only creative can never serve to a phone in the first place — protects sponsors from the clipped-ad problem at the campaign layer too.</p></div><span class="impact">P2</span></li>
+        <li><div><h4>Place NM's backfill tag behind direct-sold</h4><p>From the Jul 30 call — NM provides a tag that runs as backfill on unsold GAM inventory. Behind paid brand campaigns, ahead of AvantLink. This finally puts a paid layer under inventory that falls to house fill, and makes the AvantLink 20%→5% question meaningful.</p></div><span class="impact">$3–9K/yr</span></li>
+        <li><div><h4>Measure the ads.txt fix</h4><p>August eCPM vs June, per placement. Free verdict on the yield mechanism — and the calibration for every other estimate.</p></div><span class="impact">$1.5–2.6K/yr<small>already deployed</small></span></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="phase-head"><h3>Phase C — With NextMillennium</h3><span class="who">sequenced · Aug–Sep</span></div>
+      <ol class="act" style="--start:8">
+        <li><div><h4>Playwire migration — staged preview first</h4><p>Dev stages the preview; review player behavior against our format guardrails (nothing floating, following, or expanding) before production. NM's "up to 150%" is a sales ceiling — hold them to a written projection.</p></div><span class="impact">$3–7K/yr</span></li>
+        <li><div><h4>Re-enable the forum, guardrails first</h4><p>Deploy forum ads.txt, then NM placements: sidebar + below-content only, nothing between posts, lazy-loaded, per-page cap, no sticky mobile anchor. Sequenced after Playwire per our email. Complaint volume is a tracked metric alongside revenue.</p></div><span class="impact">$5–8.7K/yr</span></li>
+        <li><div><h4>Video pre-roll on owned content</h4><p>XOVERLAND content, 5-second skippable pre-roll — the direction agreed with NM. Retire the in-banner video calls at the same time (~$2.4K/yr at risk, 41M wasted requests removed).</p></div><span class="impact">$3–16K/yr</span></li>
+        <li><div><h4>Device + placement split reporting from NM</h4><p>Viewability and eCPM by device and placement, self-serve. This is the before/after instrument for the mobile ticket and the forum re-launch — ask for it to be live before Phase C ships.</p></div><span class="impact">enables measurement</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Jake's two open calls</h2></div>
+    <p class="sub">Everything else above is agreed or mechanical. These two are reader-experience trades that deserve an explicit decision:</p>
+    <div class="decide">
+      <h4>1 · Allow 300×250 in the mobile forum bucket?</h4>
+      <p>The taller unit pays meaningfully better than 320×50 banners, but it takes more of the reading flow between posts — the very thing the community complained about.</p>
+      <p class="rec"><b>Recommendation:</b> launch without it (320×50 + 320×100 only). Add 300×250 in a second phase only if complaint volume stays at zero for a month. Cheap to add later; expensive to walk back.</p>
+    </div>
+    <div class="decide">
+      <h4>2 · One sticky bottom anchor on mobile instead of stacked units?</h4>
+      <p>A single anchored unit has the highest viewability by design and could replace several stacked ones — but it's the format category you've been consistent about disliking.</p>
+      <p class="rec"><b>Recommendation:</b> skip it for now. Ship the in-content + cap changes first; revisit only if Safari/mobile eCPM hasn't moved after two measured weeks. Keeping this in reserve is also useful — it's the concession NM will ask for, and it's better traded than given.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">What the numbers add up to</h2></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Item</th><th class="num">Annual estimate</th><th>UX cost</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Current NM baseline</td><td class="num">$10.2K</td><td>—</td><td>running</td></tr>
+          <tr><td>ads.txt fix</td><td class="num">+$1.5–2.6K</td><td>none</td><td>deployed · measuring</td></tr>
+          <tr><td>GAM backfill tag</td><td class="num">+$3–9K</td><td>none</td><td>tag requested</td></tr>
+          <tr><td>Playwire migration</td><td class="num">+$3–7K</td><td>none</td><td>preview pending</td></tr>
+          <tr><td>Forum re-enabled (guardrails)</td><td class="num">+$5–8.7K</td><td>low</td><td>after Playwire</td></tr>
+          <tr><td>Video pre-roll (owned content)</td><td class="num">+$3–16K</td><td>low</td><td>awaiting NM details</td></tr>
+          <tr><td>Mobile layout repair</td><td class="num">unsized — compounds all of the above</td><td>low</td><td>ticket filed</td></tr>
+          <tr class="total"><td>Range</td><td class="num">$23K – $50K+</td><td colspan="2">2023 peak ($37.4K) sits inside this range</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <span class="cap">The position this gives us</span>
+      <p>We can plausibly return to — and pass — the historical peak <b>without a single high-impact format</b>: no interstitials, no floating video, no units between forum posts, no mobile sticky anchor. That's the answer when NM pushes "higher impact formats": the recovery is already funded by fixing what broke and configuring mobile properly. The mobile repair is the quiet multiplier — it raises the viewability that every buyer prices against, on the 56% of the audience currently earning the least.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">How we'll know it worked</h2></div>
+    <ul class="meas">
+      <li>August vs June eCPM per placement <small>the ads.txt verdict — expect movement toward $2 if the mechanism holds</small></li>
+      <li>Mobile viewability + Safari/in-app eCPM, 2–3 weeks after the mobile ticket ships <small>needs NM's device split (action 12) live first</small></li>
+      <li>Session RPM in 2-week windows around each Phase C launch <small>net win = new revenue minus anything cannibalized</small></li>
+      <li>Forum complaint volume during re-enablement <small>a tracked metric with a rollback trigger, not an afterthought</small></li>
+      <li>Core Web Vitals before/after lazy loading <small>the guardrail on "load ads faster"</small></li>
+      <li>GA4 sessions 2023–2026 pulled once <small>splits the request decline between traffic and config — resizes the forecast honestly</small></li>
+    </ul>
+  </section>
+
+  <footer class="foot">
+    <span>Expedition Portal · Display Action Plan · Jul 31, 2026</span>
+    <span>Companion: Revenue Opportunity (Rev 2) · Mobile ticket · NM call docs</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var tt=document.getElementById('tt'), root=document.documentElement;
+    tt.addEventListener('click', function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    });
+  })();
+</script>
