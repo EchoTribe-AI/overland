@@ -1,0 +1,365 @@
+<title>Revenue Opportunity — What We Lost and How It Comes Back</title>
+<style>
+  :root{
+    --paper:#EFEBE0; --panel:#F6F3EA; --panel-2:#E7E2D4; --line:#D3CCB9; --grid:#DED7C6;
+    --ink:#23261D; --ink-2:#4A4E3E; --ink-3:#6E7360;
+    --field:#5F7233; --field-ink:#3F4C22;
+    --loss:#C2551C; --gain:#1268BE;
+    --good:#4E7A34; --warn:#B5811A;
+    --good-bg:rgba(78,122,52,.12); --warn-bg:rgba(181,129,26,.14); --loss-bg:rgba(194,85,28,.10); --gain-bg:rgba(18,104,190,.10);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+    --mono: ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",Menlo,Consolas,monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){ :root{
+    --paper:#16180F; --panel:#1E2016; --panel-2:#262a1c; --line:#343827; --grid:#2C3021;
+    --ink:#E9E5D6; --ink-2:#C3BFAE; --ink-3:#8E927C;
+    --field:#9FB65C; --field-ink:#C6D68A;
+    --loss:#C2551C; --gain:#1268BE;
+    --good:#86B85C; --warn:#D6A63C;
+    --good-bg:rgba(134,184,92,.14); --warn-bg:rgba(214,166,60,.16); --loss-bg:rgba(194,85,28,.18); --gain-bg:rgba(18,104,190,.20);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }}
+  :root[data-theme="light"]{
+    --paper:#EFEBE0;--panel:#F6F3EA;--panel-2:#E7E2D4;--line:#D3CCB9;--grid:#DED7C6;
+    --ink:#23261D;--ink-2:#4A4E3E;--ink-3:#6E7360;--field:#5F7233;--field-ink:#3F4C22;
+    --good:#4E7A34;--warn:#B5811A;--good-bg:rgba(78,122,52,.12);--warn-bg:rgba(181,129,26,.14);
+    --loss-bg:rgba(194,85,28,.10);--gain-bg:rgba(18,104,190,.10);
+    --shadow:0 1px 0 rgba(35,38,29,.04), 0 8px 24px -16px rgba(35,38,29,.35);
+  }
+  :root[data-theme="dark"]{
+    --paper:#16180F;--panel:#1E2016;--panel-2:#262a1c;--line:#343827;--grid:#2C3021;
+    --ink:#E9E5D6;--ink-2:#C3BFAE;--ink-3:#8E927C;--field:#9FB65C;--field-ink:#C6D68A;
+    --good:#86B85C;--warn:#D6A63C;--good-bg:rgba(134,184,92,.14);--warn-bg:rgba(214,166,60,.16);
+    --loss-bg:rgba(194,85,28,.18);--gain-bg:rgba(18,104,190,.20);
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:940px; margin:0 auto; padding:0 24px 90px; }
+  h1,h2,h3{ text-wrap:balance; line-height:1.15; }
+  .eyebrow{ font-family:var(--mono); font-size:11.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3); margin:0; }
+
+  header.hero{ border-bottom:1px solid var(--line); background:var(--panel); }
+  .hero-inner{ max-width:940px; margin:0 auto; padding:36px 24px 30px; }
+  .badge{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--field-ink); background:var(--good-bg); border:1px solid color-mix(in srgb,var(--field) 40%,transparent); padding:3px 9px; border-radius:4px; }
+  :root[data-theme="dark"] .badge{color:var(--field);} @media (prefers-color-scheme:dark){.badge{color:var(--field);}} :root[data-theme="light"] .badge{color:var(--field-ink);}
+  h1.title{ font-size:clamp(27px,4.4vw,42px); font-weight:800; letter-spacing:-.02em; margin:14px 0 10px; }
+  .lede{ font-size:clamp(15px,2vw,17.5px); color:var(--ink-2); max-width:64ch; margin:0; }
+
+  .heroline{ display:flex; gap:0; flex-wrap:wrap; margin-top:22px; border:1px solid var(--line); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+  .hl-cell{ flex:1 1 150px; padding:14px 16px; background:var(--panel); border-right:1px solid var(--line); }
+  .hl-cell:last-child{ border-right:none; }
+  .hl-cell .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); display:block; }
+  .hl-cell .v{ font-size:22px; font-weight:750; font-variant-numeric:tabular-nums; margin-top:3px; display:block; }
+  .hl-cell .d{ font-size:12px; color:var(--ink-3); }
+  .v.loss{ color:var(--loss); } .v.gain{ color:var(--gain); }
+
+  section{ margin-top:48px; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:6px; }
+  .sec-num{ font-family:var(--mono); font-size:12px; color:var(--field); border:1px solid color-mix(in srgb,var(--field) 45%,transparent); border-radius:4px; padding:2px 7px; flex:none; }
+  h2.sec-title{ font-size:clamp(20px,3vw,26px); font-weight:750; letter-spacing:-.01em; margin:0; }
+  .sub{ color:var(--ink-2); margin:8px 0 20px; max-width:70ch; }
+
+  figure{ margin:0 0 18px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 20px 14px; box-shadow:var(--shadow); }
+  figcaption{ font-size:12.5px; color:var(--ink-3); margin-top:12px; padding-top:10px; border-top:1px dashed var(--line); }
+  .fig-title{ font-size:15px; font-weight:700; margin:0 0 2px; }
+  .fig-sub{ font-size:12.5px; color:var(--ink-3); margin:0 0 16px; }
+
+  /* bar rows */
+  .brow{ display:grid; grid-template-columns:112px 1fr 92px; align-items:center; gap:12px; margin-bottom:9px; }
+  .brow .lbl{ font-size:13px; color:var(--ink-2); text-align:right; }
+  .brow .lbl b{ color:var(--ink); font-weight:650; display:block; }
+  .brow .lbl span{ font-family:var(--mono); font-size:10.5px; color:var(--ink-3); }
+  .track{ position:relative; height:26px; }
+  .bar{ position:absolute; top:3px; height:20px; border-radius:0 4px 4px 0; }
+  .bar.l{ border-radius:4px 0 0 4px; }
+  .brow .val{ font-family:var(--mono); font-size:13px; font-variant-numeric:tabular-nums; color:var(--ink); }
+  .brow .val small{ color:var(--ink-3); font-size:11px; display:block; }
+
+  .zeroline{ position:absolute; top:0; bottom:0; width:1px; background:var(--ink-3); opacity:.5; }
+  .zerolabel{ font-family:var(--mono); font-size:10px; color:var(--ink-3); }
+
+  /* range bars */
+  .rrow{ display:grid; grid-template-columns:170px 1fr 108px; align-items:center; gap:12px; margin-bottom:11px; }
+  .rrow .lbl{ font-size:13px; }
+  .rrow .lbl b{ display:block; color:var(--ink); font-weight:650; }
+  .rrow .lbl span{ font-family:var(--mono); font-size:10px; letter-spacing:.04em; text-transform:uppercase; }
+  .ux-none{ color:var(--good); } .ux-low{ color:var(--warn); }
+  .rbar{ position:absolute; top:6px; height:14px; border-radius:4px; background:var(--gain); }
+  .rcap{ position:absolute; top:2px; width:2px; height:22px; background:var(--gain); opacity:.55; }
+  .rrow .val{ font-family:var(--mono); font-size:12.5px; font-variant-numeric:tabular-nums; color:var(--ink); }
+
+  @media (max-width:660px){
+    .brow{ grid-template-columns:88px 1fr 78px; gap:8px; }
+    .rrow{ grid-template-columns:120px 1fr 92px; gap:8px; }
+    .brow .lbl,.rrow .lbl{ font-size:12px; }
+  }
+
+  /* tables */
+  .tbl-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); }
+  table{ border-collapse:collapse; width:100%; min-width:580px; font-size:13px; background:var(--panel); }
+  caption{ text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); padding:12px 14px 8px; }
+  th,td{ text-align:left; padding:8px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--panel-2); }
+  td.num,th.num{ text-align:right; font-family:var(--mono); font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tr.total td{ font-weight:700; background:var(--panel-2); }
+  .dn{ color:var(--loss); } .up{ color:var(--gain); }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .grid2{ grid-template-columns:1fr; } }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:15px 17px; box-shadow:var(--shadow); }
+  .card h4{ margin:0 0 6px; font-size:15px; }
+  .card p{ margin:0; font-size:13.5px; color:var(--ink-2); }
+  .card .cap{ font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); display:block; margin-bottom:5px; }
+
+  .callout{ border-left:4px solid var(--loss); background:var(--loss-bg); border-radius:0 10px 10px 0; padding:15px 18px; margin-top:16px; }
+  .callout .cap{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--loss); }
+  .callout p{ margin:6px 0 0; font-size:14px; color:var(--ink-2); }
+  .callout.go{ border-color:var(--gain); background:var(--gain-bg); }
+  .callout.go .cap{ color:var(--gain); }
+  .callout b{ color:var(--ink); }
+
+  ul.plain{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+  ul.plain li{ padding-left:22px; position:relative; font-size:14px; color:var(--ink-2); }
+  ul.plain li::before{ content:"▸"; position:absolute; left:0; color:var(--field); }
+  ul.plain li b{ color:var(--ink); }
+  ul.no li::before{ content:"✕"; color:var(--loss); }
+
+  ol.seq{ list-style:none; counter-reset:s; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  ol.seq li{ counter-increment:s; display:grid; grid-template-columns:30px 1fr; gap:14px; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:13px 15px; box-shadow:var(--shadow); }
+  ol.seq li::before{ content:counter(s); font-family:var(--mono); font-size:12.5px; font-weight:700; color:#fff; background:var(--field); border-radius:6px; height:26px; display:grid; place-items:center; }
+  :root[data-theme="dark"] ol.seq li::before{ color:#16180F; }
+  ol.seq li h4{ margin:0; font-size:14.5px; }
+  ol.seq li p{ margin:4px 0 0; font-size:13.5px; color:var(--ink-2); }
+
+  .legend{ display:flex; gap:16px; flex-wrap:wrap; font-size:12px; color:var(--ink-2); margin-bottom:14px; }
+  .legend span{ display:flex; align-items:center; gap:6px; }
+  .swatch{ width:11px; height:11px; border-radius:3px; display:inline-block; }
+
+  footer.foot{ margin-top:56px; padding-top:20px; border-top:1px solid var(--line); font-family:var(--mono); font-size:12px; color:var(--ink-3); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .theme-toggle{ position:fixed; top:14px; right:14px; z-index:20; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--panel); color:var(--ink-2); border:1px solid var(--line); border-radius:20px; padding:6px 13px; cursor:pointer; }
+  .theme-toggle:focus-visible,button:focus-visible{ outline:2px solid var(--field); outline-offset:2px; }
+</style>
+
+<button class="theme-toggle" id="tt" aria-label="Toggle light or dark theme">◐ Theme</button>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <span class="badge">Revenue Analysis</span>
+      <p class="eyebrow">Expedition Portal · NextMillennium 2023 → 2026</p>
+    </div>
+    <h1 class="title">The revenue didn't erode. It was switched off.</h1>
+    <p class="lede">NM earnings fell 73% from 2023 to today — but per-placement yield never broke. Nearly all of the loss is inventory that was removed or suppressed, which means most of it is recoverable without adding a single ad format the community would object to.</p>
+    <div class="heroline">
+      <div class="hl-cell"><span class="k">2023 actual</span><span class="v">$37,356</span><span class="d">18.7M impressions</span></div>
+      <div class="hl-cell"><span class="k">2024 actual</span><span class="v">$25,837</span><span class="d">12.0M impressions</span></div>
+      <div class="hl-cell"><span class="k">2026 annualized</span><span class="v loss">$10,199</span><span class="d">8.2M impressions</span></div>
+      <div class="hl-cell"><span class="k">Recoverable</span><span class="v gain">$23–50K</span><span class="d">within UX guardrails</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Three years, one direction</h2></div>
+    <p class="sub">2023 and 2024 are actuals from the NM exports. 2026 is annualized from Jan 1–Jul 22 ($5,672 over 203 days). <b>2025 is missing</b> — worth requesting, since it covers the window where the second decline began.</p>
+
+    <figure>
+      <p class="fig-title">NextMillennium revenue by year</p>
+      <p class="fig-sub">Total across all placements · 2026 annualized from YTD</p>
+      <div class="brow"><div class="lbl"><b>2023</b><span>actual</span></div><div class="track"><div class="bar" style="left:0;width:100%;background:var(--loss);opacity:.9"></div></div><div class="val">$37,356</div></div>
+      <div class="brow"><div class="lbl"><b>2024</b><span>actual</span></div><div class="track"><div class="bar" style="left:0;width:69.2%;background:var(--loss);opacity:.75"></div></div><div class="val">$25,837<small>−31%</small></div></div>
+      <div class="brow"><div class="lbl"><b>2025</b><span>not provided</span></div><div class="track" style="display:flex;align-items:center"><div style="height:20px;width:100%;border:1px dashed var(--line);border-radius:4px;display:grid;place-items:center;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)">data gap — request from NM</div></div><div class="val" style="color:var(--ink-3)">—</div></div>
+      <div class="brow"><div class="lbl"><b>2026</b><span>annualized</span></div><div class="track"><div class="bar" style="left:0;width:27.3%;background:var(--loss);opacity:.6"></div></div><div class="val">$10,199<small>−73% vs '23</small></div></div>
+      <figcaption>Source: NM placement exports (2023, 2024) and NM platform YTD figures pulled Jul 23, 2026.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">The 2023→2024 drop was inventory, not yield</h2></div>
+    <p class="sub">This is the finding that changes the strategy. If yield had degraded, fill rates and eCPMs would have fallen. They didn't — <b>they held to within a fraction of a percent, while volume halved on exactly two placements.</b> That is the signature of pages being removed from a placement's eligible inventory.</p>
+
+    <figure>
+      <p class="fig-title">Change in impressions by placement, 2023 → 2024</p>
+      <p class="fig-sub">gunstar and eagle lost 6.9M impressions between them; prometheus grew</p>
+      <div class="legend">
+        <span><i class="swatch" style="background:var(--loss)"></i> Impressions lost</span>
+        <span><i class="swatch" style="background:var(--gain)"></i> Impressions gained</span>
+      </div>
+      <div class="brow"><div class="lbl"><b>gunstar</b><span>fill 38.2%→37.9%</span></div><div class="track"><div class="zeroline" style="left:87%"></div><div class="bar l" style="left:0;width:87%;background:var(--loss)"></div></div><div class="val">−4.47M<small>−51.8%</small></div></div>
+      <div class="brow"><div class="lbl"><b>eagle</b><span>fill 56.7%→55.9%</span></div><div class="track"><div class="zeroline" style="left:87%"></div><div class="bar l" style="left:39.1%;width:47.9%;background:var(--loss)"></div></div><div class="val">−2.46M<small>−43.2%</small></div></div>
+      <div class="brow"><div class="lbl"><b>video</b><span>fill 100%→42.6%</span></div><div class="track"><div class="zeroline" style="left:87%"></div><div class="bar l" style="left:79.8%;width:7.2%;background:var(--loss)"></div></div><div class="val">−0.37M<small>−34.3%</small></div></div>
+      <div class="brow"><div class="lbl"><b>prometheus</b><span>fill 68.1%→33.7%</span></div><div class="track"><div class="zeroline" style="left:87%"></div><div class="bar" style="left:87%;width:13%;background:var(--gain)"></div></div><div class="val up">+0.67M<small>+20.4%</small></div></div>
+      <figcaption>gunstar's fill moved 0.3 points and eagle's 0.8 points while both lost roughly half their volume — the auction was working exactly as well, on far less inventory.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>Placement detail · 2023 vs 2024 actuals</caption>
+        <thead><tr><th>Placement</th><th class="num">2023 rev</th><th class="num">2024 rev</th><th class="num">Change</th><th class="num">2023 eCPM</th><th class="num">2024 eCPM</th></tr></thead>
+        <tbody>
+          <tr><td>gunstar</td><td class="num">$19,814</td><td class="num">$9,391</td><td class="num dn">−$10,422</td><td class="num">$2.29</td><td class="num">$2.25</td></tr>
+          <tr><td>eagle</td><td class="num">$7,465</td><td class="num">$4,713</td><td class="num dn">−$2,752</td><td class="num">$1.31</td><td class="num">$1.46</td></tr>
+          <tr><td>prometheus</td><td class="num">$7,989</td><td class="num">$9,859</td><td class="num up">+$1,870</td><td class="num">$2.44</td><td class="num">$2.50</td></tr>
+          <tr><td>video</td><td class="num">$2,082</td><td class="num">$1,873</td><td class="num dn">−$209</td><td class="num">$1.95</td><td class="num">$2.67</td></tr>
+          <tr class="total"><td>Total</td><td class="num">$37,356</td><td class="num">$25,837</td><td class="num dn">−$11,519</td><td class="num">$2.00</td><td class="num">$2.15</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="cap">The forum-shaped hole</span>
+      <p>Every eCPM was flat or <em>up</em> in 2024, and the blended rate rose from $2.00 to $2.15. Revenue still fell $11,519 — because gunstar and eagle alone gave up <b>$13,174</b> on lost volume. NM confirmed on the call that they were asked to exclude forum pages, and Brian confirmed the reason: community complaints about banners injected between posts. <b>That decision is the single largest identifiable revenue event in this data.</b></p>
+    </div>
+    <p class="sub" style="margin-top:14px">One check against the obvious alternative explanation: if site traffic had simply collapsed, every placement's requests would have fallen together. Instead prometheus requests <em>rose 143%</em> in the same year. Traffic decline doesn't fit; scope removal does.</p>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">The second decline has different fingerprints</h2></div>
+    <p class="sub">From 2024 to today, non-video impressions fell another 57% <em>and</em> eCPM dropped 25% — a different pattern from the clean volume loss above. Stripping video out isolates it:</p>
+
+    <div class="tbl-wrap" style="margin-bottom:16px">
+      <table>
+        <caption>Display only (video placement excluded)</caption>
+        <thead><tr><th>Period</th><th class="num">Revenue</th><th class="num">Impressions</th><th class="num">eCPM</th><th>What it says</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td class="num">$35,274</td><td class="num">17.6M</td><td class="num">$2.00</td><td>Forum included</td></tr>
+          <tr><td>2024</td><td class="num">$23,964</td><td class="num">11.3M</td><td class="num">$2.11</td><td>Forum excluded · yield intact</td></tr>
+          <tr><td>2026 annualized</td><td class="num">$7,775</td><td class="num">4.9M</td><td class="num">$1.58</td><td>Volume <em>and</em> yield down</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><span class="cap">Yield: −25% eCPM</span><h4>The ads.txt file broke on 12-18-2024</h4><p>That is the exact date stamped on the stale file — the boundary between the healthy 2024 and everything after. 56 missing seller records means demand silently filtered out. <b>You fixed this Jul 26.</b> August data should show whether eCPM recovers toward $2.10.</p></div>
+      <div class="card"><span class="cap">Volume: −64% requests</span><h4>The loader gate is the prime suspect</h4><p>Non-video ad requests fell from 28.5M to ~10.2M annualized while fill held near 48%. Fewer auctions, not worse ones. A loader that waits for several scroll events produces exactly this. NM says the delay is on our side — <b>which makes it ours to fix.</b></p></div>
+    </div>
+
+    <div class="callout" style="border-color:var(--warn);background:var(--warn-bg)">
+      <span class="cap" style="color:var(--warn)">Honest caveat</span>
+      <p>I can't separate "loader gate" from "genuine traffic decline" without GA4 numbers for 2023 vs. now. If sessions fell materially, part of that 64% is traffic and not recoverable by config. <b>Pull site-wide sessions for 2023, 2024 and 2026 before committing to a forecast</b> — it's the one number that resizes everything below.</p>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">The video placement earns the same money on 39× the requests</h2></div>
+    <p class="sub">Held against history, the "video" line is unambiguous. Revenue has been roughly flat near $2K per year across all three periods. Request volume has not been.</p>
+    <div class="tbl-wrap">
+      <table>
+        <caption>video placement over time</caption>
+        <thead><tr><th>Period</th><th class="num">Requests</th><th class="num">Revenue</th><th class="num">eCPM</th></tr></thead>
+        <tbody>
+          <tr><td>2023</td><td class="num">1.06M</td><td class="num">$2,082</td><td class="num">$1.95</td></tr>
+          <tr><td>2024</td><td class="num">1.65M</td><td class="num">$1,873</td><td class="num">$2.67</td></tr>
+          <tr><td>2026 annualized</td><td class="num">41.0M</td><td class="num">$2,424</td><td class="num">$0.75</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout go">
+      <span class="cap">Why this is good news</span>
+      <p>Replacing the current in-banner video calls costs at most <b>~$2,400/year</b> — and that revenue would largely be re-earned by a real pre-roll unit at far higher CPMs. The 39× request growth is overhead that drags every blended metric and adds page weight for no return. The pre-roll direction agreed on the call (own content, five seconds, skippable) is strictly better than what's running now, and it removes an unmeasured Connatix layer at the same time.</p>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">The opportunity, sized and rated for UX cost</h2></div>
+    <p class="sub">Annual revenue above the current ~$10.2K baseline. Ranges are deliberately wide where data is thin. <b>None of these require a format the community objected to.</b></p>
+
+    <figure>
+      <p class="fig-title">Incremental annual revenue by initiative</p>
+      <p class="fig-sub">Bar spans the low–high estimate · all figures per year, above baseline</p>
+      <div class="rrow"><div class="lbl"><b>Forum, re-enabled</b><span class="ux-low">UX cost: low</span></div><div class="track"><div class="rcap" style="left:31.3%"></div><div class="rbar" style="left:31.3%;width:23.1%"></div><div class="rcap" style="left:54.4%"></div></div><div class="val">$5.0–8.7K</div></div>
+      <div class="rrow"><div class="lbl"><b>Video pre-roll</b><span class="ux-low">UX cost: low</span></div><div class="track"><div class="rcap" style="left:18.8%"></div><div class="rbar" style="left:18.8%;width:81.2%"></div><div class="rcap" style="left:100%"></div></div><div class="val">$3.0–16.0K</div></div>
+      <div class="rrow"><div class="lbl"><b>GAM backfill tag</b><span class="ux-none">UX cost: none</span></div><div class="track"><div class="rcap" style="left:18.8%"></div><div class="rbar" style="left:18.8%;width:37.5%"></div><div class="rcap" style="left:56.3%"></div></div><div class="val">$3.0–9.0K</div></div>
+      <div class="rrow"><div class="lbl"><b>Playwire migration</b><span class="ux-none">UX cost: none</span></div><div class="track"><div class="rcap" style="left:18.8%"></div><div class="rbar" style="left:18.8%;width:25%"></div><div class="rcap" style="left:43.8%"></div></div><div class="val">$3.0–7.0K</div></div>
+      <div class="rrow"><div class="lbl"><b>ads.txt fix</b><span class="ux-none">UX cost: none · done</span></div><div class="track"><div class="rcap" style="left:9.4%"></div><div class="rbar" style="left:9.4%;width:6.9%"></div><div class="rcap" style="left:16.3%"></div></div><div class="val">$1.5–2.6K</div></div>
+      <figcaption>Loader-timing repair is excluded from this chart because it can't be sized until traffic data separates gating from genuine traffic loss — but on request volume alone it may be the largest item here.</figcaption>
+    </figure>
+
+    <div class="tbl-wrap">
+      <table>
+        <caption>How each number was derived</caption>
+        <thead><tr><th>Initiative</th><th>Basis</th><th>Confidence</th></tr></thead>
+        <tbody>
+          <tr><td><b>Forum, re-enabled</b></td><td>gunstar + eagle lost $13,174/yr on 6.9M impressions. Guardrails (sidebar + below-content only, no in-flow units) mean fewer units per page than the 2023 setup, so assumes 40–60% volume recovery at ~$1.80–2.10 eCPM.</td><td>Medium-high</td></tr>
+          <tr><td><b>Video pre-roll</b></td><td>Owned XOVERLAND content, 5s skippable, at $12–20 CPM on an assumed 250–800K video starts/yr. <em>Needs on-site video traffic data</em> — widest range here for that reason.</td><td>Low</td></tr>
+          <tr><td><b>GAM backfill tag</b></td><td>GAM unsold inventory currently falling to house/AvantLink at ≈$0. Assumes 3–6M unsold impressions/yr at $1.00–1.50. <em>Needs GAM unfilled-impression report to firm up.</em></td><td>Low on size, high on direction</td></tr>
+          <tr><td><b>Playwire migration</b></td><td>NM cited "up to 150%" for some publishers; treated as a sales ceiling and discounted to +15–35% on the display base. No UX cost, so worth testing regardless of where it lands.</td><td>Low</td></tr>
+          <tr><td><b>ads.txt fix</b></td><td>eCPM recovery from $1.58 toward the 2024 level of $2.11 across ~4.9M impressions. Already deployed Jul 26 — August reporting confirms or refutes it.</td><td>Medium</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout go">
+      <span class="cap">The strategic point</span>
+      <p>Baseline $10.2K plus the conservative end of each item lands near <b>$23K</b>; the optimistic end approaches <b>$50K</b>. 2023 was $37,356. <b>Getting back to the historical peak sits inside that range without adopting a single high-impact format</b> — no sticky mobile anchors, no interstitials, no in-flow forum units, no follow-you video. That is the answer to NM's push toward "higher impact formats": we don't need them to hit the number.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Guardrails — what stays off the table</h2></div>
+    <div class="grid2">
+      <div class="card"><span class="cap">Declining</span><h4>Formats that caused the problem</h4>
+        <ul class="plain no" style="margin-top:8px">
+          <li>Units injected between forum posts — the original complaint</li>
+          <li>Sticky mobile anchor units</li>
+          <li>Video players that float, follow, or expand on scroll</li>
+          <li>Interstitials and full-screen takeovers</li>
+        </ul>
+      </div>
+      <div class="card"><span class="cap">Accepting</span><h4>Formats with an honest trade</h4>
+        <ul class="plain" style="margin-top:8px">
+          <li><b>Sidebar and below-content</b> forum units, lazy-loaded, per-page capped</li>
+          <li><b>Pre-roll on our own video</b> — 5s, skippable, on content the reader chose</li>
+          <li><b>Backfill in existing GAM slots</b> — fills what's already empty</li>
+          <li><b>Viewport-triggered loading</b> rather than eager loading</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout" style="border-color:var(--warn);background:var(--warn-bg)">
+      <span class="cap" style="color:var(--warn)">One recommendation to push back on</span>
+      <p>NM's position is that ads should load "as quickly as possible" — that's their yield incentive, and it costs page speed. The right resolution isn't the current scroll-count gate <em>or</em> eager loading: it's <b>viewport-based lazy loading</b>, where a slot requests an ad as it approaches the screen. That recovers the lost auctions without the Core Web Vitals penalty, and it raises viewability, which lifts CPMs on its own.</p>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Sequence</h2></div>
+    <ol class="seq">
+      <li><div><h4>Measure the ads.txt fix</h4><p>Compare August eCPM against June. This is a free read on whether the 12-18-2024 breakage explains the yield half of the decline — and it calibrates every other estimate here.</p></div></li>
+      <li><div><h4>Pull the data that resizes the model</h4><p>GA4 sessions for 2023 / 2024 / 2026; the 2025 NM report; GAM unfilled impressions by ad unit; on-site video page traffic. Four requests, and they convert most of the wide ranges above into real numbers.</p></div></li>
+      <li><div><h4>Install the GAM backfill tag</h4><p>Behind direct-sold, ahead of AvantLink. Zero UX cost, and it finally puts a paid layer under the inventory that fell to house fill when Montana completed. This is also what makes the AvantLink 20%→5% question meaningful at last.</p></div></li>
+      <li><div><h4>Playwire migration, staged and previewed</h4><p>Dev stages the preview build; review player behavior against the guardrails above before production. Verify no floating or expanding video behavior ships with it.</p></div></li>
+      <li><div><h4>Re-enable the forum, guardrails first</h4><p>Deploy the forum ads.txt, then turn NM on with sidebar and below-content placements only. Watch complaint volume and Session RPM together for two weeks — the community reaction is a metric here, not an afterthought.</p></div></li>
+      <li><div><h4>Fix loader timing</h4><p>Replace the scroll-count gate with viewport-triggered loading. Measure request volume, viewability and Core Web Vitals before and after.</p></div></li>
+      <li><div><h4>Video pre-roll on owned content</h4><p>Once Aaron's integration details land. Retire the in-banner video calls at the same time — at ~$2.4K/yr they are not worth protecting, and running both would double the request overhead.</p></div></li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <span>Expedition Portal · Revenue Opportunity Analysis · Jul 31, 2026</span>
+    <span>Sources: NM exports 2023–2024, NM platform YTD, Jul 30 call</span>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var tt=document.getElementById('tt'), root=document.documentElement;
+    tt.addEventListener('click', function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    });
+  })();
+</script>
